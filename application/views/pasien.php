@@ -1,3 +1,4 @@
+
 <div id="wrapper">
     <!-- Sidebar -->
     <div id="sidebar-wrapper">
@@ -14,7 +15,7 @@
         echo $profile;
     ?>
     </div>
-    <!-- /#sidebar-wrapper -->
+    <!-- /#sidebar-wrapper chiiesa serena-->
     <!-- Page Content -->
      <div id="page-content-wrapper">
         <div class="container-fluid">
