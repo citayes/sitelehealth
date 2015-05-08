@@ -61,8 +61,16 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="<?php echo $jadwal ?>">
-                            <a href="<?php echo base_url(); ?>index.php/admin/jadwal">Daily Schedule</a>
+                        <li class="dropdown <?php echo $jadwal ?>">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Daily Schedule<strong class="caret"></strong></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="<?php echo base_url(); ?>index.php/admin/createjadwal">Create Schedule</a>
+                                </li>                           
+                                <li>
+                                    <a href="<?php echo base_url(); ?>index.php/admin/reatrievejadwal">Retrieve Schedule</a>
+                                </li>
+                            </ul>
                         </li>
                         <li class="dropdown <?php echo $inbox ?>">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Inbox<strong class="caret"></strong></a>
