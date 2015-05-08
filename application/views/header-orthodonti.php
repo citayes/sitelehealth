@@ -58,8 +58,19 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="<?php echo $inbox; ?>">
-                            <a href="<?php echo base_url(); ?>index.php/orthodonti/list_reference">Inbox</a>
+                        <li class="dropdown <?php echo $setting; ?>">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Messages<strong class="caret"></strong></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="<?php echo base_url(); ?>index.php/orthodonti/send_message">Send Message</a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo base_url(); ?>index.php/orthodonti/change">Inbox</a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo base_url(); ?>index.php/orthodonti/change">Outbox</a>
+                                </li>
+                            </ul>
                         </li>
                         <li class="dropdown <?php echo $setting; ?>">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings<strong class="caret"></strong></a>

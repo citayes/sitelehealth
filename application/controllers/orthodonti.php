@@ -536,5 +536,50 @@ function do_upload(){
 		if($status)
 			redirect("orthodonti/pasien_read_ortho");
 	}
+
+	public function send_message(){
+		session_start();
+		if(!isset($_SESSION['orthodonti']))
+			redirect ("homepage");
+
+		if($_SERVER['REQUEST_METHOD'] == 'POST'){
+			$subject = $_POST['subject'];
+			$isi = $_POST['isi'];
+		
+			$pesan = new pesan();
+			$pengguna = new pengguna();
+
+			$pengguna->where('pengguna_id', $_SESSION['orthodonti'])->get();
+			$pesan->pengguna_id=$pengguna->id;
+
+			foreach($pengguna as $row){
+				$tujuan .= "<option value='".$row->nama."'>".$row->nama."</option>";
+			}
+			$pesan->penerima_id=$tujuan;
+			$pesan->subject=$subject;
+			$pesan->isi=$isi;
+
+		}
+		$data['array'] = array('content' => $tujuan);	
+		$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+		  					<strong>Well done!</strong> Patient data has been sent.
+							</div>");		
+		$this->load->view('header-orthodonti', $data['menu']);
+		$this->load->view('send_message', $data['array']);
+		$this->load->view('footer');
+
+	}
+
+	public function view_message(){
+		session_start();
+
+	}		 
+
+	public function view_reference(){
+
+
+	}
+
 }
 ?>
