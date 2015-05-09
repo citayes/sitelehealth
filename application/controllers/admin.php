@@ -655,7 +655,67 @@ class Admin extends CI_Controller {
 			$this->load->view('footer');
 	 			 							
 		}
+	}	
 
+		public function createjadwal(){
+		session_start();
+		if(!isset($_SESSION['admin']))
+			redirect ("homepage");
+
+
+
+		$option="";
+		
+		$pengguna = new pengguna();
+		$pengguna->get();
+		foreach ($pengguna as $row) {
+			if($row->role == 'orthodonti' && $row->fverifikasi=='y')
+				$option .= "<option value='".$row->nama."'>".$row->nama."</option>";
+		}
+
+		$data['array'] = array('option' =>$option);
+		//$data['array'] = array('content' => $option, 'n'=> $n);					
+		$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => 'active', 'inbox' => '', 'setting' => '');	
+		$this->load->view('header-admin', $data['menu']);
+		$this->load->view('createjadwal', $data['array']);
+		$this->load->view('footer');
+	}
+
+
+
+		public function savejadwal(){
+		session_start();
+		if(!isset($_SESSION['admin']))
+			redirect ("homepage");
+			
+			if($_SERVER['REQUEST_METHOD'] == 'POST'){
+		 	$hari = $_POST['Day'];
+		 	$mulai = $_POST['Start'];
+			$selesai = $_POST['End'];
+			$Dokter = $_POST['Doctor'];
+
+		 	$pengguna = new pengguna();
+		 	$jadwaljaga = new jadwal_jaga();
+		 	$pengguna1 = new pengguna();
+
+		 	$jadwaljaga->hari=$hari;
+		 	$jadwaljaga->jam_mulai=$mulai;
+		 	$jadwaljaga->jam_selesai=$selesai;
+		 	$pengguna1->where('username', $Dokter)->get();
+			$jadwaljaga->drg_ortodonti_id=$pengguna1->id;
+
+
+	 		$pengguna->where('username', $_SESSION['admin'])->get();
+	 		$jadwaljaga->admin_id=$pengguna->id;
+	 		$jadwaljaga->save();	
+		}
+
+		//$data['array'] = array('option' =>$option);
+		//$data['array'] = array('content' => $option, 'n'=> $n);					
+		$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => 'active', 'inbox' => '', 'setting' => '');	
+		$this->load->view('header-admin', $data['menu']);
+		$this->load->view('savejadwal');
+		$this->load->view('footer');
 	}
 }
 ?>
