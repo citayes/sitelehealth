@@ -1,7 +1,7 @@
 <?php
 class pengguna extends DataMapper {
-	var $has_many = array('mengirim', 'analisi');
-	var $has_one = array('dokter_gigi', 'admin');
+	var $has_many = array('mengirim', 'analisi', 'pesan');
+	var $has_one = array('dokter_gigi', 'admin'); 
 
 		function remove($id){
 		$pengguna = new pengguna();

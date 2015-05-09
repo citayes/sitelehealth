@@ -30,7 +30,7 @@
     <div class="row">
     <div class="col-md-2"></div>
     <div class="col-md-8">
-        <form  method="post" action="../send_message/<?php echo $n;?>">
+        <form  method="post" action="../send_message/">
                    <div class="form-group">
                     <label for="nama">To</label><br>
                     <select id="tujuan" name="tujuan" class="btn btn-default dropdown-toggle" data-toggle="dropdown" required>

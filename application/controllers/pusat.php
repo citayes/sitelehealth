@@ -387,7 +387,7 @@ public function save_diagnose($n){
 		session_start();
 				
 		if(!isset($_SESSION['pusat']))
-			redirect ("homepage");		
+			redirect ("homepage");			 
 
 			$tanggal = $_POST['tanggal'];
 			$skor = $_POST['Skor'];
@@ -401,7 +401,7 @@ public function save_diagnose($n){
 			$merawat = new merawat();
 			$mengirim = new mengirim();
 
-			$analisi->tanggal=$tanggal;
+			$mengirim->tanggal=$tanggal;
 			$analisi->pasien_id=$n;
 			$analisi->skor=$skor;
 			$analisi->maloklusi_menurut_angka=$maloklusi;

@@ -190,15 +190,17 @@ class DRG extends CI_Controller {
 					//echo $row->doktergigi_id;
 					//echo $idDokter;
 					$content .= "<tr>
-								<td><center>".$row->nama."</center></td>
-								<td><center>".$row->umur."</center></td>
-								<td><center>".$row->tinggi."</center></td>
-								<td><center>".$row->berat."</center></td>
-								<td><center>".$row->jenis_kelamin."</center></td>
-								<td><center><a class='btn btn-primary' href='../drg/read/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a> 
-									<a class='btn btn-warning' href='../drg/pasien_update2/".$row->id."'><span class='glyphicon glyphicon-pencil' aria-hidden='false'></span></a>
-									<a class='btn btn-danger' href='../drg/delete1/".$row->id."'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></a>
-								</center></td></tr>";
+									<td><center>".$row->nama."</center></td>
+									<td><center>".$row->umur."</center></td>
+									<td><center>".$row->tinggi."</center></td>
+									<td><center>".$row->berat."</center></td>
+									<td><center>".$row->jenis_kelamin."</center></td>
+									<td><center><a class='btn btn-primary' href='../drg/read/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a> 
+										<a class='btn btn-warning' href='../drg/pasien_update2/".$row->id."'><span class='glyphicon glyphicon-pencil' aria-hidden='false'></span></a>
+										<a class='btn btn-danger' href='../drg/delete1/".$row->id."'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></a>
+										</center>
+									</td>
+								</tr>";
 				}
 			}
 			$content .= "</table>";

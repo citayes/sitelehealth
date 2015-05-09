@@ -64,8 +64,16 @@
                                 <li>
                                     <a href="<?php echo base_url(); ?>index.php/orthodonti/send_message">Send Message</a>
                                 </li>
-                                <li>
-                                    <a href="<?php echo base_url(); ?>index.php/orthodonti/change">Inbox</a>
+                                <li class="dropdown <?php echo $setting; ?>">
+                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Inbox<strong class="caret"></strong></a>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a href="<?php echo base_url(); ?>index.php/orthodonti/view_message">View Messages</a>
+                                            </li>
+                                            <li>
+                                                <a href="<?php echo base_url(); ?>index.php/orthodonti/view_message">Diagnosis From FKG UI</a>
+                                            </li>
+                                        </ul>
                                 </li>
                                 <li>
                                     <a href="<?php echo base_url(); ?>index.php/orthodonti/change">Outbox</a>
