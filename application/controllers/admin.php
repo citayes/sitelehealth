@@ -657,7 +657,7 @@ class Admin extends CI_Controller {
 		}
 	}	
 
-		public function createjadwal(){
+		public function createjadwal($n){
 		session_start();
 		if(!isset($_SESSION['admin']))
 			redirect ("homepage");
@@ -670,10 +670,12 @@ class Admin extends CI_Controller {
 		$pengguna->get();
 		foreach ($pengguna as $row) {
 			if($row->role == 'orthodonti' && $row->fverifikasi=='y')
-				$option .= "<option value='".$row->nama."'>".$row->nama."</option>";
+				$option .= "<option value='".$row->id."'>".$row->nama."</option>";
 		}
+		$jadwal_jaga = new jadwal_jaga();
+		$jadwal_jaga->where('id', $n)->get();
 
-		$data['array'] = array('option' =>$option);
+		$data['array'] = array('option' =>$option, 'jam_mulai'=> $jadwal_jaga->jam_mulai, 'jam_selesai'=>$jadwal_jaga->jam_selesai, 'n'=>$n);
 		//$data['array'] = array('content' => $option, 'n'=> $n);					
 		$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => 'active', 'inbox' => '', 'setting' => '');	
 		$this->load->view('header-admin', $data['menu']);
@@ -683,13 +685,12 @@ class Admin extends CI_Controller {
 
 
 
-		public function savejadwal(){
+		public function savejadwal($n){
 		session_start();
 		if(!isset($_SESSION['admin']))
 			redirect ("homepage");
 			
 			if($_SERVER['REQUEST_METHOD'] == 'POST'){
-		 	$hari = $_POST['Day'];
 		 	$mulai = $_POST['Start'];
 			$selesai = $_POST['End'];
 			$Dokter = $_POST['Doctor'];
@@ -698,24 +699,63 @@ class Admin extends CI_Controller {
 		 	$jadwaljaga = new jadwal_jaga();
 		 	$pengguna1 = new pengguna();
 
-		 	$jadwaljaga->hari=$hari;
-		 	$jadwaljaga->jam_mulai=$mulai;
-		 	$jadwaljaga->jam_selesai=$selesai;
-		 	$pengguna1->where('username', $Dokter)->get();
-			$jadwaljaga->drg_ortodonti_id=$pengguna1->id;
+		 	//$jadwaljaga->where('id', $n)->update('hari',$hari);
+		 	$jadwaljaga->where('id', $n)->update('jam_mulai', $mulai);
+		 	$jadwaljaga->where('id', $n)->update('jam_selesai', $selesai);
+			$jadwaljaga->where('id', $n)->update('drg_ortodonti_id', $Dokter);
 
 
 	 		$pengguna->where('username', $_SESSION['admin'])->get();
-	 		$jadwaljaga->admin_id=$pengguna->id;
-	 		$jadwaljaga->save();	
+	 		$jadwaljaga->where('id', $n)->update('admin_id', $pengguna->id);
+	 		redirect("admin/retrievejadwal");
 		}
 
 		//$data['array'] = array('option' =>$option);
 		//$data['array'] = array('content' => $option, 'n'=> $n);					
 		$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => 'active', 'inbox' => '', 'setting' => '');	
 		$this->load->view('header-admin', $data['menu']);
-		$this->load->view('savejadwal');
+		$this->load->view('createjadwal');
 		$this->load->view('footer');
 	}
+		public function retrievejadwal(){
+		session_start();
+		if(!isset($_SESSION['admin']))
+			redirect ("homepage");
+
+		$jadwaljaga = new jadwal_jaga();
+		$jadwaljaga-> get();
+		$content="";
+		if($jadwaljaga->result_count() != 0){
+			$content = "<table class='table'>
+						<tr>
+							<td><center><b>Day</b><center></td>
+							<td><center><b>Start Hour</center></b></td>
+							<td><center><b>End Hour</center></b></td>
+							<td><center><b>Doctor</center></b></td>
+							<td><center><b>Operation</b></center></td>
+						</tr>";
+			foreach($jadwaljaga as $row){
+				$pengguna = new pengguna();
+				$pengguna-> where('id',$row->drg_ortodonti_id)->get();
+					$content .= "<tr><td><center>".$row->hari."</center></a></td>
+								 <td><center>".$row->jam_mulai."</center></td>
+								 <td><center>".$row->jam_selesai."</center></td>
+								 <td><center>".$pengguna->nama."</center></td>
+								 <td><center><a class='btn btn-warning' href='../admin/createjadwal/".$row->id."'><span class='glyphicon glyphicon-pencil' aria-hidden='true'> Update</span></a>
+								 </center></td></tr>";
+			}
+			$content .=  "</table>";
+			$data['array']=array('content'=>$content);
+		}
+		else{
+			$data['array']=array();
+		}
+		
+		$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => 'active', 'setting' => '');	
+		$this->load->view('header-admin', $data['menu']);
+		$this->load->view('retrievejadwal', $data['array']);
+		$this->load->view('footer');
+	}
+
 }
 ?>

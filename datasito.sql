@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 08, 2015 at 05:15 AM
+-- Generation Time: May 09, 2015 at 02:55 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.5.19
 
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `analisis` (
   `pasien_id` int(11) NOT NULL,
   `skor` decimal(4,2) NOT NULL,
   `maloklusi_menurut_angka` decimal(4,2) NOT NULL,
-  `diagnosis_rekomendasi` varchar(1000) NOT NULL,
+  `diagnosis_rekomendasi` varchar(500) NOT NULL,
   `orto_id` int(11) NOT NULL,
   `foto` varchar(100) NOT NULL,
   `flag_mengirim` char(1) NOT NULL,
@@ -95,17 +95,17 @@ INSERT INTO `analisis` (`id`, `pasien_id`, `skor`, `maloklusi_menurut_angka`, `d
 
 CREATE TABLE IF NOT EXISTS `dokter_gigis` (
   `pengguna_id` int(11) NOT NULL,
-  `kursus` varchar(100) NOT NULL,
-  `pendidikan_dokter` varchar(100) NOT NULL,
-  `alamat_praktik` varchar(100) NOT NULL,
-  `kode_pos` int(11) NOT NULL
+  `kursus` varchar(20) NOT NULL,
+  `pendidikan_dokter` varchar(20) NOT NULL,
+  `alamat_prakitk` varchar(20) NOT NULL,
+  `kode_pos` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `dokter_gigis`
 --
 
-INSERT INTO `dokter_gigis` (`pengguna_id`, `kursus`, `pendidikan_dokter`, `alamat_praktik`, `kode_pos`) VALUES
+INSERT INTO `dokter_gigis` (`pengguna_id`, `kursus`, `pendidikan_dokter`, `alamat_prakitk`, `kode_pos`) VALUES
 (123142, '', '', '', 0),
 (123154, 'Kursus mobil', 'SMA', 'tes', 222),
 (123155, 'Kursus mobil', 'SMA', 'lakdasda', 12345),
@@ -128,8 +128,8 @@ INSERT INTO `dokter_gigis` (`pengguna_id`, `kursus`, `pendidikan_dokter`, `alama
 
 CREATE TABLE IF NOT EXISTS `drg_lains` (
   `pengguna_id` int(11) NOT NULL,
-  `kursus_ortodonti` varchar(100) NOT NULL,
-  `jadwal_praktik` varchar(1000) NOT NULL
+  `kursus_ortodonti` varchar(20) NOT NULL,
+  `jadwal_praktik` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -160,6 +160,7 @@ INSERT INTO `drg_ortodontis` (`doktergigi_id`) VALUES
 (123154),
 (123155),
 (123157),
+(123158),
 (123166),
 (123169),
 (123176);
@@ -177,7 +178,34 @@ CREATE TABLE IF NOT EXISTS `jadwal_jagas` (
   `jam_selesai` int(11) NOT NULL,
   `drg_ortodonti_id` int(11) NOT NULL,
   `admin_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `jadwal_jagas`
+--
+
+INSERT INTO `jadwal_jagas` (`id`, `hari`, `jam_mulai`, `jam_selesai`, `drg_ortodonti_id`, `admin_id`) VALUES
+(17, 'Monday', 8, 12, 123158, 123142),
+(18, 'Monday', 12, 16, 123154, 123142),
+(19, 'Monday', 16, 20, 123157, 123142),
+(20, 'Tuesday', 8, 12, 123157, 123142),
+(21, 'Tuesday', 12, 16, 123157, 123142),
+(22, 'Tuesday', 16, 20, 123157, 123142),
+(23, 'Wednesday', 8, 12, 123157, 123142),
+(24, 'Wednesday', 12, 16, 123157, 123142),
+(25, 'Wednesday', 16, 20, 123157, 123142),
+(26, 'Thursday', 8, 12, 123157, 123142),
+(27, 'Thursday', 12, 16, 123157, 123142),
+(28, 'Thursday', 16, 20, 123157, 123142),
+(29, 'Friday', 8, 12, 123157, 123142),
+(30, 'Friday', 12, 16, 123157, 123142),
+(31, 'Friday', 16, 20, 123157, 123142),
+(32, 'Saturday', 16, 20, 123157, 123142),
+(33, 'Saturday', 16, 20, 123157, 123142),
+(34, 'Saturday', 16, 20, 123157, 123142),
+(35, 'Sunday', 16, 20, 123157, 123142),
+(36, 'Sunday', 16, 20, 123157, 123142),
+(37, 'Sunday', 16, 20, 123157, 123142);
 
 -- --------------------------------------------------------
 
@@ -258,16 +286,16 @@ INSERT INTO `merawats` (`pasien_id`, `orto_id`, `umum_id`, `pusat_id`) VALUES
 
 CREATE TABLE IF NOT EXISTS `pasiens` (
 `id` int(11) NOT NULL,
-  `nama` varchar(100) NOT NULL,
+  `nama` varchar(20) NOT NULL,
   `tanggal_lahir` date NOT NULL,
-  `tempat_lahir` varchar(100) NOT NULL,
-  `agama` varchar(100) NOT NULL,
+  `tempat_lahir` varchar(15) NOT NULL,
+  `agama` varchar(10) NOT NULL,
   `umur` tinyint(4) NOT NULL,
-  `alamat_rumah` varchar(100) NOT NULL,
+  `alamat_rumah` varchar(50) NOT NULL,
   `tinggi` decimal(5,2) NOT NULL,
   `berat` smallint(6) NOT NULL,
   `jenis_kelamin` varchar(10) NOT NULL,
-  `warga_negara` varchar(100) NOT NULL,
+  `warga_negara` varchar(15) NOT NULL,
   `doktergigi_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
 
@@ -304,10 +332,10 @@ CREATE TABLE IF NOT EXISTS `penggunas` (
 `id` int(11) NOT NULL,
   `username` varchar(20) NOT NULL,
   `password` varchar(20) NOT NULL,
-  `nama` varchar(100) NOT NULL,
+  `nama` varchar(75) NOT NULL,
   `tanggal_lahir` date NOT NULL,
-  `tempat_lahir` varchar(100) NOT NULL,
-  `warga_negara` varchar(100) NOT NULL,
+  `tempat_lahir` varchar(15) NOT NULL,
+  `warga_negara` varchar(15) NOT NULL,
   `jenis_kelamin` varchar(10) NOT NULL,
   `agama` varchar(10) NOT NULL,
   `foto` varchar(100) NOT NULL,
@@ -458,7 +486,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=79;
 -- AUTO_INCREMENT for table `jadwal_jagas`
 --
 ALTER TABLE `jadwal_jagas`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=44;
 --
 -- AUTO_INCREMENT for table `medical_records`
 --

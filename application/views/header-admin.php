@@ -68,7 +68,7 @@
                                     <a href="<?php echo base_url(); ?>index.php/admin/createjadwal">Create Schedule</a>
                                 </li>                           
                                 <li>
-                                    <a href="<?php echo base_url(); ?>index.php/admin/reatrievejadwal">Retrieve Schedule</a>
+                                    <a href="<?php echo base_url(); ?>index.php/admin/retrievejadwal">Retrieve Schedule</a>
                                 </li>
                             </ul>
                         </li>
