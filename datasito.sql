@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 09, 2015 at 02:55 PM
+-- Generation Time: May 10, 2015 at 01:32 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.5.19
 
@@ -386,9 +386,11 @@ CREATE TABLE IF NOT EXISTS `pesans` (
 --
 
 CREATE TABLE IF NOT EXISTS `rujukans` (
+`id` int(11) NOT NULL,
   `orto_id` int(11) NOT NULL,
   `pusat_id` int(11) NOT NULL,
-  `pasien_id` int(11) NOT NULL
+  `pasien_id` int(11) NOT NULL,
+  `analisi_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -471,7 +473,7 @@ ALTER TABLE `pesans`
 -- Indexes for table `rujukans`
 --
 ALTER TABLE `rujukans`
- ADD PRIMARY KEY (`orto_id`,`pusat_id`,`pasien_id`), ADD KEY `pusat_id` (`pusat_id`), ADD KEY `pasien_id` (`pasien_id`);
+ ADD PRIMARY KEY (`id`), ADD KEY `orto_id` (`orto_id`), ADD KEY `pusat_id` (`pusat_id`), ADD KEY `pasien_id` (`pasien_id`), ADD KEY `analisi_id` (`analisi_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -511,6 +513,11 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=123177;
 -- AUTO_INCREMENT for table `pesans`
 --
 ALTER TABLE `pesans`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `rujukans`
+--
+ALTER TABLE `rujukans`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- Constraints for dumped tables
@@ -597,9 +604,10 @@ ADD CONSTRAINT `pesans_ibfk_2` FOREIGN KEY (`penerima_id`) REFERENCES `penggunas
 -- Constraints for table `rujukans`
 --
 ALTER TABLE `rujukans`
-ADD CONSTRAINT `rujukans_ibfk_1` FOREIGN KEY (`pasien_id`) REFERENCES `pasiens` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `rujukans_ibfk_1` FOREIGN KEY (`orto_id`) REFERENCES `drg_ortodontis` (`doktergigi_id`) ON DELETE CASCADE ON UPDATE CASCADE,
 ADD CONSTRAINT `rujukans_ibfk_2` FOREIGN KEY (`pusat_id`) REFERENCES `drg_ortodontis` (`doktergigi_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT `rujukans_ibfk_3` FOREIGN KEY (`orto_id`) REFERENCES `drg_ortodontis` (`doktergigi_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `rujukans_ibfk_3` FOREIGN KEY (`pasien_id`) REFERENCES `pasiens` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `rujukans_ibfk_4` FOREIGN KEY (`analisi_id`) REFERENCES `analisis` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
