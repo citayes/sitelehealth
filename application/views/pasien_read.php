@@ -41,9 +41,3 @@
     <!-- /#page-content-wrapper -->
 
 </div>
-
-
-
-<div class="container">
-	
-</div>

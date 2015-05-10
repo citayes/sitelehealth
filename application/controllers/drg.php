@@ -512,7 +512,7 @@ class DRG extends CI_Controller {
 				$content .= "<tr><td><center>".$row->analisis_id."</center></a></td>
 								<td><center>".$row->umum_id."</center></td>
 								<td><center>".$nama_pusat->nama."</center></td>
-								<td><center><a class='btn btn-primary' href='../drg/reference_drg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a></center></td></tr>";
+								<td><center><a class='btn btn-primary' href='../drg/reference_drg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
 			}
 		} 
 				
@@ -654,13 +654,81 @@ class DRG extends CI_Controller {
 			<tr><td><b>Kandidat 2</b></td><td>'.$mengirim->kandidat2.'</td></tr>
 			<tr><td><b>Kandidat 3</b></td><td>'.$mengirim->kandidat3.'</td></tr>
 			<tr><td><b>Kandidat 4</b></td><td>'.$mengirim->kandidat4.'</td></tr>
-			<tr><td><b>Kandidat 5</b></td><td>'.$mengirim->kandidat5.'</td></tr>');
-		
-
+			<tr><td><b>Kandidat 5</b></td><td>'.$mengirim->kandidat5.'</td></tr>
+			<tr><td><center><a class="btn btn-warning" href="../list_reference_drg">Back<a></center></td>
+			<td><center><a class="btn btn-primary" href="../send_to_referral/'.$n.'">Send Reference<a></center></td></tr>');
 
 		$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');
 		$this->load->view('header-drg', $data['menu']);
 		$this->load->view('reference_drg', $data['array']);
+		$this->load->view('footer');
+	}
+
+	public function send_to_referral($n){
+		session_start();
+		  if(!isset($_SESSION['drg']))
+		  	redirect ("homepage");
+		
+		$option="";
+		$mengirim = new mengirim();
+		$mengirim->where('id', $n)->get();
+		$pengguna1 =new pengguna();
+		$pengguna1->where('nama', $mengirim->kandidat1)->get();
+		$option .= "<option value='".$pengguna1->id."'>".$pengguna1->nama."</option>";
+		$pengguna2 =new pengguna();
+		$pengguna2->where('nama', $mengirim->kandidat2)->get();
+		$option .= "<option value='".$pengguna2->id."'>".$pengguna2->nama."</option>";
+		$pengguna3 =new pengguna();
+		$pengguna3->where('nama', $mengirim->kandidat3)->get();
+		$option .= "<option value='".$pengguna3->id."'>".$pengguna3->nama."</option>";
+		$pengguna4 =new pengguna();
+		$pengguna4->where('nama', $mengirim->kandidat4)->get();
+		$option .= "<option value='".$pengguna4->id."'>".$pengguna4->nama."</option>";
+		$pengguna5 =new pengguna();
+		$pengguna5->where('nama', $mengirim->kandidat5)->get();
+		$option .= "<option value='".$pengguna5->id."'>".$pengguna5->nama."</option>";		
+
+		  if($_SERVER['REQUEST_METHOD'] == 'POST'){
+		 	$pengguna = new pengguna();
+		 	$rujukan = new rujukan();
+		 	$mengirim = new mengirim();
+			$analisis = new analisi();
+			$pesan = new pesan();
+			
+		 	$pengguna->where('username', $_SESSION['drg'])->get();
+			$mengirim->where('id', $n)->get();
+			$analisis_id= $mengirim->analisis_id;
+			$analisis->where('id', $analisis_id)->get();
+
+		 	$rujukan->orto_id=$_POST['nama'];
+		 	$rujukan->pusat_id=$pengguna->id;
+		 	$rujukan->pasien_id=$analisis->pasien_id;
+		 	$rujukan->analisi_id=$analisis_id; 		
+		 	$rujukan->save();
+
+		 	$rujukan->order_by('id', 'desc')->get();
+
+		 	$pesan->subject="Pasien dari dokter ".$pengguna->nama."";
+		 	$isi = $_POST['message'];
+		 	$isi.= "dengan id rujukan".$rujukan->id."";
+		 	$pesan->isi=$isi;
+		 	$pesan->pengguna_id=$pengguna->id;
+		 	$pesan->penerima_id=$_POST['nama'];
+		 	$pesan->save();
+
+			$data['array'] = array ('option' => $option, 'n'=>$n);
+			$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '','status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+									<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+				  					<strong>Well done!</strong> Patient has been created.
+									</div>");
+			$this->load->view('header-drg', $data['menu']);
+			$this->load->view('send_to_referral', $data['array']);
+			$this->load->view('footer'); 					
+			}
+		$data['array'] = array ('option' => $option, 'n'=>$n);
+		$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');
+		$this->load->view('header-drg', $data['menu']);
+		$this->load->view('send_to_referral', $data['array']);
 		$this->load->view('footer');
 	}
 
