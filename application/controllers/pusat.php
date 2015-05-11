@@ -388,7 +388,8 @@ public function save_diagnose($n){
 				
 		if(!isset($_SESSION['pusat']))
 			redirect ("homepage");			 
-
+		if($_SERVER['REQUEST_METHOD'] == 'POST'){
+			
 			$tanggal = $_POST['tanggal'];
 			$skor = $_POST['Skor'];
 			$maloklusi= $_POST['Maloklusi'];
@@ -401,7 +402,6 @@ public function save_diagnose($n){
 			$merawat = new merawat();
 			$mengirim = new mengirim();
 
-			$mengirim->tanggal=$tanggal;
 			$analisi->pasien_id=$n;
 			$analisi->skor=$skor;
 			$analisi->maloklusi_menurut_angka=$maloklusi;
@@ -409,14 +409,19 @@ public function save_diagnose($n){
 			$pengguna->where('username', $_SESSION['pusat'])->get();
 			$analisi->orto_id=$pengguna->id;
 			$analisi->foto=$foto;
+			$analisi->flag_mengirim='2';
+			$analisi->save();
 
+			$analisi->order_by('id', 'desc')->get();
+			//echo $tanggal;
+			$mengirim->analisis_id=$analisi->id;
+			$mengirim->tanggal=$tanggal;
 			$merawat->where('pasien_id', $n)->get();
 			$mengirim->umum_id=$merawat->umum_id;
 			$mengirim->pusat_id=$merawat->pusat_id;
+			$mengirim->save();
+		}
 
-			$analisi->flag_mengirim='2';
-
-			$analisi->save();
 			redirect("pusat/send_reference/$n");
 	}
 		public function send_reference($n){
