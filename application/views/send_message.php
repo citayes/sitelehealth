@@ -30,14 +30,14 @@
     <div class="row">
     <div class="col-md-2"></div>
     <div class="col-md-8">
-        <form  method="post" action="../send_message/">
+        <form  method="post" action="../orthodonti/send_message/">
                    <div class="form-group">
                     <label for="nama">To</label><br>
-                    <select id="tujuan" name="tujuan" class="btn btn-default dropdown-toggle" data-toggle="dropdown" required>
+                   <select id="tujuan" name="tujuan" class="btn btn-default dropdown-toggle" data-toggle="dropdown" required>
                         <option value="">--Choose One--</option>
                         <?php echo($content); ?>
-                    </select>
-
+                    </select> 
+                    <a class='btn btn-primary' href='../orthodonti/list_pengguna/'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a> 
                   </div>
                   <div class="form-group">
                     <label for="name">Subject</label>

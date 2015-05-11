@@ -542,6 +542,13 @@ function do_upload(){
 		if(!isset($_SESSION['orthodonti']))
 			redirect ("homepage");
 
+			$pengguna = new pengguna();
+			$pengguna->get();
+			$tujuan="";
+			foreach($pengguna as $row){
+				$tujuan .= "<option value='".$row->id."'>".$row->nama."</option>";
+			}
+
 		if($_SERVER['REQUEST_METHOD'] == 'POST'){
 			$subject = $_POST['subject'];
 			$isi = $_POST['isi'];
@@ -549,26 +556,53 @@ function do_upload(){
 			$pesan = new pesan();
 			$pengguna = new pengguna();
 
-			$pengguna->where('pengguna_id', $_SESSION['orthodonti'])->get();
+			$pengguna->where('username', $_SESSION['orthodonti'])->get();
 			$pesan->pengguna_id=$pengguna->id;
-
-			foreach($pengguna as $row){
-				$tujuan .= "<option value='".$row->nama."'>".$row->nama."</option>";
-			}
-
-			$pesan->penerima_id=$tujuan;
+			$pesan->penerima_id=$_POST['tujuan'];
 			$pesan->subject=$subject;
 			$pesan->isi=$isi;
-			$data['array'] = array('content' => $tujuan);	
-			$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');		
-			$this->load->view('header-orthodonti', $data['menu']);
-			$this->load->view('send_message', $data['array']);
-			$this->load->view('footer');
+
+			$pesan->save();
 		}
-		//$data['array'] = array('content' => $tujuan);	
+
+		$data['array'] = array('content' => $tujuan);	
 		$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');		
 		$this->load->view('header-orthodonti', $data['menu']);
-		$this->load->view('send_message');
+		$this->load->view('send_message', $data['array']);
+		$this->load->view('footer');
+
+	}
+
+	public function list_pengguna(){
+ 	 session_start();
+		  if(!isset($_SESSION['orthodonti']))
+		  	redirect ("homepage");
+			
+		$pengguna = new pengguna();
+		$pengguna->get();
+		if($pengguna->result_count()!=0){
+			$content = "<table class='table table-hover'>";
+			$content .="<tr>
+							<td><center><b><strong>Position</strong></b></center></td>
+							<td><center><b><strong>Name</strong></b></center></td>
+							<td><center><b><strong>Action</strong></b></center></td>
+							</tr>";
+			foreach($pengguna as $row){
+
+					$content .= "<tr>
+									<td><center>".$row->role."</center></td>
+									<td><center>".$row->nama."</center></td>
+									<td><center><a class='btn btn-primary' href='../orthodonti/send_message/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a> </center></td>
+								</tr>";
+				
+			}
+			$content .= "</table>";
+			$data['array']=array('content'=> $content);
+		}
+
+		$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');
+		$this->load->view('header-orthodonti', $data['menu']);
+		$this->load->view('list_pengguna', $data['array']);
 		$this->load->view('footer');
 
 	}
@@ -588,6 +622,7 @@ function do_upload(){
 				<tr>
 					<td><center><b>From</center></b></td>
 					<td><center><b>Subject</center></b></td>
+					<td><center><b>Action</center></b></td>
 				</tr>';				
 		foreach($pesan as $row){
 			if($row->penerima_id==$idPengguna){
@@ -614,8 +649,10 @@ function do_upload(){
 
 		$pesan = new pesan();
 		$pesan->where('id', $n)->get();
+		$pengguna = new pengguna();
+		$pengguna->where('id',$pesan->pengguna_id)->get();
 		$data['array'] = array('content' => '<tr><td><b>Subject</b></td><td>'.$pesan->subject.'</td></tr>
-			<tr><td><b>Sender</b></td><td>'.$pesan->pengguna_id.'</td></tr>
+			<tr><td><b>Sender</b></td><td>'.$pengguna->nama.'</td></tr>
 			<tr><td><b>Message</b></td><td>'.$pesan->isi.'</td></tr>
 			</td></tr>');
 
@@ -625,7 +662,6 @@ function do_upload(){
 		$this->load->view('detail_message', $data['array']); 
 		$this->load->view('footer');
 	}
-
 
 	
 }
