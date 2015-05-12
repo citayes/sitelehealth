@@ -580,19 +580,19 @@ function do_upload(){
 									// </div>");
 			}
 			$data['array'] = array('content' => $tujuan);	
-		//$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');		
-		$this->load->view('header-orthodonti', $data['menu']);
-		$this->load->view('send_message', $data['array']);
-		$this->load->view('footer');
+			//$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');		
+			$this->load->view('header-orthodonti', $data['menu']);
+			$this->load->view('send_message', $data['array']);
+			$this->load->view('footer');
 			
 		}else{
 
-		$data['array'] = array('content' => $tujuan);	
-		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'setting' => '');		
-		$this->load->view('header-orthodonti', $data['menu']);
-		$this->load->view('send_message', $data['array']);
-		$this->load->view('footer');
-	}
+			$data['array'] = array('content' => $tujuan);	
+			$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'setting' => '');		
+			$this->load->view('header-orthodonti', $data['menu']);
+			$this->load->view('send_message', $data['array']);
+			$this->load->view('footer');
+		}
 
 	}
 

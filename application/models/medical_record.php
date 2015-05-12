@@ -8,7 +8,7 @@
      	'rules' => array('required', 'valid_date')
     	),
     	'jam' => array(
-     	'rules' => array('max_length' => 100)
+     	'rules' => array('numeric', 'max_length' => 100)
     	),
     	'deskripsi' => array(
      	'rules' => array('required', 'min_length' => 1, 'max_length' => 500)

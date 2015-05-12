@@ -6,7 +6,7 @@
         $pengguna = new pengguna();
         $pengguna->where('username', $_SESSION['orthodonti'])->get();
         $profile="";
-        $profile .="<br><center><img alt='140x140' src='../../../".$pengguna->foto."' style='width:125px; height:125px;' class='img-circle'>
+        $profile .="<br><center><img alt='140x140' src='../../".$pengguna->foto."' style='width:125px; height:125px;' class='img-circle'>
         <p><b>".$pengguna->nama."</b><br>
         <p>".$pengguna->username."<br>
         <p>".$pengguna->email."<br>
@@ -30,7 +30,7 @@
     <div class="row">
     <div class="col-md-2"></div>
     <div class="col-md-8">
-        <form  method="post" action="../orthodonti/send_message/">
+        <form  method="post" action="send_message">
                    <div class="form-group">
                     <label for="nama">To</label><br>
                    <select id="tujuan" name="tujuan" class="btn btn-default dropdown-toggle" data-toggle="dropdown" required>

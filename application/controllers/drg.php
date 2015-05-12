@@ -374,7 +374,7 @@ class DRG extends CI_Controller {
 		$idDokter = $pengguna->id;
 		//echo $medical_record;
 
-		if($medical_record->result_count()!=0){
+		//if($medical_record->result_count()!=0){
 			$content = "<table class='table table-hover'>";
 			$content .="<tr>
 							<td><center><b><strong>ID Medical Record</strong></b></center></td>
@@ -382,7 +382,7 @@ class DRG extends CI_Controller {
 							<td><center><b><strong>Operation</strong></b></center></td>
 							</tr>";
 			foreach($medical_record as $row){
-				if($row->umum_id == $idDokter){
+				if($row->dokter_gigi_id == $idDokter){
 					//echo $row->doktergigi_id;
 					//echo $idDokter;
 					$content .= "<tr>
@@ -399,7 +399,7 @@ class DRG extends CI_Controller {
 			$this->load->view('header-drg', $data['menu']);
 			$this->load->view('list_medical_record', $data['array']);
 			$this->load->view('footer');
-		}
+		//}
 
 	}
 
@@ -441,7 +441,7 @@ class DRG extends CI_Controller {
 			$medical_record = new medical_record();
 
 			$pengguna->where('username', $_SESSION['drg'])->get();		
-		 		$medical_record->umum_id= $pengguna->id;
+		 		$medical_record->dokter_gigi_id= $pengguna->id;
 			$medical_record->tanggal=$tanggal;
 			$medical_record->jam=$jam;
 			$medical_record->deskripsi=$deskripsi;
@@ -455,9 +455,12 @@ class DRG extends CI_Controller {
 							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 		  					<strong>Well done!</strong> Patient data has been saved.
 							</div>");
+							$this->load->view('header-drg', $data['menu']);
+							$this->load->view('result-drg', $data['array']);
+							$this->load->view('footer');
 			}
 			else{
-							$data['array']= array('content' => '<a href ="../pasien_read">Back to Patient List.</a>');
+							//$data['array']= array('content' => '<a href ="../pasien_read">Back to Patient List.</a>');
 							$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
 									<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 				  					Patient data not been created.".$medical_record->error->tanggal."".$medical_record->error->jam."".$medical_record->error->deskripsi."
@@ -465,12 +468,13 @@ class DRG extends CI_Controller {
 				// echo $medical_record->error->tanggal;
 				// echo $medical_record->error->jam;
 				// echo $medical_record->error->deskripsi;
+						$data['array'] = array('n' => $n);
+						//$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => '', 'setting' => 'active');
+						$this->load->view('header-drg', $data['menu']);
+						$this->load->view('medical_record', $data['array']);
+						$this->load->view('footer');
 			}
 
-		
-		$this->load->view('header-drg', $data['menu']);
-		$this->load->view('result-drg', $data['array']);
-		$this->load->view('footer');
 
 		}
 
@@ -742,22 +746,43 @@ class DRG extends CI_Controller {
 		 	$pesan->isi=$isi;
 		 	$pesan->pengguna_id=$pengguna->id;
 		 	$pesan->penerima_id=$_POST['nama'];
-		 	$pesan->save();
 
-			$data['array'] = array ('option' => $option, 'n'=>$n);
-			$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '','status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
-									<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-				  					<strong>Well done!</strong> Patient has been created.
-									</div>");
-			$this->load->view('header-drg', $data['menu']);
-			$this->load->view('send_to_referral', $data['array']);
-			$this->load->view('footer'); 					
-			}
+		 	$pesan->validate();
+		 		if($pesan->valid){
+		 			$pesan->save();	
+		 			//echo 'lala';
+					$data['array'] = array ('option' => $option, 'n'=>$n);
+					$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '','status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+											<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+						  					<strong>Well done!</strong> Reference has been sent.
+											</div>");
+					// $this->load->view('header-drg', $data['menu']);
+					// $this->load->view('send_to_referral', $data['array']);
+					// $this->load->view('footer'); 
+		 		}
+		 		else{
+		 			$data['array'] = array ('option' => $option, 'n'=>$n);
+					$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '','status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
+											<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+						  					<strong>Reference has not been sent.".$pesan->error->subject."".$pesan->error->isi."".$pesan->error->penerima_id."
+											</div>");
+					// $this->load->view('header-drg', $data['menu']);
+					// $this->load->view('send_to_referral', $data['array']);
+					// $this->load->view('footer');	
+
+		 		}
+						$data['array'] = array ('option' => $option, 'n'=>$n);
+				//$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');
+				$this->load->view('header-drg', $data['menu']);
+				$this->load->view('send_to_referral', $data['array']);
+				$this->load->view('footer');	
+			}else{
 		$data['array'] = array ('option' => $option, 'n'=>$n);
 		$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');
 		$this->load->view('header-drg', $data['menu']);
 		$this->load->view('send_to_referral', $data['array']);
 		$this->load->view('footer');
+	}
 	}
 
 }
