@@ -11,17 +11,36 @@
 		$pasien->query($sql);
 	}
 
-	function validationPasien($attributes){
-		if(strlen($attributes['Name'])			< 1 || strlen($attributes['Name']) 			> 100)	return false;
-		if(strlen($attributes['PlaceofBirth'])	< 1 || strlen($attributes['PlaceofBirth']) 	> 100)	return false;
-		if(strlen($attributes['Weight'])		< 1 || strlen($attributes['Weight']) 		> 100)	return false;
-		if(strlen($attributes['Age'])			< 1 || strlen($attributes['Age']) 			> 4)	return false;
-		if(strlen($attributes['Address'])		< 1 || strlen($attributes['Address']) 		> 100)	return false;
-		if($attributes['DateofBirth']			!=0	&& $attributes['DateofBirth'] 			!= 1)	return false;
-		if($attributes['Gender'] != "Lakilaki"	&& $attributes['Gender']					 != "Perempuan") return false;
-		if(strlen($attributes['Height'])		< 1 || strlen($attributes['Height']) 		> 11)	return false;
-		if(strlen($attributes['Nationality'])	< 1 || strlen($attributes['Nationality']) 	> 100)	return false;
-		if(strlen($attributes['Religion'])		< 1 || strlen($attributes['Religion']) 		> 100)	return false;
-		return true;
-	}
+	var $validation = array(
+    	'nama' => array(
+     	'rules' => array('required', 'min_length' => 1, 'max_length' => 100)
+    	),
+    	'tempat_lahir' => array(
+     	'rules' => array('required', 'max_length' => 100)
+    	),
+    	'tanggal_lahir' => array(
+     	'rules' => array('required', 'valid_date')
+    	),
+    	'umur' => array(
+     	'rules' => array('required',  'numeric', 'greater_than' => 1, 'less_than' => 150)
+    	),
+    	'alamat_rumah' => array(
+     	'rules' => array('max_length' => 100)
+    	),
+    	'tinggi' => array(
+     	'rules' => array('required', 'numeric', 'greater_than' => 1, 'less_than' => 300 )
+    	),
+    	'berat' => array(
+     	'rules' => array('required', 'numeric', 'greater_than' => 1, 'less_than' => 400)
+    	),
+    	'jenis_kelamin' => array(
+     	'rules' => array('required')
+    	),
+    	'warga_negara' => array(
+     	'rules' => array('max_length' => 100)
+    	),
+    	'agama' => array(
+     	'rules' => array('max_length' => 100)
+    	)
+    );
 }

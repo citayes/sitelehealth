@@ -643,16 +643,37 @@ class Admin extends CI_Controller {
 	 		$mengirim->umum_id=$merawat->umum_id;
 	 		$mengirim->orto_id=$merawat->orto_id;
 	 		$mengirim->pusat_id=$analisi->orto_id;
-	 		$mengirim->save();
+	 		//$mengirim->save();
 
-	 		$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => '', 'setting' => 'active', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+	 		$mengirim->validate();
+	 		if($mengirim->valid){
+	 			$mengirim->save();
+		 			$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => '', 'setting' => 'active', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+								<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+			  					<strong>Well done!</strong> Referral has been sent.
+								</div>");	
+		 		$data['array'] = array('content' => '<a href ="../diagnosa">Back to diagnosa.</a>');
+				$this->load->view('header-admin', $data['menu']);
+				$this->load->view('result-admin', $data['array']);
+				$this->load->view('footer');
+	 		}
+	 		else{
+	 			$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => '', 'setting' => 'active', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
 							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-		  					<strong>Well done!</strong> Referral has been sent.
+		  					Referral has not been sent.".$mengirim->error->tanggal."".$mengirim->error->kandidat1."".$mengirim->error->kandidat2."".$mengirim->error->kandidat3."".$mengirim->error->kandidat4."".$mengirim->error->kandidat5."
 							</div>");	
+	 		// 	echo $mengirim->error->tanggal;
+				// echo $mengirim->error->kandidat1;
+				// echo $mengirim->error->kandidat2;
+				// echo $mengirim->error->kandidat3;
+				// echo $mengirim->error->kandidat4;
+				// echo $mengirim->error->kandidat5;
 	 		$data['array'] = array('content' => '<a href ="../diagnosa">Back to diagnosa.</a>');
 			$this->load->view('header-admin', $data['menu']);
 			$this->load->view('result-admin', $data['array']);
 			$this->load->view('footer');
+	 		}
+	 		
 	 			 							
 		}
 	}	

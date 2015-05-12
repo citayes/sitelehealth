@@ -34,7 +34,7 @@
 								  <div class="form-group">
 									<label for="tanggal">Tanggal</label>
 									<div class="input-group date form_date col-md-12" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-					                    <input class="form-control" type="text" name="tanggal" placeholder='Masukkan Tanggal'>
+					                    <input class="form-control" type="text" name="tanggal" placeholder='Masukkan Tanggal' required>
 					     				<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 					                </div>
 					    			<input type="hidden" id="dtp_input2" value=""/>

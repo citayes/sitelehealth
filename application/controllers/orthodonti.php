@@ -562,16 +562,41 @@ function do_upload(){
 			$pesan->subject=$subject;
 			$pesan->isi=$isi;
 
-			$pesan->save();
-		}
-
-		$data['array'] = array('content' => $tujuan);	
-		$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');		
+			$pesan->validate();
+			if($pesan->valid){
+				$pesan->save();	
+					$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+		  					<strong>Well done!</strong> Message has been sent.
+							</div>");
+			}
+			else{
+					$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'setting' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
+							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+		  					<strong>Message has been not sent</strong>".$pesan->error->subject."".$pesan->error->isi."".$pesan->error->penerima_id."
+							</div>");
+				  					
+				  			// 		
+									// </div>");
+			}
+			$data['array'] = array('content' => $tujuan);	
+		//$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');		
 		$this->load->view('header-orthodonti', $data['menu']);
 		$this->load->view('send_message', $data['array']);
 		$this->load->view('footer');
+			
+		}else{
+
+		$data['array'] = array('content' => $tujuan);	
+		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'setting' => '');		
+		$this->load->view('header-orthodonti', $data['menu']);
+		$this->load->view('send_message', $data['array']);
+		$this->load->view('footer');
+	}
 
 	}
+
+
 
 	public function list_pengguna(){
  	 session_start();

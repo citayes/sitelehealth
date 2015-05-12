@@ -3,10 +3,15 @@
 		var $has_one = array('pasien','drg_ortodonti','pengguna');
 		var $has_many=array('pengguna');
 
-		function validationAnalisi($attributes){
-		if(strlen($attributes['skor'])						< 1 || strlen($attributes['skor']) 						> 11)	return false;
-		if(strlen($attributes['maloklusi_menurut_angka'])	< 1 || strlen($attributes['maloklusi_menurut_angka']) 	> 11)	return false;
-		if(strlen($attributes['diagnosis_rekomendasi'])		< 1 || strlen($attributes['diagnosis_rekomendasi']) 	> 500)	return false;
-		return true;
-	}
+		var $validation = array(
+    	'skor' => array(
+     	'rules' => array('required', 'numeric', 'greater_than' => 0, 'less_than' => 10)
+    	),
+    	'maloklusi_menurut_angka' => array(
+     	'rules' => array('required', 'numeric', 'greater_than' => 0, 'less_than' => 10)
+    	),
+    	'diagnosis_rekomendasi' => array(
+     	'rules' => array('required', 'min_length' => 1, 'max_length' => 500)
+    	)
+    );
 }

@@ -3,6 +3,39 @@ class pengguna extends DataMapper {
 	var $has_many = array('mengirim', 'analisi', 'pesan');
 	var $has_one = array('dokter_gigi', 'admin'); 
 
+	var $validation = array(
+    	'username' => array(
+     	'rules' => array('required', 'min_length' => 4, 'max_length' => 20, 'unique', 'alpha_dash')
+    	),
+    	'password' => array(
+     	'rules' => array('required', 'min_length' => 4, 'max_length' => 20)
+    	),
+    	'nama' => array(
+     	'rules' => array('required', 'min_length' => 1, 'max_length' => 100)
+    	),
+    	'tanggal_lahir' => array(
+     	'rules' => array('required', 'valid_date')
+    	),
+    	'tempat_lahir' => array(
+     	'rules' => array('max_length' => 100)
+    	),
+    	'warga_negara' => array(
+     	'rules' => array('max_length' => 100)
+    	),
+    	'jenis_kelamin' => array(
+     	'rules' => array('required')
+    	),
+    	'agama' => array(
+     	'rules' => array('max_length' => 100)
+    	),
+    	'email' => array(
+     	'rules' => array('required', 'valid_email')
+    	),
+    	'role' => array(
+     	'rules' => array('required')
+    	)
+    );
+
 		function remove($id){
 		$pengguna = new pengguna();
 		$pengguna->get();
@@ -11,20 +44,5 @@ class pengguna extends DataMapper {
 		$sql = "delete from penggunas where id = '$id'";
 		$pengguna->query($sql);
 	}
-
-		function validationPengguna($attributes){
-		if(strlen($attributes['Username'])		< 1 || strlen($attributes['Username']) 	> 20)	return false;
-		if(strlen($attributes['Password'])		< 5 || strlen($attributes['Password']) 	> 20)	return false;
-		if(strlen($attributes['Email'])			< 1 || strlen($attributes['Password']) 	> 100)	return false;
-		if(strlen($attributes['Nama'])			< 1 || strlen($attributes['Nama']) 		> 100)	return false;
-		if(strlen($attributes['Tempat_Lahir'])	< 1 || strlen($attributes['Tempat_Lahir']) 	> 100)	return false;
-		if($attributes['Tanggal_Lahir']			!=0	&& $attributes['Tanggal_Lahir'] 		!= 1)	return false;
-		if($attributes['Jenis_Kelamin'] != "Lakilaki"	&& $attributes['Jenis_Kelamin'] != "Perempuan")	return false;
-		if(strlen($attributes['Warga_Negara'])	< 1 || strlen($attributes['Warga_Negara']) 	> 100)	return false;
-		if(strlen($attributes['Agama'])			< 1 || strlen($attributes['Agama']) 		> 100)	return false;
-		if($attributes['Role'] != "admin"	&& $attributes['Role'] != "pusat" && $attributes['Role'] != "orthodonti" && $attributes['Role'] != "umum")	return false;
-		return true;
-	}
-
 }
 ?>

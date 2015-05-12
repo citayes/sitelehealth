@@ -92,7 +92,7 @@ class Pusat extends CI_Controller {
 			<tr><td><b>Warga_Negara</b></td><td>'.$Pasien->warga_negara.'</td></tr>
 			<tr><td><form method="post" action="../send_diagnose_to_admin/'.$n.'"><button type="submit" class="btn btn-primary pull-right">Send Diagnose to Admin</button></form></td>
 			<td><form method="post" action="../create_diagnose/'.$n.'"><button type="submit" class="btn btn-primary">Send Reference</button></form>
-			<td><form method="post" action="../view_doctor/'.$Pasien->doktergigi_id.'"><button type="submit" class="btn btn-primary">Send Reference</button></form>
+			<td><form method="post" action="../view_doctor/'.$Pasien->doktergigi_id.'"><button type="submit" class="btn btn-primary">View Doctor</button></form>
 			</td></tr>');
 
 		$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => '', 'setting' => '');
@@ -291,13 +291,24 @@ function do_upload(){
 		 		$analisi->flag_menerima= '1';
 		 		$analisi->flag_mengirim= '1';
 
-		 		$analisi->save();
-
-									
-		$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+		 		$analisi->validate();
+		 		if($analisi->valid){
+		 			$analisi->save();
+		 			$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
 							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 		  					<strong>Well done!</strong> Diagnose has been sent.
 							</div>", 'content' => '<a href="../read_data_citra">Back to patient list.</a>');
+		 		}
+		 		else{
+		 					//$data['array']= array('content' => '<a href ="../pasien_read">Back to Patient List.</a>');
+							$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
+									<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+				  					Analisis not been created.".$analisi->error->skor."".$analisi->error->maloklusi_menurut_angka."".$analisi->error->diagnosis_rekomendasi."
+									</div>", 'content' => '<a href="../send_diagnose_to_admin/%n">Back to Diagnosis Form.</a>');
+					}
+		 		
+									
+		
 		$this->load->view('header-pusat', $data['menu']);
 		$this->load->view('result-pusat');
 		$this->load->view('footer');
@@ -422,7 +433,34 @@ public function save_diagnose($n){
 			$mengirim->save();
 		}
 
+<<<<<<< Updated upstream
 			redirect("pusat/send_reference/$n");
+=======
+			$analisi->flag_mengirim='2';
+
+			$analisi->validate();
+			if($analisi->valid){
+				$analisi->save();
+				redirect("pusat/send_reference/$n");
+
+			}
+			else{
+			$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal' => '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
+									<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+				  					Analisi has not been created.".$analisi->error->skor."".$analisi->error->maloklusi_menurut_angka."".$analisi->error->diagnosis_rekomendasi."
+									</div>");	
+				// echo $analisi->error->skor;
+				// echo $analisi->error->maloklusi_menurut_angka;
+				// echo $analisi->error->diagnosis_rekomendasi;
+		 
+			$this->load->view('header-drg', $data['menu']);
+			$this->load->view('create_diagnose');
+			$this->load->view('footer');
+			}
+			
+
+			
+>>>>>>> Stashed changes
 	}
 		public function send_reference($n){
 		session_start();
@@ -476,12 +514,30 @@ public function save_diagnose($n){
 			 	
 		 	$mengirim->orto_id=$merawat->orto_id;
 		 	$mengirim->pusat_id=$analisi->orto_id;
-		 	$mengirim->save();
-
-			$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+		 	
+		 	$mengirim->validate();
+		 	if($mengirim->valid){
+		 		$mengirim->save();
+		 		$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
 							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 		 	 				<strong>Well done!</strong> Diagnose has been sent.
 							</div>", 'content' => '<a href="../read_data_citra">Back to patient list.</a>');
+		 	}
+		 	else{
+		 		$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
+							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+		 	 				Diagnose has not been sent.".$mengirim->error->tanggal."".$mengirim->error->kandidat1."".$mengirim->error->kandidat2."".$mengirim->error->kandidat3."".$mengirim->error->kandidat4."".$mengirim->error->kandidat5."
+							</div>", 'content' => '<a href="../send_reference/$n">Back to reference form.</a>');
+				// echo $mengirim->error->tanggal;
+				// echo $mengirim->error->kandidat1;
+				// echo $mengirim->error->kandidat2;
+				// echo $mengirim->error->kandidat3;
+				// echo $mengirim->error->kandidat4;
+				// echo $mengirim->error->kandidat5;	
+		 	}
+		 		
+
+			
 			$this->load->view('header-pusat', $data['menu']);
 			$this->load->view('result-pusat');
 			$this->load->view('footer');								

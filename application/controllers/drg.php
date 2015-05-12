@@ -47,12 +47,25 @@ class DRG extends CI_Controller {
 			$Pasien->warga_negara=$Warga_Negara;
 			$Pasien->agama=$Agama;
 			$Pasien->doktergigi_id=$idDokter;
-			$Pasien->save();
+			//$Pasien->save();
 
-			$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+			$Pasien->validate();
+			if($Pasien->valid){
+				$Pasien->save();
+							$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
 									<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 				  					<strong>Well done!</strong> Patient has been created.
 									</div>");
+
+			}
+			else{
+			$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
+									<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+				  					Patient has not been created. ".$Pasien->error->nama." ".$Pasien->error->tempat_lahir." ".$Pasien->error->tanggal_lahir." ".$Pasien->error->umur." ".$Pasien->error->alamat_rumah." ".$Pasien->error->tinggi." ".$Pasien->error->berat." ".$Pasien->error->jenis_kelamin."".$Pasien->error->warga_negara."".$Pasien->error->agama."
+									</div>");	
+			}
+
+
 			$this->load->view('header-drg', $data['menu']);
 			$this->load->view('pasien');
 			$this->load->view('footer');
@@ -433,13 +446,28 @@ class DRG extends CI_Controller {
 			$medical_record->jam=$jam;
 			$medical_record->deskripsi=$deskripsi;
 			$medical_record->pasien_id=$n;
-			$medical_record->save();
 
-		$data['array']= array('content' => '<a href ="../pasien_read">Back to Patient List.</a>');
-		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => '', 'setting' => 'active', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+			$medical_record->validate();
+			if($medical_record->valid){
+				$medical_record->save();
+				$data['array']= array('content' => '<a href ="../pasien_read">Back to Patient List.</a>');
+				$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => '', 'setting' => 'active', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
 							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 		  					<strong>Well done!</strong> Patient data has been saved.
 							</div>");
+			}
+			else{
+							$data['array']= array('content' => '<a href ="../pasien_read">Back to Patient List.</a>');
+							$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
+									<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+				  					Patient data not been created.".$medical_record->error->tanggal."".$medical_record->error->jam."".$medical_record->error->deskripsi."
+									</div>");
+				// echo $medical_record->error->tanggal;
+				// echo $medical_record->error->jam;
+				// echo $medical_record->error->deskripsi;
+			}
+
+		
 		$this->load->view('header-drg', $data['menu']);
 		$this->load->view('result-drg', $data['array']);
 		$this->load->view('footer');

@@ -30,7 +30,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" for="username">Name</label>
 										<div class="col-sm-9">
-										<input type="input" name="Name" class="form-control" id="Name" placeholder="Patient's Name" required/>
+										<input type="input" name="Name" class="form-control" id="Name" placeholder="Patient's Name"/>
 										</div>
 									</div>
 									<div class="form-group">
@@ -51,6 +51,7 @@
 									</div>
 									<div class="form-group">
 									<label class="col-sm-3 control-label" for="warga_negara">Age</label>
+
 										<div class="col-sm-9">
 											<input type="text" name="Age" class="form-control" id="Age" placeholder="Patient's Age"/>
 										</div>
