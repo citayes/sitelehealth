@@ -662,16 +662,20 @@ class Admin extends CI_Controller {
 							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 		  					Referral has not been sent.".$mengirim->error->tanggal."".$mengirim->error->kandidat1."".$mengirim->error->kandidat2."".$mengirim->error->kandidat3."".$mengirim->error->kandidat4."".$mengirim->error->kandidat5."
 							</div>");	
-	 		// 	echo $mengirim->error->tanggal;
-				// echo $mengirim->error->kandidat1;
-				// echo $mengirim->error->kandidat2;
-				// echo $mengirim->error->kandidat3;
-				// echo $mengirim->error->kandidat4;
-				// echo $mengirim->error->kandidat5;
-	 		$data['array'] = array('content' => '<a href ="../diagnosa">Back to diagnosa.</a>');
-			$this->load->view('header-admin', $data['menu']);
-			$this->load->view('result-admin', $data['array']);
-			$this->load->view('footer');
+	 					$option="";
+		
+		$pengguna = new pengguna();
+		$pengguna->get();
+		foreach ($pengguna as $row) {
+			if($row->role == 'orthodonti' && $row->fverifikasi=='y')
+				$option .= "<option value='".$row->nama."'>".$row->nama."</option>";
+		}
+	 					$data['array'] = array('n' => $n, 'option' =>$option);
+		//$data['array'] = array('content' => $option, 'n'=> $n);					
+		//data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => 'active', 'setting' => '');	
+		$this->load->view('header-admin', $data['menu']);
+		$this->load->view('send_rujukan', $data['array']);
+		$this->load->view('footer');
 	 		}
 	 		
 	 			 							
@@ -720,7 +724,7 @@ class Admin extends CI_Controller {
 		 	$jadwaljaga = new jadwal_jaga();
 		 	$pengguna1 = new pengguna();
 
-		 	//$jadwaljaga->where('id', $n)->update('hari',$hari);
+			//$jadwaljaga->where('id', $n)->update('hari',$hari);
 		 	$jadwaljaga->where('id', $n)->update('jam_mulai', $mulai);
 		 	$jadwaljaga->where('id', $n)->update('jam_selesai', $selesai);
 			$jadwaljaga->where('id', $n)->update('drg_ortodonti_id', $Dokter);
@@ -729,6 +733,9 @@ class Admin extends CI_Controller {
 	 		$pengguna->where('username', $_SESSION['admin'])->get();
 	 		$jadwaljaga->where('id', $n)->update('admin_id', $pengguna->id);
 
+
+	 		// $jadwaljaga->validate();
+	 		// if($jadwaljaga->valid){
 
 	 			redirect("admin/retrievejadwal");
 	 			

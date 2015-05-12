@@ -298,6 +298,9 @@ function do_upload(){
 							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 		  					<strong>Well done!</strong> Diagnose has been sent.
 							</div>", 'content' => '<a href="../read_data_citra">Back to patient list.</a>');
+		 					$this->load->view('header-pusat', $data['menu']);
+		$this->load->view('result-pusat');
+		$this->load->view('footer');
 		 		}
 		 		else{
 		 					//$data['array']= array('content' => '<a href ="../pasien_read">Back to Patient List.</a>');
@@ -305,13 +308,16 @@ function do_upload(){
 									<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 				  					Analisis not been created.".$analisi->error->skor."".$analisi->error->maloklusi_menurut_angka."".$analisi->error->diagnosis_rekomendasi."
 									</div>", 'content' => '<a href="../send_diagnose_to_admin/%n">Back to Diagnosis Form.</a>');
+								$data['array'] = array('n' => $n);
+		//$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => '', 'setting' => '');
+		$this->load->view('header-pusat', $data['menu']);
+		$this->load->view('send_diagnose_to_admin', $data['array']);
+		$this->load->view('footer');
 					}
 		 		
 									
 		
-		$this->load->view('header-pusat', $data['menu']);
-		$this->load->view('result-pusat');
-		$this->load->view('footer');
+
 
 		}
 	
@@ -398,9 +404,8 @@ public function save_diagnose($n){
 		session_start();
 				
 		if(!isset($_SESSION['pusat']))
-			redirect ("homepage");			 
-		if($_SERVER['REQUEST_METHOD'] == 'POST'){
-			
+			redirect ("homepage");		
+
 			$tanggal = $_POST['tanggal'];
 			$skor = $_POST['Skor'];
 			$maloklusi= $_POST['Maloklusi'];
@@ -413,6 +418,7 @@ public function save_diagnose($n){
 			$merawat = new merawat();
 			$mengirim = new mengirim();
 
+			$analisi->tanggal=$tanggal;
 			$analisi->pasien_id=$n;
 			$analisi->skor=$skor;
 			$analisi->maloklusi_menurut_angka=$maloklusi;
@@ -420,22 +426,11 @@ public function save_diagnose($n){
 			$pengguna->where('username', $_SESSION['pusat'])->get();
 			$analisi->orto_id=$pengguna->id;
 			$analisi->foto=$foto;
-			$analisi->flag_mengirim='2';
-			$analisi->save();
 
-			$analisi->order_by('id', 'desc')->get();
-			//echo $tanggal;
-			$mengirim->analisis_id=$analisi->id;
-			$mengirim->tanggal=$tanggal;
 			$merawat->where('pasien_id', $n)->get();
 			$mengirim->umum_id=$merawat->umum_id;
 			$mengirim->pusat_id=$merawat->pusat_id;
-			$mengirim->save();
-		}
 
-<<<<<<< Updated upstream
-			redirect("pusat/send_reference/$n");
-=======
 			$analisi->flag_mengirim='2';
 
 			$analisi->validate();
@@ -452,15 +447,14 @@ public function save_diagnose($n){
 				// echo $analisi->error->skor;
 				// echo $analisi->error->maloklusi_menurut_angka;
 				// echo $analisi->error->diagnosis_rekomendasi;
-		 
+		 	$data['array']=array('n'=>$n);
 			$this->load->view('header-drg', $data['menu']);
-			$this->load->view('create_diagnose');
+			$this->load->view('create_diagnose', $data['array']);
 			$this->load->view('footer');
 			}
 			
 
 			
->>>>>>> Stashed changes
 	}
 		public function send_reference($n){
 		session_start();
@@ -522,7 +516,11 @@ public function save_diagnose($n){
 							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 		 	 				<strong>Well done!</strong> Diagnose has been sent.
 							</div>", 'content' => '<a href="../read_data_citra">Back to patient list.</a>');
+		 					$this->load->view('header-pusat', $data['menu']);
+							$this->load->view('result-pusat');
+							$this->load->view('footer');
 		 	}
+
 		 	else{
 		 		$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
 							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
@@ -534,13 +532,16 @@ public function save_diagnose($n){
 				// echo $mengirim->error->kandidat3;
 				// echo $mengirim->error->kandidat4;
 				// echo $mengirim->error->kandidat5;	
+		 	$data['array']=array('n'=>$n);
+			$this->load->view('header-drg', $data['menu']);
+			$this->load->view('send_reference', $data['array']);
+			$this->load->view('footer');
+
 		 	}
 		 		
 
 			
-			$this->load->view('header-pusat', $data['menu']);
-			$this->load->view('result-pusat');
-			$this->load->view('footer');								
+								
 		}
 		
 	}

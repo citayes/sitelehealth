@@ -34,16 +34,16 @@
 				  <div class="form-group">
 				  </div>
 				  <div class="form-group">
-					<label for="placeofbirth">Start hour</label>
-					<input type="input" name="Start" class="form-control" id="Start" placeholder="Start" value="<?php echo $jam_mulai;?>"/>
+					<label for="Start">Start hour</label>
+					<input type="input" name="Start" class="form-control" id="Start" placeholder="Start" value="<?php echo $jam_mulai;?>"/ required maxlength='2'>
 				  </div>
 				  <div class="form-group">
-					<label for="placeofbirth">End hour</label>
-					<input type="input" name="End" class="form-control" id="End" placeholder="End" value="<?php echo $jam_selesai;?>"/>
+					<label for="End">End hour</label>
+					<input type="input" name="End" class="form-control" id="End" placeholder="End" value="<?php echo $jam_selesai;?>"/ required maxlength='2'>
 				  </div>
 
 				  <div class="form-group">
-					<label for="name">Doctor</label><br>
+					<label for="Doctor">Doctor</label><br>
 					<select id="Doctor" name="Doctor" class="btn btn-default dropdown-toggle" data-toggle="dropdown" required>
 						<option value="">--Choose One--</option>
 						<?php echo($option); ?>

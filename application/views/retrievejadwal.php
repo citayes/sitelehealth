@@ -6,7 +6,7 @@
         $pengguna = new pengguna();
         $pengguna->where('username', $_SESSION['admin'])->get();
         $profile="";
-        $profile .="<br><center><img alt='140x140' src='../../../".$pengguna->foto."' style='width:125px; height:125px;' class='img-circle'>
+        $profile .="<br><center><img alt='140x140' src='../../".$pengguna->foto."' style='width:125px; height:125px;' class='img-circle'>
         <p><b>".$pengguna->nama."</b><br>
         <p>".$pengguna->username."<br>
         <p>".$pengguna->email."<br>
