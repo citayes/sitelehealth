@@ -728,7 +728,11 @@ class Admin extends CI_Controller {
 
 	 		$pengguna->where('username', $_SESSION['admin'])->get();
 	 		$jadwaljaga->where('id', $n)->update('admin_id', $pengguna->id);
-	 		redirect("admin/retrievejadwal");
+
+	 		$jadwaljaga->validate();
+	 		if($jadwaljaga->valid){
+	 			redirect("admin/retrievejadwal");
+	 			}
 		}
 
 		//$data['array'] = array('option' =>$option);

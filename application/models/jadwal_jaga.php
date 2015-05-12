@@ -7,7 +7,7 @@
     	),
     	'jam_selesai' => array(
      	'rules' => array('required', 'numeric')
-    	)
+    	),
     	'drg_ortodonti_id' => array(
      	'rules' => array('required')
     	)
