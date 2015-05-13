@@ -81,6 +81,9 @@
                                 <li>
                                     <a href="<?php echo base_url(); ?>index.php/admin/verify">Member Verification</a>
                                 </li>
+                                <li>
+                                    <a href="<?php echo base_url(); ?>index.php/admin/list_outbox">Outbox</a>
+                                </li>
                             </ul>
                         </li>
                         <li class="dropdown <?php echo $setting ?>">

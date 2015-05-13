@@ -788,5 +788,66 @@ class Admin extends CI_Controller {
 		$this->load->view('footer');
 	}
 
+	public function list_outbox(){
+		session_start();
+		if(!isset($_SESSION['admin']))
+			redirect ("homepage");
+		
+		$content="";
+		$mengirim = new mengirim();
+		$mengirim->get();
+		$pengguna = new pengguna;
+		$pengguna->where('username', $_SESSION['admin'])->get();		
+		$lala = $pengguna->id;
+		$pesan = new pesan();
+		$pesan->get();
+		$content.='<table class="table">
+				<tr>
+				<td><center><b>Id Penerima</center></b></td>
+				<td><center><b>Nama Penerima</center></b></td>
+				<td><center><b>Keterangan</center></b></td>
+				<td><center><b>Operation</center></b></td>
+			</tr>';
+		foreach($mengirim as $row){
+			//foreach ($pesan as $row1) {
+				if($row->umum_id!=null && $row->admin_id!=null){
+					$nama_penerima = new pengguna();
+					$nama_penerima->where('id', $row->umum_id)->get();
+					$content .= "<tr><td><center>".$row->umum_id."</center></a></td>
+									<td><center>".$nama_penerima->nama."</center></td>
+									<td><center>Reference and Diagnosis</center></td>
+									<td><center><a class='btn btn-primary' href='../drg/reference_drg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
+				}
+				else if($row->orto_id!=null && $row->admin_id!=null){
+					echo 'lala';
+					$nama_penerima1 = new pengguna();
+					$nama_penerima1->where('id', $row->orto_id)->get();
+					$content .= "<tr><td><center>".$row->orto_id."</center></a></td>
+									<td><center>".$nama_penerima1->nama."</center></td>
+									<td><center>Reference and Diagnosis</center></td>
+									<td><center><a class='btn btn-primary' href='../drg/reference_drg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
+				}
+
+			//}
+		} 
+		foreach ($pesan as $row) {
+				$nama_penerima = new pengguna();
+					$nama_penerima->where('id', $row->penerima_id)->get();
+					$content .= "<tr><td><center>".$row->penerima_id."</center></a></td>
+									<td><center>".$nama_penerima->nama."</center></td>
+									<td><center>Message</center></td>
+									<td><center><a class='btn btn-primary' href='../drg/reference_drg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
+		}
+		
+				
+		$content.='</table>';
+
+		$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => 'active', 'setting' => '', 'content'=>$content);
+		//$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'setting' => '');
+		$this->load->view('header-admin', $data['menu']);
+		$this->load->view('list_outbox');
+		$this->load->view('footer');
+	}
+
 }
 ?>
