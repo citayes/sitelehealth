@@ -58,14 +58,14 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="dropdown <?php echo $setting; ?>">
+<!--                         <li class="dropdown <?php echo $setting; ?>">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Messages<strong class="caret"></strong></a>
                             <ul class="dropdown-menu">
                                 <li>
                                     <a href="<?php echo base_url(); ?>index.php/orthodonti/send_message">Send Message</a>
                                 </li>
-                                <li class="dropdown <?php echo $setting; ?>">
-                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Inbox<strong class="caret"></strong></a>
+                                <li class="dropdown-submenu <?php echo $setting; ?>">
+                                     <a tabindex="-1" href="#">Inbox<strong class="caret"></strong></a>
                                         <ul class="dropdown-menu">
                                             <li>
                                                 <a href="<?php echo base_url(); ?>index.php/orthodonti/view_message">View Messages</a>
@@ -79,7 +79,25 @@
                                     <a href="<?php echo base_url(); ?>index.php/orthodonti/change">Outbox</a>
                                 </li>
                             </ul>
+                        </li> -->
+                        <li class="dropdown <?php echo $inbox; ?>">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Message<strong class="caret"></strong></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="<?php echo base_url(); ?>index.php/orthodonti/send_message">Create Message</a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo base_url(); ?>index.php/orthodonti/view_message1">Inbox-Reference</a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo base_url(); ?>index.php/orthodonti/view_message">Inbox-Message</a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo base_url(); ?>index.php/drg/change">Outbox</a>
+                                </li>
+                            </ul>
                         </li>
+
                         <li class="dropdown <?php echo $setting; ?>">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings<strong class="caret"></strong></a>
                             <ul class="dropdown-menu">

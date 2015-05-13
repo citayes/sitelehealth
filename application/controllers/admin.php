@@ -816,7 +816,7 @@ class Admin extends CI_Controller {
 					$content .= "<tr><td><center>".$row->umum_id."</center></a></td>
 									<td><center>".$nama_penerima->nama."</center></td>
 									<td><center>Reference and Diagnosis</center></td>
-									<td><center><a class='btn btn-primary' href='../drg/reference_drg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
+									<td><center><a class='btn btn-primary' href='../admin/view_reference_admin/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
 				}
 				else if($row->orto_id!=null && $row->admin_id!=null){
 					echo 'lala';
@@ -825,20 +825,21 @@ class Admin extends CI_Controller {
 					$content .= "<tr><td><center>".$row->orto_id."</center></a></td>
 									<td><center>".$nama_penerima1->nama."</center></td>
 									<td><center>Reference and Diagnosis</center></td>
-									<td><center><a class='btn btn-primary' href='../drg/reference_drg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
+									<td><center><a class='btn btn-primary' href='../drg/view_reference_admin/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
 				}
 
 			//}
 		} 
 		foreach ($pesan as $row) {
+			if($row->pengguna_id==$lala){
 				$nama_penerima = new pengguna();
 					$nama_penerima->where('id', $row->penerima_id)->get();
 					$content .= "<tr><td><center>".$row->penerima_id."</center></a></td>
 									<td><center>".$nama_penerima->nama."</center></td>
 									<td><center>Message</center></td>
-									<td><center><a class='btn btn-primary' href='../drg/reference_drg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
+									<td><center><a class='btn btn-primary' href='../admin/outbox_message_admin/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
 		}
-		
+		}
 				
 		$content.='</table>';
 
@@ -846,6 +847,226 @@ class Admin extends CI_Controller {
 		//$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'setting' => '');
 		$this->load->view('header-admin', $data['menu']);
 		$this->load->view('list_outbox');
+		$this->load->view('footer');
+	}
+
+		public function view_reference_admin($n){
+		  session_start();
+		  if(!isset($_SESSION['admin']))
+		  	redirect ("homepage");
+		
+		$pengguna = new pengguna();
+		$pengguna->where('username', $_SESSION['admin'])->get();
+		$mengirim = new mengirim();
+		$mengirim->where('id', $n)->get();
+		$analisis_id= $mengirim->analisis_id;
+		$analisis = new analisi();
+		$analisis->where('id', $analisis_id)->get();
+		$nama_pusat = new pengguna();
+		$nama_pusat->where('id', $mengirim->pusat_id)->get();
+		$nama_admin = new pengguna();
+		$nama_admin->where('id', $mengirim->admin_id)->get();
+		$nama_penerima = new pengguna();
+		$nama_penerima->where('id', $mengirim->umum_id)->get();
+		$nama_pasien = new pasien();
+		$nama_pasien->where('id', $analisis->pasien_id)->get();
+
+		$data['array'] = array('content' => '<tr><td><b>Recipient id</b></td><td>'.$mengirim->umum_id.'</td></tr>
+			<tr><td><b>Recipient name</b></td><td>'.$nama_penerima->nama.'</td></tr>
+			<tr><td><b>Date</b></td><td>'.$mengirim->tanggal.'</td></tr>
+			<tr><td><b>Admins name</b></td><td>'.$nama_admin->nama.'</td></tr>
+			<tr><td><b>FKG Doctors name</b></td><td>'.$nama_pusat->nama.'</td></tr>
+			<tr><td><b>Patients id</b></td><td>'.$analisis->pasien_id.'</td></tr>
+			<tr><td><b>Patients name</b></td><td>'.$nama_pasien->nama.'</td></tr>
+			<tr><td><b>PAR Scor</b></td><td>'.$analisis->skor.'</td></tr>
+			<tr><td><b>Maloklusi</b></td><td>'.$analisis->maloklusi_menurut_angka.'</td></tr>
+			<tr><td><b>Diagnosis</b></td><td>'.$analisis->diagnosis_rekomendasi.'</td></tr>
+			<tr><td><b>Kandidat 1</b></td><td>'.$mengirim->kandidat1.'</td></tr>
+			<tr><td><b>Kandidat 2</b></td><td>'.$mengirim->kandidat2.'</td></tr>
+			<tr><td><b>Kandidat 3</b></td><td>'.$mengirim->kandidat3.'</td></tr>
+			<tr><td><b>Kandidat 4</b></td><td>'.$mengirim->kandidat4.'</td></tr>
+			<tr><td><b>Kandidat 5</b></td><td>'.$mengirim->kandidat5.'</td></tr>');
+
+		$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => 'active', 'setting' => '');
+		$this->load->view('header-admin', $data['menu']);
+		$this->load->view('view_reference_admin', $data['array']);
+		$this->load->view('footer');
+	}
+
+	public function send_message_admin(){
+		session_start();
+		if(!isset($_SESSION['admin']))
+			redirect ("homepage");
+
+			$pengguna = new pengguna();
+			$pengguna->get();
+			$tujuan="";
+			foreach($pengguna as $row){
+				$tujuan .= "<option value='".$row->id."'>".$row->nama."</option>";
+			}
+
+		if($_SERVER['REQUEST_METHOD'] == 'POST'){
+			$subject = $_POST['subject'];
+			$isi = $_POST['isi'];
+
+			$pesan = new pesan();
+			$pengguna = new pengguna();
+
+			$pengguna->where('username', $_SESSION['admin'])->get();
+			$pesan->pengguna_id=$pengguna->id;
+			$pesan->penerima_id=$_POST['tujuan'];
+			$pesan->subject=$subject;
+			$pesan->isi=$isi;
+
+			$pesan->validate();
+			if($pesan->valid){
+				$pesan->save();	
+					$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => 'active', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+		  					<strong>Well done!</strong> Message has been sent.
+							</div>");
+			}
+			else{
+					$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => 'active', 'setting' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
+							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+		  					<strong>Message has been not sent</strong>".$pesan->error->subject."".$pesan->error->isi."".$pesan->error->penerima_id."
+							</div>");
+				  					
+				  			// 		
+									// </div>");
+			}
+			$data['array'] = array('content' => $tujuan);	
+			//$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');		
+			$this->load->view('header-admin', $data['menu']);
+			$this->load->view('send_message_admin', $data['array']);
+			$this->load->view('footer');
+			
+		}else{
+
+			$data['array'] = array('content' => $tujuan);	
+			$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => 'active', 'setting' => '');		
+			$this->load->view('header-admin', $data['menu']);
+			$this->load->view('send_message_admin', $data['array']);
+			$this->load->view('footer');
+		}
+
+	}
+
+
+
+	public function list_pengguna_admin(){
+ 	 session_start();
+		  if(!isset($_SESSION['admin']))
+		  	redirect ("homepage");
+			
+		$pengguna = new pengguna();
+		$pengguna->get();
+		if($pengguna->result_count()!=0){
+			$content = "<table class='table table-hover'>";
+			$content .="<tr>
+							<td><center><b><strong>Position</strong></b></center></td>
+							<td><center><b><strong>Name</strong></b></center></td>
+							<td><center><b><strong>Action</strong></b></center></td>
+							</tr>";
+			foreach($pengguna as $row){
+
+					$content .= "<tr>
+									<td><center>".$row->role."</center></td>
+									<td><center>".$row->nama."</center></td>
+									<td><center><a class='btn btn-primary' href='../admin/send_message_admin/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a> </center></td>
+								</tr>";
+				
+			}
+			$content .= "</table>";
+			$data['array']=array('content'=> $content);
+		}
+
+		$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => 'active', 'setting' => '');
+		$this->load->view('header-admin', $data['menu']);
+		$this->load->view('list_pengguna_admin', $data['array']);
+		$this->load->view('footer');
+
+	}
+
+	public function view_message_admin(){
+		session_start();
+		if(!isset($_SESSION['admin']))
+			redirect ("homepage");
+		$content="";
+		$pesan = new pesan();
+		$pesan->get();
+
+		$pengguna = new pengguna;
+		$pengguna->where('username', $_SESSION['admin'])->get();		
+ 		$idPengguna = $pengguna->id;
+		$content .= '<table class="table">
+				<tr>
+					<td><center><b>From</center></b></td>
+					<td><center><b>Subject</center></b></td>
+					<td><center><b>Action</center></b></td>
+				</tr>';				
+		foreach($pesan as $row){
+			if($row->penerima_id==$idPengguna){
+				$nama_pengirim = new pengguna();
+				$nama_pengirim->where('id', $row->pengguna_id)->get();
+				$content .= "<tr><td><center>".$nama_pengirim->nama."</center></a></td>
+								<td><center>".$row->subject."</center></td>
+								<td><center><a class='btn btn-primary' href='../admin/detail_message_admin/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a></center></td>
+							</tr>";
+			}
+		}
+		$content.='</table>';
+		
+		$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => 'active', 'setting' => '', 'content'=>$content);
+		$this->load->view('header-admin', $data['menu']);
+		$this->load->view('view_message_admin');
+		$this->load->view('footer');
+	}
+	
+		public function detail_message_admin($n){
+		 session_start();
+		 if(!isset($_SESSION['admin']))
+			redirect ("homepage");
+
+		$pesan = new pesan();
+		$pesan->where('id', $n)->get();
+		$pengguna = new pengguna();
+		$pengguna->where('id',$pesan->pengguna_id)->get();
+		$data['array'] = array('content' => '<tr><td><b>Subject</b></td><td>'.$pesan->subject.'</td></tr>
+			<tr><td><b>Sender</b></td><td>'.$pengguna->nama.'</td></tr>
+			<tr><td><b>Message</b></td><td>'.$pesan->isi.'</td></tr>
+			</td></tr>');
+
+
+		$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => 'active', 'setting' => '');
+		$this->load->view('header-admin', $data['menu']);
+		$this->load->view('detail_message_admin', $data['array']); 
+		$this->load->view('footer');
+	}
+
+		public function outbox_message_admin($n){
+		 session_start();
+		 if(!isset($_SESSION['admin']))
+			redirect ("homepage");
+
+		$pesan = new pesan();
+		$pesan->where('id', $n)->get();
+		$pengguna = new pengguna();
+		$pengguna->where('id',$pesan->pengguna_id)->get();
+		$nama_penerima = new pengguna();
+		$nama_penerima->where('id', $pesan->penerima_id)->get();
+
+		$data['array'] = array('content' => '<tr><td><b>Recipient id</b></td><td>'.$pesan->penerima_id.'</td></tr>
+			<tr><td><b>Recipient Name</b></td><td>'.$nama_penerima->nama.'</td></tr>
+			<tr><td><b>Subject</b></td><td>'.$pesan->subject.'</td></tr>
+			<tr><td><b>Sender</b></td><td>'.$pengguna->nama.'</td></tr>
+			<tr><td><b>Message</b></td><td>'.$pesan->isi.'</td></tr>
+			</td></tr>');
+
+
+		$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => 'active', 'setting' => '');
+		$this->load->view('header-admin', $data['menu']);
+		$this->load->view('outbox_message_admin', $data['array']); 
 		$this->load->view('footer');
 	}
 

@@ -56,8 +56,22 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="<?php echo $inbox; ?>">
-                            <a href="<?php echo base_url(); ?>index.php/drg/list_reference_drg">Inbox</a>
+                        <li class="dropdown <?php echo $inbox; ?>">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Message<strong class="caret"></strong></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="<?php echo base_url(); ?>index.php/drg/change">Create Message</a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo base_url(); ?>index.php/drg/list_reference_drg">Inbox-Reference</a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo base_url(); ?>index.php/drg/change">Inbox-Message</a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo base_url(); ?>index.php/drg/change">Outbox</a>
+                                </li>
+                            </ul>
                         </li>
                         <li class="dropdown <?php echo $setting; ?>">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings<strong class="caret"></strong></a>

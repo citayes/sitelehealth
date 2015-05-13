@@ -73,19 +73,26 @@
                             </ul>
                         </li>
                         <li class="dropdown <?php echo $inbox ?>">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Inbox<strong class="caret"></strong></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Message<strong class="caret"></strong></a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="<?php echo base_url(); ?>index.php/admin/diagnosa">Diagnose</a>
+                                    <a href="<?php echo base_url(); ?>index.php/admin/send_message_admin">Create Message</a>
+                                </li> 
+                                <li>
+                                    <a href="<?php echo base_url(); ?>index.php/admin/diagnosa">Inbox-Diagnose</a>
                                 </li>                           
                                 <li>
-                                    <a href="<?php echo base_url(); ?>index.php/admin/verify">Member Verification</a>
+                                    <a href="<?php echo base_url(); ?>index.php/admin/verify">Inbox-Member Verification</a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo base_url(); ?>index.php/admin/view_message_admin">Inbox-Message</a>
                                 </li>
                                 <li>
                                     <a href="<?php echo base_url(); ?>index.php/admin/list_outbox">Outbox</a>
                                 </li>
                             </ul>
                         </li>
+
                         <li class="dropdown <?php echo $setting ?>">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings<strong class="caret"></strong></a>
                             <ul class="dropdown-menu">
