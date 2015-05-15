@@ -92,6 +92,24 @@
 										</div>
 									</div>
 									<div class="form-group">
+									<label class="col-sm-3 control-label" for="latitude">Latitude</label>
+										<div class="col-sm-9">
+											<input id="latitude" type="text" class="form-control" name="Latitude" disabled>
+										</div>
+									</div>
+									<div class="form-group">
+									<label class="col-sm-3 control-label" for="longitude">Longitude</label>
+										<div class="col-sm-9">
+											<input id="longitude" type="text" class="form-control" name="Longitude" disabled>
+										</div>
+									</div>
+									<div class="form-group">
+									<label class="col-sm-3 control-label" for="location"></label>
+										<div class="col-sm-9">
+											<button class="btn btn-danger btn-sm"onclick="getLocation()">Get Current Location</button>
+										</div>
+									</div>
+									<div class="form-group">
 									<label class="col-sm-3 control-label" for="role">Daftar Sebagai</label>
 										<div class="col-sm-9">
 											<input type="radio" name="Role"  value='orthodonti'>Dokter Gigi Spesialis Orthodonti</input>
@@ -115,8 +133,7 @@
 		<!-- ./span12 -->
 	</div>
 </div>
-<br>
-<br>
+
 
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/js/jquery-1.8.3.min.js" charset="UTF-8"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/js/bootstrap.min.js"></script>
@@ -133,4 +150,23 @@
   minView: 2,
   forceParse: 0
     });
+</script>
+
+<script>
+var x = document.getElementById("latitude");
+var y = document.getElementById("longitude");
+
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else { 
+        x.innerHTML = "Geolocation is not supported by this browser.";
+        y.innerHTML = "Geolocation is not supported by this browser.";
+    }
+}
+
+function showPosition(position) {
+    x.value = position.coords.latitude;
+    y.value = position.coords.longitude;	
+}
 </script>
