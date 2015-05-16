@@ -1,9 +1,6 @@
 <?php
 	class mengirim extends DataMapper {
 	var $validation = array(
-    	'tanggal' => array(
-     	'rules' => array('required', 'valid_date')
-    	),
     	'kandidat1' => array(
      	'rules' => array('required', 'max_length' => 100)
     	),

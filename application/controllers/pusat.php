@@ -622,6 +622,8 @@ public function retrievejadwalp(){
 			redirect ("homepage");
 		
 		$content="";
+		$content1="";
+		$content2="";
 		$mengirim = new mengirim();
 		$mengirim->get();
 		$pengguna = new pengguna;
@@ -634,7 +636,21 @@ public function retrievejadwalp(){
 
 		$content.='<table class="table">
 				<tr>
-				<td><center><b>Id Penerima</center></b></td>
+				<td><center><b>Waktu</center></b></td>
+				<td><center><b>Nama Penerima</center></b></td>
+				<td><center><b>Keterangan</center></b></td>
+				<td><center><b>Operation</center></b></td>
+			</tr>';
+				$content1.='<table class="table">
+				<tr>
+				<td><center><b>Waktu</center></b></td>
+				<td><center><b>Nama Penerima</center></b></td>
+				<td><center><b>Keterangan</center></b></td>
+				<td><center><b>Operation</center></b></td>
+			</tr>';
+				$content2.='<table class="table">
+				<tr>
+				<td><center><b>Waktu</center></b></td>
 				<td><center><b>Nama Penerima</center></b></td>
 				<td><center><b>Keterangan</center></b></td>
 				<td><center><b>Operation</center></b></td>
@@ -644,7 +660,7 @@ public function retrievejadwalp(){
 				if($row->admin_id==null && $row->pusat_id==$lala && $row->umum_id!=null){
 					$nama_penerima = new pengguna();
 					$nama_penerima->where('id', $row->umum_id)->get();
-					$content .= "<tr><td><center>".$row->umum_id."</center></a></td>
+					$content .= "<tr><td><center>".$row->waktu."</center></a></td>
 									<td><center>".$nama_penerima->nama."</center></td>
 									<td><center>Reference and Diagnosis</center></td>
 									<td><center><a class='btn btn-primary' href='../pusat/view_reference_fkg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
@@ -653,7 +669,7 @@ public function retrievejadwalp(){
 					echo 'lala';
 					$nama_penerima1 = new pengguna();
 					$nama_penerima1->where('id', $row->orto_id)->get();
-					$content .= "<tr><td><center>".$row->orto_id."</center></a></td>
+					$content .= "<tr><td><center>".$row->waktu."</center></a></td>
 									<td><center>".$nama_penerima1->nama."</center></td>
 									<td><center>Reference and Diagnosis</center></td>
 									<td><center><a class='btn btn-primary' href='../pusat/view_reference_fkg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
@@ -665,7 +681,7 @@ public function retrievejadwalp(){
 			if($row->pengguna_id==$lala){
 				$nama_penerima = new pengguna();
 					$nama_penerima->where('id', $row->penerima_id)->get();
-					$content .= "<tr><td><center>".$row->penerima_id."</center></a></td>
+					$content1 .= "<tr><td><center>".$row->waktu."</center></a></td>
 									<td><center>".$nama_penerima->nama."</center></td>
 									<td><center>Message</center></td>
 									<td><center><a class='btn btn-primary' href='../pusat/outbox_message_fkg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
@@ -677,7 +693,7 @@ public function retrievejadwalp(){
 				if($row->flag_mengirim==1 && $row->orto_id==$lala){
 					$nama_penerima = new pengguna();
 					$nama_penerima->where('id', '123142')->get();
-					$content .= "<tr><td><center>".$nama_penerima->id."</center></a></td>
+					$content2 .= "<tr><td><center>".$row->waktu."</center></a></td>
 									<td><center>".$nama_penerima->nama."</center></td>
 									<td><center>Diagnosis To Admin</center></td>
 									<td><center><a class='btn btn-primary' href='../pusat/view_diagnosis_fkg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
@@ -685,8 +701,10 @@ public function retrievejadwalp(){
 		}
 				
 		$content.='</table>';
+		$content1.='</table>';
+		$content2.='</table>';
 
-		$data['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> '', 'inbox' => 'active', 'setting' => '', 'content'=>$content);
+		$data['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> '', 'inbox' => 'active', 'setting' => '', 'content'=>$content, 'content1'=>$content1, 'content2'=>$content2);
 		//$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'setting' => '');
 		$this->load->view('header-pusat', $data['menu']);
 		$this->load->view('list_outbox_fkg');

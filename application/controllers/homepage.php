@@ -121,8 +121,22 @@ class Homepage extends CI_Controller {
 						$pengguna->role = $Role;
 						$pengguna->email = $Email;
 						$pengguna->role = $Role;
-						$pengguna->save();
+						
+						$pengguna->validate();
+						if($pengguna->valid){
+							$pengguna->save();
+							$pengguna->where('username', $Username)->get();
+							$dokter_gigi->pengguna_id = $pengguna->id;
+							$dokter_gigi->kursus = $Kursus;
+							$dokter_gigi->pendidikan_dokter = $Pendidikan;
+							$dokter_gigi->alamat_prakitk = $Alamat;
+							$dokter_gigi->kode_pos = $Kode_pos;
+							
+							$dokter_gigi->validate();
+							if($dokter_gigi->valid){
+								$dokter_gigi->save();
 
+<<<<<<< Updated upstream
 						$pengguna->where('username', $Username)->get();
 						$dokter_gigi->pengguna_id = $pengguna->id;
 						$dokter_gigi->kursus = $Kursus;
@@ -145,17 +159,51 @@ class Homepage extends CI_Controller {
 							$this->load->view('header-home', $data['menu']);
 							$this->load->view('signup');
 							$this->load->view('footer');
+=======
+								if($Role=='umum'){
+									$drg_lain->pengguna_id=$pengguna->id;
+									$drg_lain->kursus_orthodonti=$Kursus;
+									$drg_lain->jadwal_praktik='n';
+									$drg_lain->save();
+									
+									$data['menu'] = array('home' => '', 'signin' => '', 'signup' => 'active', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+			  						<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+			  						<strong>Well done!</strong> You successfully registered. Please wait. Your account will be verified soon.
+									</div>");
+									$this->load->view('header-home', $data['menu']);
+									$this->load->view('signup');
+									$this->load->view('footer');
+								}else{
+									$drg_ortodonti->doktergigi_id=$pengguna->id;
+									$drg_ortodonti->save();
+									$data['menu'] = array('home' => '', 'signin' => '', 'signup' => 'active', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+			  						<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+			  						<strong>Well done!</strong> You successfully registered. Please wait. Your account will be verified soon.
+									</div>");
+									$this->load->view('header-home', $data['menu']);
+									$this->load->view('signup');
+									$this->load->view('footer');		
+								}
+							}else{
+									$data['menu'] = array('home' => '', 'signin' => '', 'signup' => 'active', 'status'=> "<div class='alert alert-warning alert-dismissible' role='alert'>
+			  						<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+			  						<strong>Well done!</strong> Your account not been verified.".$dokter_gigi->error->kursus."".$dokter_gigi->error->pendidikan_dokter."".$dokter_gigi->error->alamat_prakitk."".$dokter_gigi->error->kode_pos."
+									</div>");
+									$this->load->view('header-home', $data['menu']);
+									$this->load->view('signup');
+									$this->load->view('footer');
+							}
+>>>>>>> Stashed changes
 						}else{
-							$drg_ortodonti->doktergigi_id=$pengguna->id;
-							$drg_ortodonti->save();
-							$data['menu'] = array('home' => '', 'signin' => '', 'signup' => 'active', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
-	  						<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-	  						<strong>Well done!</strong> You successfully registered. Please wait. Your account will be verified soon.
-							</div>");
-							$this->load->view('header-home', $data['menu']);
-							$this->load->view('signup');
-							$this->load->view('footer');		
+							$data['menu'] = array('home' => '', 'signin' => '', 'signup' => 'active', 'status'=> "<div class='alert alert-warning alert-dismissible' role='alert'>
+			  						<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+			  						<strong>Your account not been verified.</strong>".$pengguna->error->username."".$pengguna->error->password."".$pengguna->error->email."".$pengguna->error->nama."".$pengguna->error->email."".$pengguna->error->tanggal_lahir."".$pengguna->error->tempat_lahir."".$pengguna->error->warga_negara."".$pengguna->error->jenis_kelamin."".$pengguna->error->agama."".$pengguna->error->role."
+									</div>");
+									$this->load->view('header-home', $data['menu']);
+									$this->load->view('signup');
+									$this->load->view('footer');
 						}
+						
 					}else{
 						$data['menu'] = array('home' => '', 'signin' => '', 'signup' => 'active', 'status'=> "<div class='alert alert-warning alert-dismissible' role='alert'>
 	  					<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
