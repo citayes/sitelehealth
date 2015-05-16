@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 16, 2015 at 10:39 AM
+-- Generation Time: May 16, 2015 at 11:47 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.5.19
 
@@ -102,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `dokter_gigis` (
   `pendidikan_dokter` varchar(20) NOT NULL,
   `alamat_prakitk` varchar(20) NOT NULL,
   `kode_pos` int(5) NOT NULL,
-  `langitude` varchar(50) NOT NULL,
+  `longitude` varchar(50) NOT NULL,
   `latitude` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -110,7 +110,7 @@ CREATE TABLE IF NOT EXISTS `dokter_gigis` (
 -- Dumping data for table `dokter_gigis`
 --
 
-INSERT INTO `dokter_gigis` (`pengguna_id`, `kursus`, `pendidikan_dokter`, `alamat_prakitk`, `kode_pos`, `langitude`, `latitude`) VALUES
+INSERT INTO `dokter_gigis` (`pengguna_id`, `kursus`, `pendidikan_dokter`, `alamat_prakitk`, `kode_pos`, `longitude`, `latitude`) VALUES
 (123142, '', '', '', 0, '', ''),
 (123154, 'Kursus mobil', 'SMA', 'tes', 222, '', ''),
 (123155, 'Kursus mobil', 'SMA', 'lakdasda', 12345, '', ''),
@@ -396,7 +396,7 @@ INSERT INTO `pesans` (`id`, `subject`, `isi`, `waktu`, `pengguna_id`, `penerima_
 CREATE TABLE IF NOT EXISTS `rujukans` (
 `id` int(11) NOT NULL,
   `orto_id` int(11) NOT NULL,
-  `pusat_id` int(11) NOT NULL,
+  `pengirim_id` int(11) NOT NULL,
   `pasien_id` int(11) NOT NULL,
   `analisi_id` int(11) NOT NULL,
   `waktu` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -407,7 +407,7 @@ CREATE TABLE IF NOT EXISTS `rujukans` (
 -- Dumping data for table `rujukans`
 --
 
-INSERT INTO `rujukans` (`id`, `orto_id`, `pusat_id`, `pasien_id`, `analisi_id`, `waktu`, `pesan`) VALUES
+INSERT INTO `rujukans` (`id`, `orto_id`, `pengirim_id`, `pasien_id`, `analisi_id`, `waktu`, `pesan`) VALUES
 (1, 123155, 123154, 7, 75, '2015-05-16 04:41:04', NULL),
 (2, 123166, 123154, 28, 77, '2015-05-16 04:41:04', NULL),
 (3, 123155, 123154, 7, 75, '2015-05-16 04:41:04', NULL),
@@ -493,7 +493,7 @@ ALTER TABLE `pesans`
 -- Indexes for table `rujukans`
 --
 ALTER TABLE `rujukans`
- ADD PRIMARY KEY (`id`), ADD KEY `orto_id` (`orto_id`), ADD KEY `pusat_id` (`pusat_id`), ADD KEY `pasien_id` (`pasien_id`), ADD KEY `analisi_id` (`analisi_id`);
+ ADD PRIMARY KEY (`id`), ADD KEY `orto_id` (`orto_id`), ADD KEY `pusat_id` (`pengirim_id`), ADD KEY `pasien_id` (`pasien_id`), ADD KEY `analisi_id` (`analisi_id`), ADD KEY `pengirim_id` (`pengirim_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -630,9 +630,9 @@ ADD CONSTRAINT `pesans_ibfk_2` FOREIGN KEY (`penerima_id`) REFERENCES `penggunas
 --
 ALTER TABLE `rujukans`
 ADD CONSTRAINT `rujukans_ibfk_1` FOREIGN KEY (`orto_id`) REFERENCES `drg_ortodontis` (`doktergigi_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT `rujukans_ibfk_2` FOREIGN KEY (`pusat_id`) REFERENCES `drg_ortodontis` (`doktergigi_id`) ON DELETE CASCADE ON UPDATE CASCADE,
 ADD CONSTRAINT `rujukans_ibfk_3` FOREIGN KEY (`pasien_id`) REFERENCES `pasiens` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT `rujukans_ibfk_4` FOREIGN KEY (`analisi_id`) REFERENCES `analisis` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `rujukans_ibfk_4` FOREIGN KEY (`analisi_id`) REFERENCES `analisis` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `rujukans_ibfk_5` FOREIGN KEY (`pengirim_id`) REFERENCES `dokter_gigis` (`pengguna_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
