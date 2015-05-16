@@ -888,5 +888,244 @@ function do_upload(){
 		$this->load->view('footer');
 	}
 
+	public function list_outbox_orthodonti(){
+		session_start();
+		if(!isset($_SESSION['orthodonti']))
+			redirect ("homepage");
+		
+		$content="";
+		$content1="";
+		$content2="";
+		$merawat = new merawat();
+		$merawat->get();
+		$pengguna = new pengguna;
+		$pengguna->where('username', $_SESSION['orthodonti'])->get();		
+		$lala = $pengguna->id;
+		$pesan = new pesan();
+		$pesan->get();
+		$rujukan = new rujukan();
+		$rujukan->get();
+
+		$content.='<table class="table">
+				<tr>
+				<td><center><b>Id Penerima</center></b></td>
+				<td><center><b>Nama Penerima</center></b></td>
+				<td><center><b>Keterangan</center></b></td>
+				<td><center><b>Operation</center></b></td>
+			</tr>';
+			$content1.='<table class="table">
+				<tr>
+				<td><center><b>Id Penerima</center></b></td>
+				<td><center><b>Nama Penerima</center></b></td>
+				<td><center><b>Keterangan</center></b></td>
+				<td><center><b>Operation</center></b></td>
+			</tr>';
+			$content2.='<table class="table">
+				<tr>
+				<td><center><b>Id Penerima</center></b></td>
+				<td><center><b>Nama Penerima</center></b></td>
+				<td><center><b>Keterangan</center></b></td>
+				<td><center><b>Operation</center></b></td>
+			</tr>';
+		foreach($merawat->order_by('id', 'desc')->get() as $row){
+
+
+			//foreach ($pesan as $row1) {
+				if($row->flag_outbox!=1){
+					// $nama_penerima = new pengguna();
+					// $nama_penerima->where('id', $row->pusat_id)->get();
+					$content .= "<tr><td><center>".$row->waktu."</center></a></td>
+									<td><center>FKG UI</center></td>
+									<td><center>Send Patient to FKG UI</center></td>
+									<td><center><a class='btn btn-primary' href='../orthodonti/view_merawat_orthodonti/".$row->pasien_id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
+				}
+				else if($row->flag_outbox==1){
+					// $nama_penerima = new pengguna();
+					// $nama_penerima->where('id', $row->pusat_id)->get();
+					$content .= "<tr><td><b><center>".$row->waktu."</center></b></a></td>
+									<td><b><center>FKG UI</center></b></td>
+									<td><b><center>Send Patient to FKG UI</center></b></td>
+									<td><b><center><a class='btn btn-primary' href='../orthodonti/view_merawat_orthodonti/".$row->pasien_id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></b></td></tr>";
+				}
+		} 
+		foreach ($pesan->order_by('id', 'desc')->get() as $row) {
+			if($row->pengguna_id==$lala && $row->flag_outbox!=1){
+				$nama_penerima = new pengguna();
+					$nama_penerima->where('id', $row->penerima_id)->get();
+					$content1 .= "<tr><td><center>".$row->waktu."</center></a></td>
+									<td><center>".$nama_penerima->nama."</center></td>
+									<td><center>Message</center></td>
+									<td><center><a class='btn btn-primary' href='../orthodonti/outbox_message_orthodonti/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
+			}
+			else if($row->pengguna_id==$lala && $row->flag_outbox==1){
+				$nama_penerima = new pengguna();
+					$nama_penerima->where('id', $row->penerima_id)->get();
+					$content1 .= "<tr><td><b><center>".$row->waktu."</center></b></a></td>
+									<td><b><center>".$nama_penerima->nama."</center></b></td>
+									<td><b><center>Message</center></b></td>
+									<td><center><b><a class='btn btn-primary' href='../orthodonti/outbox_message_orthodonti/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a><b></center></td></tr>";
+			}
+		}
+
+		foreach($rujukan->order_by('id', 'desc')->get() as $row){
+			//foreach ($pesan as $row1) {
+				if($row->pusat_id==$lala && $row->flag_outbox!=1){
+					$nama_penerima = new pengguna();
+					$nama_penerima->where('id', $row->orto_id )->get();
+					$content2 .= "<tr><td><center>".$row->waktu."</center></a></td>
+									<td><center>".$nama_penerima->nama."</center></td>
+									<td><center>Send Reference</center></td>
+									<td><center><a class='btn btn-primary' href='../orthodonti/view_rujukan_orthodonti/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
+			}
+			if($row->pusat_id==$lala && $row->flag_outbox==1){
+					$nama_penerima = new pengguna();
+					$nama_penerima->where('id', $row->orto_id )->get();
+					$content2 .= "<tr><td><b><center>".$row->waktu."</center></b></a></td>
+									<td><b><center>".$nama_penerima->nama."</center></b></td>
+									<td><b><center>Send Reference</center></b></td>
+									<td><b><center><a class='btn btn-primary' href='../orthodonti/view_rujukan_orthodonti/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></b></td></tr>";
+			}
+		}
+				
+		$content.='</table>';
+		$content1.='</table>';
+		$content2.='</table>';
+
+		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'setting' => '', 'content'=>$content, 'content1'=>$content1, 'content2'=>$content2);
+		//$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'setting' => '');
+		$this->load->view('header-orthodonti', $data['menu']);
+		$this->load->view('list_outbox_orthodonti');
+		$this->load->view('footer');
+	}
+
+		public function view_merawat_orthodonti($n){
+		  session_start();
+		  if(!isset($_SESSION['orthodonti']))
+		  	redirect ("homepage");
+		
+		$pengguna = new pengguna();
+		$pengguna->where('username', $_SESSION['orthodonti'])->get();
+		$merawat = new merawat();
+		$merawat->where('pasien_id', $n)->get();
+		$pasien_id= $merawat->pasien_id;
+		$pasien = new pasien();
+		$pasien->where('id', $pasien_id)->get();
+		// $nama_pusat = new pengguna();
+		// $nama_pusat->where('id', $mengirim->pusat_id)->get();
+		// $nama_admin = new pengguna();
+		// $nama_admin->where('id', $mengirim->admin_id)->get();
+		// $nama_penerima = new pengguna();
+		// $nama_penerima->where('id', $mengirim->umum_id)->get();
+		// $nama_pasien = new pasien();
+		// $nama_pasien->where('id', $merawat->pasien_id)->get();
+		$splitTimeStamp = explode(" ",$merawat->waktu);
+		$date = $splitTimeStamp[0];
+		$time = $splitTimeStamp[1];
+
+		$merawat1 = new merawat();
+		$merawat1->where('id', $n)->update('flag_outbox', '2');
+
+		$data['array'] = array('content' => '<tr><td><b>Date</b></td><td>'.$date.'</td></tr>
+			<tr><td><b>Time</b></td><td>'.$time.'</td></tr>
+			<tr><td><b>Recipient name</b></td><td>FKG UI</td></tr>
+			<tr><td><b>Patients id</b></td><td>'.$merawat->pasien_id.'</td></tr>
+			<tr><td><b>Patients name</b></td><td>'.$pasien->nama.'</td></tr>
+			<tr><td><b>Patient Birth Date</b></td><td>'.$pasien->tanggal_lahir.'</td></tr>
+			<tr><td><b>Patient Age</b></td><td>'.$pasien->umur.'</td></tr>
+			<tr><td><b>Patient Height</b></td><td>'.$pasien->tinggi.'</td></tr>
+			<tr><td><b>Patient Weight</b></td><td>'.$pasien->berat.'</td></tr>
+			<tr><td><b>Patient Gender</b></td><td>'.$pasien->jenis_kelamin.'</td></tr>
+			');
+
+		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'setting' => '');
+		$this->load->view('header-orthodonti', $data['menu']);
+		$this->load->view('view_merawat_orthodonti', $data['array']);
+		$this->load->view('footer');
+	}
+
+			public function outbox_message_orthodonti($n){
+		 session_start();
+		 if(!isset($_SESSION['orthodonti']))
+			redirect ("homepage");
+
+		$pesan = new pesan();
+		$pesan->where('id', $n)->get();
+		$pengguna = new pengguna();
+		$pengguna->where('id',$pesan->pengguna_id)->get();
+		$nama_penerima = new pengguna();
+		$nama_penerima->where('id', $pesan->penerima_id)->get();
+		//var_dump($pesan->waktu);
+		$splitTimeStamp = explode(" ",$pesan->waktu);
+		$date = $splitTimeStamp[0];
+		$time = $splitTimeStamp[1];
+
+		$pesan1 = new pesan();
+		$pesan1->where('id', $n)->update('flag_outbox', '2');
+		//var_dump($date);
+
+		$data['array'] = array('content' => '<tr><td><b>Date</b></td><td>'.$date.'</td></tr>
+			<tr><td><b>Time</b></td><td>'.$time.'</td></tr>
+			<tr><td><b>Recipient id</b></td><td>'.$pesan->penerima_id.'</td></tr>
+			<tr><td><b>Recipient Name</b></td><td>'.$nama_penerima->nama.'</td></tr>
+			<tr><td><b>Subject</b></td><td>'.$pesan->subject.'</td></tr>
+			<tr><td><b>Sender</b></td><td>'.$pengguna->nama.'</td></tr>
+			<tr><td><b>Message</b></td><td>'.$pesan->isi.'</td></tr>
+			</td></tr>');
+
+
+		$data['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> '', 'inbox' => 'active', 'setting' => '');
+		$this->load->view('header-orthodonti', $data['menu']);
+		$this->load->view('outbox_message_orthodonti', $data['array']); 
+		$this->load->view('footer');
+	}
+
+	public function view_rujukan_orthodonti($n){
+		  session_start();
+		  if(!isset($_SESSION['drg']))
+		  	redirect ("homepage");
+		
+		$pengguna = new pengguna();
+		$pengguna->where('username', $_SESSION['drg'])->get();
+		$rujukan = new rujukan();
+		$rujukan->where('id', $n)->get();
+		$pasien_id= $rujukan->pasien_id;
+		$pasien = new pasien();
+		$pasien->where('id', $pasien_id)->get();
+		$analisi = new analisi();
+		$analisi->where('id', $rujukan->analisi_id)->get();
+		$pengguna1 = new pengguna();
+		$pengguna1->where('id', $rujukan->orto_id)->get();
+		$splitTimeStamp = explode(" ",$rujukan->waktu);
+		$date = $splitTimeStamp[0];
+		$time = $splitTimeStamp[1];
+
+		$rujukan1 = new pesan();
+		$rujukan1->where('id', $n)->update('flag_outbox', '2');
+
+		$data['array'] = array('content' => '<tr><td><b>Date</b></td><td>'.$date.'</td></tr>
+			<tr><td><b>Time</b></td><td>'.$time.'</td></tr>
+			<tr><td><b>Recipient ID</b></td><td>'.$rujukan->orto_id.'</td></tr>
+			<tr><td><b>Recipient name</b></td><td>'.$pengguna1->nama.'</td></tr>
+			<tr><td><b>Date</b></td><td>'.$rujukan->waktu.'</td></tr>
+			<tr><td><b>Date</b></td><td>'.$rujukan->pesan.'</td></tr>
+			<tr><td><b>Patients id</b></td><td>'.$rujukan->pasien_id.'</td></tr>
+			<tr><td><b>Patients name</b></td><td>'.$pasien->nama.'</td></tr>
+			<tr><td><b>Patient Birth Date</b></td><td>'.$pasien->tanggal_lahir.'</td></tr>
+			<tr><td><b>Patient Age</b></td><td>'.$pasien->umur.'</td></tr>
+			<tr><td><b>Patient Height</b></td><td>'.$pasien->tinggi.'</td></tr>
+			<tr><td><b>Patient Weight</b></td><td>'.$pasien->berat.'</td></tr>
+			<tr><td><b>Patient Gender</b></td><td>'.$pasien->jenis_kelamin.'</td></tr>
+			<tr><td><b>Patient Diagnosis from</b></td><td>'.$analisi->orto_id.'</td></tr>
+			<tr><td><b>Patient Par Scor</b></td><td>'.$analisi->skor.'</td></tr>
+			<tr><td><b>Patient Maloclution</b></td><td>'.$analisi->maloklusi_menurut_angka.'</td></tr>
+			<tr><td><b>Patient Diagnosis</b></td><td>'.$analisi->diagnosis_rekomendasi.'</td></tr>
+			');
+
+		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'setting' => '');
+		$this->load->view('header-orthodonti', $data['menu']);
+		$this->load->view('view_rujukan_orthodonti', $data['array']);
+		$this->load->view('footer');
+	}
+
 }
 ?>

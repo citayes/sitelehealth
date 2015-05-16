@@ -74,7 +74,7 @@
                                     <a href="<?php echo base_url(); ?>index.php/orthodonti/list_reference">Inbox-Reference from FKG UI</a>
                                 </li>
                                 <li>
-                                    <a href="<?php echo base_url(); ?>index.php/drg/change">Outbox</a>
+                                    <a href="<?php echo base_url(); ?>index.php/orthodonti/list_outbox_orthodonti">Outbox</a>
                                 </li>
                             </ul>
                         </li>

@@ -985,7 +985,7 @@ class DRG extends CI_Controller {
 
 
 		$data['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> '', 'inbox' => 'active', 'setting' => '');
-		$this->load->view('header-pusat', $data['menu']);
+		$this->load->view('header-drg', $data['menu']);
 		$this->load->view('outbox_message_drg', $data['array']); 
 		$this->load->view('footer');
 	}
@@ -1034,7 +1034,7 @@ class DRG extends CI_Controller {
 
 		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'setting' => '');
 		$this->load->view('header-drg', $data['menu']);
-		$this->load->view('view_merawat_drg', $data['array']);
+		$this->load->view('view_rujukan_drg', $data['array']);
 		$this->load->view('footer');
 	}
 
