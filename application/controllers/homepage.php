@@ -119,8 +119,6 @@ class Homepage extends CI_Controller {
 						$pengguna->fverifikasi = 'n';
 						$pengguna->email = $Email;
 						$pengguna->role = $Role;
-						$pengguna->email = $Email;
-						$pengguna->role = $Role;
 						
 						$pengguna->validate();
 						if($pengguna->valid){

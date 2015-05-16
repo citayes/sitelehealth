@@ -825,21 +825,29 @@ class DRG extends CI_Controller {
 				<td><center><b>Keterangan</center></b></td>
 				<td><center><b>Operation</center></b></td>
 			</tr>';
-		foreach($merawat as $row){
+		foreach($merawat->order_by('id', 'desc')->get() as $row){
 
 
 			//foreach ($pesan as $row1) {
-				//if($row->umum_id!=null){
+				if($row->flag_outbox!=1){
 					// $nama_penerima = new pengguna();
 					// $nama_penerima->where('id', $row->pusat_id)->get();
 					$content .= "<tr><td><center>".$row->waktu."</center></a></td>
 									<td><center>FKG UI</center></td>
 									<td><center>Send Patient to FKG UI</center></td>
 									<td><center><a class='btn btn-primary' href='../drg/view_merawat_drg/".$row->pasien_id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
-				//}
+				}
+				else if($row->flag_outbox==1){
+					// $nama_penerima = new pengguna();
+					// $nama_penerima->where('id', $row->pusat_id)->get();
+					$content .= "<tr><td><b><center>".$row->waktu."</center></b></a></td>
+									<td><b><center>FKG UI</center></b></td>
+									<td><b><center>Send Patient to FKG UI</center></b></td>
+									<td><b><center><a class='btn btn-primary' href='../drg/view_merawat_drg/".$row->pasien_id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></b></td></tr>";
+				}
 		} 
-		foreach ($pesan as $row) {
-			if($row->pengguna_id==$lala){
+		foreach ($pesan->order_by('id', 'desc')->get() as $row) {
+			if($row->pengguna_id==$lala && $row->flag_outbox!=1){
 				$nama_penerima = new pengguna();
 					$nama_penerima->where('id', $row->penerima_id)->get();
 					$content1 .= "<tr><td><center>".$row->waktu."</center></a></td>
@@ -847,17 +855,33 @@ class DRG extends CI_Controller {
 									<td><center>Message</center></td>
 									<td><center><a class='btn btn-primary' href='../drg/outbox_message_drg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
 			}
+			else if($row->pengguna_id==$lala && $row->flag_outbox==1){
+				$nama_penerima = new pengguna();
+					$nama_penerima->where('id', $row->penerima_id)->get();
+					$content1 .= "<tr><td><b><center>".$row->waktu."</center></b></a></td>
+									<td><b><center>".$nama_penerima->nama."</center></b></td>
+									<td><b><center>Message</center></b></td>
+									<td><center><b><a class='btn btn-primary' href='../drg/outbox_message_drg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a><b></center></td></tr>";
+			}
 		}
 
-		foreach($rujukan as $row){
+		foreach($rujukan->order_by('id', 'desc')->get() as $row){
 			//foreach ($pesan as $row1) {
-				if($row->pusat_id==$lala){
+				if($row->pusat_id==$lala && $row->flag_outbox!=1){
 					$nama_penerima = new pengguna();
 					$nama_penerima->where('id', $row->orto_id )->get();
 					$content2 .= "<tr><td><center>".$row->waktu."</center></a></td>
 									<td><center>".$nama_penerima->nama."</center></td>
 									<td><center>Send Reference</center></td>
 									<td><center><a class='btn btn-primary' href='../drg/view_rujukan_drg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
+			}
+			if($row->pusat_id==$lala && $row->flag_outbox==1){
+					$nama_penerima = new pengguna();
+					$nama_penerima->where('id', $row->orto_id )->get();
+					$content2 .= "<tr><td><b><center>".$row->waktu."</center></b></a></td>
+									<td><b><center>".$nama_penerima->nama."</center></b></td>
+									<td><b><center>Send Reference</center></b></td>
+									<td><b><center><a class='btn btn-primary' href='../drg/view_rujukan_drg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></b></td></tr>";
 			}
 		}
 				
@@ -896,6 +920,9 @@ class DRG extends CI_Controller {
 		$date = $splitTimeStamp[0];
 		$time = $splitTimeStamp[1];
 
+		$merawat1 = new merawat();
+		$merawat1->where('id', $n)->update('flag_outbox', '2');
+
 		$data['array'] = array('content' => '<tr><td><b>Date</b></td><td>'.$date.'</td></tr>
 			<tr><td><b>Time</b></td><td>'.$time.'</td></tr>
 			<tr><td><b>Recipient name</b></td><td>FKG UI</td></tr>
@@ -929,6 +956,9 @@ class DRG extends CI_Controller {
 		$splitTimeStamp = explode(" ",$pesan->waktu);
 		$date = $splitTimeStamp[0];
 		$time = $splitTimeStamp[1];
+
+		$pesan1 = new pesan();
+		$pesan1->where('id', $n)->update('flag_outbox', '2');
 		//var_dump($date);
 
 		$data['array'] = array('content' => '<tr><td><b>Date</b></td><td>'.$date.'</td></tr>
@@ -967,11 +997,15 @@ class DRG extends CI_Controller {
 		$date = $splitTimeStamp[0];
 		$time = $splitTimeStamp[1];
 
+		$rujukan1 = new pesan();
+		$rujukan1->where('id', $n)->update('flag_outbox', '2');
+
 		$data['array'] = array('content' => '<tr><td><b>Date</b></td><td>'.$date.'</td></tr>
 			<tr><td><b>Time</b></td><td>'.$time.'</td></tr>
 			<tr><td><b>Recipient ID</b></td><td>'.$rujukan->orto_id.'</td></tr>
 			<tr><td><b>Recipient name</b></td><td>'.$pengguna1->nama.'</td></tr>
 			<tr><td><b>Date</b></td><td>'.$rujukan->waktu.'</td></tr>
+			<tr><td><b>Date</b></td><td>'.$rujukan->pesan.'</td></tr>
 			<tr><td><b>Patients id</b></td><td>'.$rujukan->pasien_id.'</td></tr>
 			<tr><td><b>Patients name</b></td><td>'.$pasien->nama.'</td></tr>
 			<tr><td><b>Patient Birth Date</b></td><td>'.$pasien->tanggal_lahir.'</td></tr>

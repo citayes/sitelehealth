@@ -655,18 +655,19 @@ public function retrievejadwalp(){
 				<td><center><b>Keterangan</center></b></td>
 				<td><center><b>Operation</center></b></td>
 			</tr>';
-		foreach($mengirim as $row){
+		foreach($mengirim->order_by('id', 'desc')->get() as $row){
 			//foreach ($pesan as $row1) {
-				if($row->admin_id==null && $row->pusat_id==$lala && $row->umum_id!=null){
+				if($row->admin_id==null && $row->pusat_id==$lala && $row->umum_id!=null && $row->flag_outbox!=1){
 					$nama_penerima = new pengguna();
+
 					$nama_penerima->where('id', $row->umum_id)->get();
 					$content .= "<tr><td><center>".$row->waktu."</center></a></td>
 									<td><center>".$nama_penerima->nama."</center></td>
 									<td><center>Reference and Diagnosis</center></td>
 									<td><center><a class='btn btn-primary' href='../pusat/view_reference_fkg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
 				}
-				else if($row->admin_id==null && $row->pusat_id==$lala && $row->orto_id!=null){
-					echo 'lala';
+				else if($row->admin_id==null && $row->pusat_id==$lala && $row->orto_id!=null $row->flag_outbox!=1){
+					//echo 'lala';
 					$nama_penerima1 = new pengguna();
 					$nama_penerima1->where('id', $row->orto_id)->get();
 					$content .= "<tr><td><center>".$row->waktu."</center></a></td>
@@ -674,11 +675,29 @@ public function retrievejadwalp(){
 									<td><center>Reference and Diagnosis</center></td>
 									<td><center><a class='btn btn-primary' href='../pusat/view_reference_fkg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
 				}
+				else if($row->admin_id==null && $row->pusat_id==$lala && $row->umum_id!=null && $row->flag_outbox==1){
+					$nama_penerima = new pengguna();
+
+					$nama_penerima->where('id', $row->umum_id)->get();
+					$content .= "<tr><td><b><center>".$row->waktu."</center></a></b></td>
+									<td><b><center>".$nama_penerima->nama."</center></b></td>
+									<td><b><center>Reference and Diagnosis</center></b></td>
+									<td><b><center><a class='btn btn-primary' href='../pusat/view_reference_fkg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></b></td></tr>";
+				}
+				else if($row->admin_id==null && $row->pusat_id==$lala && $row->orto_id!=null $row->flag_outbox==1){
+					//echo 'lala';
+					$nama_penerima1 = new pengguna();
+					$nama_penerima1->where('id', $row->orto_id)->get();
+					$content .= "<tr><td><b><center>".$row->waktu."</center></a></b></td>
+									<td><b><center>".$nama_penerima1->nama."</center></b></td>
+									<td><b><center>Reference and Diagnosis</center></b></td>
+									<td><b><center><a class='btn btn-primary' href='../pusat/view_reference_fkg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></b></td></tr>";
+				}
 
 			//}
 		} 
-		foreach ($pesan as $row) {
-			if($row->pengguna_id==$lala){
+		foreach ($pesan->order_by('id', 'desc')->get() as $row) {
+			if($row->pengguna_id==$lala && $row->flag_outbox!=1){
 				$nama_penerima = new pengguna();
 					$nama_penerima->where('id', $row->penerima_id)->get();
 					$content1 .= "<tr><td><center>".$row->waktu."</center></a></td>
@@ -686,17 +705,33 @@ public function retrievejadwalp(){
 									<td><center>Message</center></td>
 									<td><center><a class='btn btn-primary' href='../pusat/outbox_message_fkg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
 			}
+			else if($row->pengguna_id==$lala && $row->flag_outbox==1){
+				$nama_penerima = new pengguna();
+					$nama_penerima->where('id', $row->penerima_id)->get();
+					$content1 .= "<tr><td><b><center>".$row->waktu."</center><b></a></td>
+									<td><b><center>".$nama_penerima->nama."</center><b></td>
+									<td><b><center>Message</center><b></td>
+									<td><b><center><a class='btn btn-primary' href='../pusat/outbox_message_fkg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></b></td></tr>";
+			}
 		}
 
-		foreach($analisi as $row){
+		foreach($analisi->order_by('id', 'desc')->get() as $row){
 			//foreach ($pesan as $row1) {
-				if($row->flag_mengirim==1 && $row->orto_id==$lala){
+				if($row->flag_mengirim==1 && $row->orto_id==$lala $row->flag_outbox!=1){
 					$nama_penerima = new pengguna();
 					$nama_penerima->where('id', '123142')->get();
 					$content2 .= "<tr><td><center>".$row->waktu."</center></a></td>
 									<td><center>".$nama_penerima->nama."</center></td>
 									<td><center>Diagnosis To Admin</center></td>
 									<td><center><a class='btn btn-primary' href='../pusat/view_diagnosis_fkg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
+			}
+			else if($row->flag_mengirim==1 && $row->orto_id==$lala $row->flag_outbox==1){
+					$nama_penerima = new pengguna();
+					$nama_penerima->where('id', '123142')->get();
+					$content2 .= "<tr><td><b><center>".$row->waktu."</center></b></a></td>
+									<td><b><center>".$nama_penerima->nama."</center></b></td>
+									<td><b><center>Diagnosis To Admin</center></b></td>
+									<td><b><center><a class='btn btn-primary' href='../pusat/view_diagnosis_fkg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></b></td></tr>";
 			}
 		}
 				
@@ -732,6 +767,9 @@ public function retrievejadwalp(){
 		$nama_pasien = new pasien();
 		$nama_pasien->where('id', $analisis->pasien_id)->get();
 
+		$mengirim1 = new mengirim();
+		$mengirim1->where('id', $n)->update('flag_outbox', '2');
+
 		$data['array'] = array('content' => '<tr><td><b>Recipient id</b></td><td>'.$mengirim->umum_id.'</td></tr>
 			<tr><td><b>Recipient name</b></td><td>'.$nama_penerima->nama.'</td></tr>
 			<tr><td><b>Date</b></td><td>'.$mengirim->tanggal.'</td></tr>
@@ -765,6 +803,9 @@ public function retrievejadwalp(){
 		$nama_penerima = new pengguna();
 		$nama_penerima->where('id', $pesan->penerima_id)->get();
 
+		$pesan1 = new pesan();
+		$pesan1->where('id', $n)->update('flag_outbox', '2');
+
 		$data['array'] = array('content' => '<tr><td><b>Recipient id</b></td><td>'.$pesan->penerima_id.'</td></tr>
 			<tr><td><b>Recipient Name</b></td><td>'.$nama_penerima->nama.'</td></tr>
 			<tr><td><b>Subject</b></td><td>'.$pesan->subject.'</td></tr>
@@ -795,6 +836,9 @@ public function retrievejadwalp(){
 		//$nama_admin->where('id', $mengirim->admin_id)->get();
 		$nama_pasien = new pasien();
 		$nama_pasien->where('id', $analisis->pasien_id)->get();
+
+		$analisis1 = new analisi();
+		$analisis1->where('id', $n)->update('flag_outbox', '2');
 
 		$data['array'] = array('content' => '
 			<tr><td><b>Recipient name</b></td><td>Admin</td></tr>

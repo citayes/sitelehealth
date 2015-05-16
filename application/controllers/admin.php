@@ -239,58 +239,81 @@ class Admin extends CI_Controller {
 				   $pengguna->email = $Email;
 				   
 				   $pengguna->role = $Role;
-				   $pengguna->save();
-				
-					$pengguna->where('username', $Username)->get();
+				   
+				   $pengguna->validate();
+				   if($pengguna->valid){
+				   		$pengguna->save();
+				   		$pengguna->where('username', $Username)->get();
 					
-					$dokter_gigi->pengguna_id= $pengguna->id;
-					$dokter_gigi->kursus = $Kursus;
-					$dokter_gigi->pendidikan_dokter = $Pendidikan;
-					$dokter_gigi->alamat_praktik = $Alamat;
-					$dokter_gigi->kodepos = $Kodepos;
-					$dokter_gigi->save(); 
+						$dokter_gigi->pengguna_id= $pengguna->id;
+						$dokter_gigi->kursus = $Kursus;
+						$dokter_gigi->pendidikan_dokter = $Pendidikan;
+						$dokter_gigi->alamat_praktik = $Alamat;
+						$dokter_gigi->kode_pos = $Kodepos;
 
-					$drg_ortodonti->doktergigi_id=$pengguna->id;
-					$drg_ortodonti->save();
+						$dokter_gigi->validate();
+						if($dokter_gigi->valid){
+							$dokter_gigi->save();
+							$drg_ortodonti->doktergigi_id=$pengguna->id;
+							$drg_ortodonti->save();
+							
+							$config = Array(
+							  'protocol' => 'smtp',
+							  'smtp_host' => 'ssl://smtp.googlemail.com',
+							  'smtp_port' => 465,
+							  'smtp_user' => 'cita.indraswari@gmail.com', // change it to yours
+							  'smtp_pass' => 'jowoon151294', // change it to yours
+							  'mailtype' => 'html',
+							  'charset' => 'iso-8859-1',
+							  'wordwrap' => TRUE
+							);
 
-					$config = Array(
-					  'protocol' => 'smtp',
-					  'smtp_host' => 'ssl://smtp.googlemail.com',
-					  'smtp_port' => 465,
-					  'smtp_user' => 'cita.indraswari@gmail.com', // change it to yours
-					  'smtp_pass' => 'jowoon151294', // change it to yours
-					  'mailtype' => 'html',
-					  'charset' => 'iso-8859-1',
-					  'wordwrap' => TRUE
-					);
-
-					$Email1 = $Email;
-						$this->load->library('email', $config);
-					  $this->email->set_newline("\r\n");
-					  $this->email->from('cita.indraswari@gmail.com'); // change it to yours
-					  $this->email->to($Email1);// change it to yours
-					  $this->email->subject('Konfirmasi Pendaftaran Telehealth Orthodontist');
-					  $this->email->message('Username : '.$Username. '  , Password : ' .$Password. '');
-					  if($this->email->send())
-						{
-							$data['menu'] = array('home' => '', 'manage' => 'active', 'jadwal' => '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
-							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-		  					<strong>Well done!</strong> Account has been created. Email sent.
-							</div>");	
-							$this->load->view('header-admin', $data['menu']);
-							$this->load->view('register');
-							$this->load->view('footer');
+							$Email1 = $Email;
+								$this->load->library('email', $config);
+							  $this->email->set_newline("\r\n");
+							  $this->email->from('cita.indraswari@gmail.com'); // change it to yours
+							  $this->email->to($Email1);// change it to yours
+							  $this->email->subject('Konfirmasi Pendaftaran Telehealth Orthodontist');
+							  $this->email->message('Username : '.$Username. '  , Password : ' .$Password. '');
+							if($this->email->send())
+							{
+									$data['menu'] = array('home' => '', 'manage' => 'active', 'jadwal' => '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+									<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+				  					<strong>Well done!</strong> Account has been created. Email sent.
+									</div>");	
+									$this->load->view('header-admin', $data['menu']);
+									$this->load->view('register');
+									$this->load->view('footer');
+							}
+							else
+							{
+									$data['menu'] = array('home' => '', 'manage' => 'active', 'jadwal' => '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-warning alert-dismissible' role='alert'>
+										<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+					  					<strong>Warning!</strong> Email not sent.
+										</div>");	
+									$this->load->view('header-admin', $data['menu']);
+									$this->load->view('register');
+									$this->load->view('footer');
+							}
+						}else{
+									$data['menu'] = array('home' => '', 'manage' => 'active', 'jadwal' => '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-warning alert-dismissible' role='alert'>
+										<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+					  					<strong>Warning!</strong> Account has not created.".$dokter_gigi->error->kursus."".$dokter_gigi->error->pendidikan_dokter."".$dokter_gigi->error->alamat_prakitk."".$dokter_gigi->error->kode_pos."
+										</div>");	
+									$this->load->view('header-admin', $data['menu']);
+									$this->load->view('register');
+									$this->load->view('footer');
 						}
-						else
-						{
-							$data['menu'] = array('home' => '', 'manage' => 'active', 'jadwal' => '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-warning alert-dismissible' role='alert'>
-								<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-			  					<strong>Warning!</strong> Email not sent.
-								</div>");	
-							$this->load->view('header-admin', $data['menu']);
-							$this->load->view('register');
-							$this->load->view('footer');
-						}					
+				   }else{
+				   		$data['menu'] = array('home' => '', 'manage' => 'active', 'jadwal' => '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-warning alert-dismissible' role='alert'>
+										<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+					  					<strong>Warning!</strong> Account has not created.".$pengguna->error->username."".$pengguna->error->password."".$pengguna->error->email."".$pengguna->error->nama."".$pengguna->error->email."".$pengguna->error->tanggal_lahir."".$pengguna->error->tempat_lahir."".$pengguna->error->warga_negara."".$pengguna->error->jenis_kelamin."".$pengguna->error->agama."".$pengguna->error->role."
+										</div>");	
+									$this->load->view('header-admin', $data['menu']);
+									$this->load->view('register');
+									$this->load->view('footer');
+
+				   }										
 			}else{
 				$data['menu'] = array('home' => '', 'manage' => 'active', 'jadwal' => '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
 							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
@@ -816,9 +839,10 @@ class Admin extends CI_Controller {
 				<td><center><b>Keterangan</center></b></td>
 				<td><center><b>Operation</center></b></td>
 			</tr>';
-		foreach($mengirim as $row){
+		foreach($mengirim->order_by('id', 'desc')->get() as $row){
 			//foreach ($pesan as $row1) {
-				if($row->umum_id!=null && $row->admin_id!=null){
+
+				if($row->umum_id!=null && $row->admin_id!=null && $row->flag_outbox!=1){
 					$nama_penerima = new pengguna();
 					$nama_penerima->where('id', $row->umum_id)->get();
 					$content .= "<tr><td><center>".$row->waktu."</center></a></td>
@@ -826,7 +850,7 @@ class Admin extends CI_Controller {
 									<td><center>Reference and Diagnosis</center></td>
 									<td><center><a class='btn btn-primary' href='../admin/view_reference_admin/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
 				}
-				else if($row->orto_id!=null && $row->admin_id!=null){
+				else if($row->orto_id!=null && $row->admin_id!=null && $row->flag_outbox!=1){
 					echo 'lala';
 					$nama_penerima1 = new pengguna();
 					$nama_penerima1->where('id', $row->orto_id)->get();
@@ -835,17 +859,41 @@ class Admin extends CI_Controller {
 									<td><center>Reference and Diagnosis</center></td>
 									<td><center><a class='btn btn-primary' href='../drg/view_reference_admin/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
 				}
-
+				else if($row->umum_id!=null && $row->admin_id!=null && $row->flag_outbox==1){
+					$nama_penerima = new pengguna();
+					$nama_penerima->where('id', $row->umum_id)->get();
+					$content .= "<tr><td><b><center>".$row->waktu."</center></b></a></td>
+									<td><center><b>".$nama_penerima->nama."</b></center></td>
+									<td><center><b>Reference and Diagnosis</b></center></td>
+									<td><center><b><a class='btn btn-primary' href='../admin/view_reference_admin/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></b></center></td></tr>";					
+				}
+				else if($row->orto_id!=null && $row->admin_id!=null && $row->flag_outbox==1){
+					echo 'lala';
+					$nama_penerima1 = new pengguna();
+					$nama_penerima1->where('id', $row->orto_id)->get();
+					$content .= "<tr><td><b><center>".$row->waktu."</center></b></a></td>
+									<td><b><center>".$nama_penerima1->nama."</center></b></td>
+									<td><<b>center>Reference and Diagnosis</center></b></td>
+									<td><center><b><a class='btn btn-primary' href='../drg/view_reference_admin/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></b></center></td></tr>";
+				}
 			
 		} 
-		foreach ($pesan as $row) {
-			if($row->pengguna_id==$lala){
+		foreach ($pesan->order_by('id', 'desc')->get() as $row) {
+			if($row->pengguna_id==$lala && $row->flag_outbox!=1){
 				$nama_penerima = new pengguna();
 					$nama_penerima->where('id', $row->penerima_id)->get();
 					$content1 .= "<tr><td><center>".$row->waktu."</center></a></td>
 									<td><center>".$nama_penerima->nama."</center></td>
 									<td><center>Message</center></td>
 									<td><center><a class='btn btn-primary' href='../admin/outbox_message_admin/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
+			}
+			if($row->pengguna_id==$lala && $row->flag_outbox==1){
+				$nama_penerima = new pengguna();
+					$nama_penerima->where('id', $row->penerima_id)->get();
+					$content1 .= "<tr><td><b><center>".$row->waktu."</center></b></a></td>
+									<td><b><center>".$nama_penerima->nama."</center></b></td>
+									<td><b><center>Message</center></b></td>
+									<td><center><b><a class='btn btn-primary' href='../admin/outbox_message_admin/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></b></center></td></tr>";
 			}
 		}
 				
@@ -879,6 +927,8 @@ class Admin extends CI_Controller {
 		$nama_penerima->where('id', $mengirim->umum_id)->get();
 		$nama_pasien = new pasien();
 		$nama_pasien->where('id', $analisis->pasien_id)->get();
+		$mengirim1 = new mengirim();
+		$mengirim1->where('id', $n)->update('flag_outbox', '2');
 
 		$data['array'] = array('content' => '<tr><td><b>Recipient id</b></td><td>'.$mengirim->umum_id.'</td></tr>
 			<tr><td><b>Recipient name</b></td><td>'.$nama_penerima->nama.'</td></tr>
@@ -1064,6 +1114,9 @@ class Admin extends CI_Controller {
 		$pengguna->where('id',$pesan->pengguna_id)->get();
 		$nama_penerima = new pengguna();
 		$nama_penerima->where('id', $pesan->penerima_id)->get();
+
+		$pesan1 = new pesan();
+		$pesan1->where('id', $n)->update('flag_outbox', '2');
 
 		$data['array'] = array('content' => '<tr><td><b>Recipient id</b></td><td>'.$pesan->penerima_id.'</td></tr>
 			<tr><td><b>Recipient Name</b></td><td>'.$nama_penerima->nama.'</td></tr>
