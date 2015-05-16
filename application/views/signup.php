@@ -80,6 +80,24 @@
 										</div>
 									</div>
 									<div class="form-group">
+									<label class="col-sm-3 control-label" for="latitude">Latitude</label>
+										<div class="col-sm-6">
+											<input id="latitude" type="text" class="form-control" name="Latitude" required readonly>
+										</div>
+										<div class="col-sm-3">
+											<button class="btn btn-danger btn-sm" onclick="getLatitude()">Get Latitude</button>
+										</div>
+									</div>
+									<div class="form-group">
+									<label class="col-sm-3 control-label" for="longitude">Longitude</label>
+										<div class="col-sm-6">
+											<input id="longitude" type="text" class="form-control" name="Longitude" required readonly>
+										</div>
+										<div class="col-sm-3">
+											<button class="btn btn-danger btn-sm" onclick="getLongitude()">Get Longitude</button>
+										</div>
+									</div>
+									<div class="form-group">
 									<label class="col-sm-3 control-label" for="alamat">Alamat Praktik</label>
 										<div class="col-sm-9">
 											<input type="text" class="form-control" name="Alamat" placeholder="Masukkan Alamat Praktik" required autofocus>
@@ -89,24 +107,6 @@
 									<label class="col-sm-3 control-label" for="kodepos">Kode Pos</label>
 										<div class="col-sm-9">
 											<input type="text" class="form-control" name="Kodepos" placeholder="Masukkan Kode Pos Alamat Praktik" required autofocus>
-										</div>
-									</div>
-									<div class="form-group">
-									<label class="col-sm-3 control-label" for="latitude">Latitude</label>
-										<div class="col-sm-9">
-											<input id="latitude" type="text" class="form-control" name="Latitude" disabled>
-										</div>
-									</div>
-									<div class="form-group">
-									<label class="col-sm-3 control-label" for="longitude">Longitude</label>
-										<div class="col-sm-9">
-											<input id="longitude" type="text" class="form-control" name="Longitude" disabled>
-										</div>
-									</div>
-									<div class="form-group">
-									<label class="col-sm-3 control-label" for="location"></label>
-										<div class="col-sm-9">
-											<button class="btn btn-danger btn-sm"onclick="getLocation()">Get Current Location</button>
 										</div>
 									</div>
 									<div class="form-group">
@@ -156,17 +156,26 @@
 var x = document.getElementById("latitude");
 var y = document.getElementById("longitude");
 
-function getLocation() {
+function getLatitude() {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
+        navigator.geolocation.getCurrentPosition(getLatitudePos);
     } else { 
-        x.innerHTML = "Geolocation is not supported by this browser.";
-        y.innerHTML = "Geolocation is not supported by this browser.";
+        x.value = "Geolocation is not supported by this browser.";
     }
 }
 
-function showPosition(position) {
-    x.value = position.coords.latitude;
+function getLatitudePos(position) {
+    x.value = position.coords.latitude;	
+}
+function getLongitude() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(getLongitudePos);
+    } else { 
+        y.value = "Geolocation is not supported by this browser.";
+    }
+}
+
+function getLongitudePos(position) {
     y.value = position.coords.longitude;	
 }
 </script>

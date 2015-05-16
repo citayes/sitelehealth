@@ -96,9 +96,9 @@ class Homepage extends CI_Controller {
 				$Kursus = $_POST['Kursus'];	
 				$Alamat = $_POST['Alamat'];
 				$Kode_pos = $_POST['Kodepos'];
-
 				$Role = $_POST['Role'];
-
+				$longitude = $_POST['Longitude'];
+				$latitude = $_POST['Latitude'];
 				$pengguna = new pengguna();
 				$dokter_gigi = new dokter_gigi();
 				$drg_ortodonti = new drg_ortodonti();
@@ -128,12 +128,14 @@ class Homepage extends CI_Controller {
 						$dokter_gigi->kursus = $Kursus;
 						$dokter_gigi->pendidikan_dokter = $Pendidikan;
 						$dokter_gigi->alamat_praktik = $Alamat;
-						$dokter_gigi->kodepos = $Kode_pos;
+						$dokter_gigi->kode_pos = $Kode_pos;
+						$dokter_gigi->longitude = $longitude;
+						$dokter_gigi->latitude = $latitude;
 						$dokter_gigi->save();
 
 						if($Role=='umum'){
 							$drg_lain->pengguna_id=$pengguna->id;
-							$drg_lain->kursus_orthodonti=$Kursus;
+							$drg_lain->kursus_ortodonti=$Kursus;
 							$drg_lain->jadwal_praktik='n';
 							$drg_lain->save();
 							$data['menu'] = array('home' => '', 'signin' => '', 'signup' => 'active', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
