@@ -540,11 +540,7 @@ public function save_diagnose($n){
 			$this->load->view('send_reference', $data['array']);
 			$this->load->view('footer');
 
-		 	}
-		 		
-
-			
-								
+		 	}						
 		}
 		
 	}
