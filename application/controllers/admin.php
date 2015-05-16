@@ -1125,14 +1125,13 @@ class Admin extends CI_Controller {
 		$nama_penerima = new pengguna();
 		$nama_penerima->where('id', $pesan->penerima_id)->get();
 
-<<<<<<< Updated upstream
+
 		$pesan1 = new pesan();
 		$pesan1->where('id', $n)->update('flag_outbox', '2');
 
-		$data['array'] = array('content' => '<tr><td><b>Recipient id</b></td><td>'.$pesan->penerima_id.'</td></tr>
-=======
+
 		$data['array'] = array('content' => '<tr><td><b>Recipient ID</b></td><td>'.$pesan->penerima_id.'</td></tr>
->>>>>>> Stashed changes
+
 			<tr><td><b>Recipient Name</b></td><td>'.$nama_penerima->nama.'</td></tr>
 			<tr><td><b>Subject</b></td><td>'.$pesan->subject.'</td></tr>
 			<tr><td><b>Sender</b></td><td>'.$pengguna->nama.'</td></tr>
