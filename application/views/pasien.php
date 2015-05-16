@@ -93,6 +93,12 @@
 											<input type="text" name="Religion" class="form-control" id="Religion" placeholder="Patient's Religion"/>
 										</div>
 									</div>
+									<div class="form-group">
+									<label class="col-sm-3 control-label" for="kursus">Par Index Score</label>
+										<div class="col-sm-9">
+											<input type="text" name="Par" class="form-control" id="Par" placeholder="Patient's Par Index Score"/>
+										</div>
+									</div>
 									<div class="form-group last">
 										<div class="col-sm-offset-3 col-sm-9">
 											<button type="submit" class="btn btn-primary btn-sm">Create</button>

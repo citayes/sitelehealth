@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 16, 2015 at 09:09 AM
+-- Generation Time: May 10, 2015 at 01:32 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.5.19
 
@@ -53,41 +53,39 @@ CREATE TABLE IF NOT EXISTS `analisis` (
   `orto_id` int(11) NOT NULL,
   `foto` varchar(100) NOT NULL,
   `flag_mengirim` char(1) NOT NULL,
-  `flag_menerima` char(1) NOT NULL,
-  `waktu` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=latin1;
+  `flag_menerima` char(1) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `analisis`
 --
 
-INSERT INTO `analisis` (`id`, `pasien_id`, `skor`, `maloklusi_menurut_angka`, `diagnosis_rekomendasi`, `orto_id`, `foto`, `flag_mengirim`, `flag_menerima`, `waktu`) VALUES
-(45, 5, '2.30', '2.10', 'pasien sakit hati', 123157, 'sdf', '2', '', '2015-05-16 04:17:53'),
-(46, 5, '1.20', '1.10', 'halo saya cita', 123157, 'hai', '2', '', '2015-05-16 04:17:53'),
-(53, 5, '1.20', '1.10', 'tes lagi nih wira', 123157, 'hai', '2', '', '2015-05-16 04:17:53'),
-(57, 5, '1.20', '1.50', 'Giginya jelek bau busung jigong gila', 123157, '', '1', '1', '2015-05-16 04:17:53'),
-(58, 5, '1.30', '1.50', 'HALOOOOOOOOOOOOOOOOOO INI CITA GIGINYA JELEK DEH', 123157, '', '2', '', '2015-05-16 04:17:53'),
-(59, 5, '12.00', '12.00', '21', 123157, '', '1', '1', '2015-05-16 04:17:53'),
-(60, 5, '12.00', '12.00', '21', 123157, '', '1', '1', '2015-05-16 04:17:53'),
-(61, 7, '12.00', '12.00', '21', 123157, '', '1', '1', '2015-05-16 04:17:53'),
-(62, 8, '12.00', '12.00', '21', 123157, '', '1', '1', '2015-05-16 04:17:53'),
-(63, 8, '12.00', '12.00', '21', 123157, '', '1', '1', '2015-05-16 04:17:53'),
-(64, 10, '1.20', '2.10', 'adsa', 123157, 'n', '2', '', '2015-05-16 04:17:53'),
-(65, 8, '1.20', '3.20', '1.2', 123157, 'n', '2', '', '2015-05-16 04:17:53'),
-(66, 7, '1.20', '2.20', 'alalalalal', 123157, '', '1', '1', '2015-05-16 04:17:53'),
-(67, 31, '1.20', '1.10', 'HALOOOOO', 123157, '', '1', '1', '2015-05-16 04:17:53'),
-(68, 7, '1.20', '1.10', 'tes cete mau tidur', 123157, '', '2', '', '2015-05-16 04:17:53'),
-(69, 27, '2.20', '1.10', 'tes cete mau tidur', 123157, '', '2', '', '2015-05-16 04:17:53'),
-(70, 7, '2.20', '1.10', 'lalalallllllllllllllllllll', 123157, '', '2', '', '2015-05-16 04:17:53'),
-(71, 19, '1.20', '1.10', 'tes cete mau tidur', 123157, 'hai', '2', '', '2015-05-16 04:17:53'),
-(72, 8, '1.20', '3.20', 'baru banget', 123157, '', '2', '', '2015-05-16 04:17:53'),
-(73, 8, '2.20', '1.10', 'tes', 123157, '', '2', '', '2015-05-16 04:17:53'),
-(74, 7, '1.30', '4.10', 'vuhdsuhviuhdsvuhidvuhdvs', 123157, '', '1', '1', '2015-05-16 04:17:53'),
-(75, 7, '2.20', '1.10', 'tes diagnose', 123157, '', '2', '', '2015-05-16 04:17:53'),
-(76, 27, '1.20', '3.20', 'dfsdlkfks', 123157, '', '2', '', '2015-05-16 04:17:53'),
-(77, 28, '2.40', '4.10', 'saya lapar', 123157, '', '1', '1', '2015-05-16 04:17:53'),
-(78, 28, '2.20', '3.00', 'fff', 123157, '', '2', '', '2015-05-16 04:17:53'),
-(79, 19, '0.00', '0.00', '', 123157, '', '2', '', '2015-05-16 04:17:53');
+INSERT INTO `analisis` (`id`, `pasien_id`, `skor`, `maloklusi_menurut_angka`, `diagnosis_rekomendasi`, `orto_id`, `foto`, `flag_mengirim`, `flag_menerima`) VALUES
+(45, 5, '2.30', '2.10', 'pasien sakit hati', 123157, 'sdf', '2', ''),
+(46, 5, '1.20', '1.10', 'halo saya cita', 123157, 'hai', '2', ''),
+(53, 5, '1.20', '1.10', 'tes lagi nih wira', 123157, 'hai', '2', ''),
+(57, 5, '1.20', '1.50', 'Giginya jelek bau busung jigong gila', 123157, '', '1', '1'),
+(58, 5, '1.30', '1.50', 'HALOOOOOOOOOOOOOOOOOO INI CITA GIGINYA JELEK DEH', 123157, '', '2', ''),
+(59, 5, '12.00', '12.00', '21', 123157, '', '1', '1'),
+(60, 5, '12.00', '12.00', '21', 123157, '', '1', '1'),
+(61, 7, '12.00', '12.00', '21', 123157, '', '1', '1'),
+(62, 8, '12.00', '12.00', '21', 123157, '', '1', '1'),
+(63, 8, '12.00', '12.00', '21', 123157, '', '1', '1'),
+(64, 10, '1.20', '2.10', 'adsa', 123157, 'n', '2', ''),
+(65, 8, '1.20', '3.20', '1.2', 123157, 'n', '2', ''),
+(66, 7, '1.20', '2.20', 'alalalalal', 123157, '', '1', '1'),
+(67, 31, '1.20', '1.10', 'HALOOOOO', 123157, '', '1', '1'),
+(68, 7, '1.20', '1.10', 'tes cete mau tidur', 123157, '', '2', ''),
+(69, 27, '2.20', '1.10', 'tes cete mau tidur', 123157, '', '2', ''),
+(70, 7, '2.20', '1.10', 'lalalallllllllllllllllllll', 123157, '', '2', ''),
+(71, 19, '1.20', '1.10', 'tes cete mau tidur', 123157, 'hai', '2', ''),
+(72, 8, '1.20', '3.20', 'baru banget', 123157, '', '2', ''),
+(73, 8, '2.20', '1.10', 'tes', 123157, '', '2', ''),
+(74, 7, '1.30', '4.10', 'vuhdsuhviuhdsvuhidvuhdvs', 123157, '', '1', '1'),
+(75, 7, '2.20', '1.10', 'tes diagnose', 123157, '', '2', ''),
+(76, 27, '1.20', '3.20', 'dfsdlkfks', 123157, '', '2', ''),
+(77, 28, '2.40', '4.10', 'saya lapar', 123157, '', '1', '1'),
+(78, 28, '2.20', '3.00', 'fff', 123157, '', '2', '');
 
 -- --------------------------------------------------------
 
@@ -100,29 +98,27 @@ CREATE TABLE IF NOT EXISTS `dokter_gigis` (
   `kursus` varchar(20) NOT NULL,
   `pendidikan_dokter` varchar(20) NOT NULL,
   `alamat_prakitk` varchar(20) NOT NULL,
-  `kode_pos` int(5) NOT NULL,
-  `langitude` varchar(50) NOT NULL,
-  `latitude` varchar(50) NOT NULL
+  `kode_pos` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `dokter_gigis`
 --
 
-INSERT INTO `dokter_gigis` (`pengguna_id`, `kursus`, `pendidikan_dokter`, `alamat_prakitk`, `kode_pos`, `langitude`, `latitude`) VALUES
-(123142, '', '', '', 0, '', ''),
-(123154, 'Kursus mobil', 'SMA', 'tes', 222, '', ''),
-(123155, 'Kursus mobil', 'SMA', 'lakdasda', 12345, '', ''),
-(123157, 'orto', 's2', 'sawangan', 12345, '', ''),
-(123158, 'Kursus mobil', 'SMA', '', 0, '', ''),
-(123159, 'Kursus mobil', 'SMA', '', 0, '', ''),
-(123161, 'Kursus mobil', 'SMA', '', 0, '', ''),
-(123163, 'dsdd', 'sma', '', 0, '', ''),
-(123164, 'ee', 'eee', '', 0, '', ''),
-(123166, 'fff', 'ff', '', 0, '', ''),
-(123167, 'Kursus mobil', 'SMA', '', 0, '', ''),
-(123169, 'kursus', 'pendidikan', '', 0, '', ''),
-(123176, 'Kursus gigi', 'SMA', '', 0, '', '');
+INSERT INTO `dokter_gigis` (`pengguna_id`, `kursus`, `pendidikan_dokter`, `alamat_prakitk`, `kode_pos`) VALUES
+(123142, '', '', '', 0),
+(123154, 'Kursus mobil', 'SMA', 'tes', 222),
+(123155, 'Kursus mobil', 'SMA', 'lakdasda', 12345),
+(123157, 'orto', 's2', 'sawangan', 12345),
+(123158, 'Kursus mobil', 'SMA', '', 0),
+(123159, 'Kursus mobil', 'SMA', '', 0),
+(123161, 'Kursus mobil', 'SMA', '', 0),
+(123163, 'dsdd', 'sma', '', 0),
+(123164, 'ee', 'eee', '', 0),
+(123166, 'fff', 'ff', '', 0),
+(123167, 'Kursus mobil', 'SMA', '', 0),
+(123169, 'kursus', 'pendidikan', '', 0),
+(123176, 'Kursus gigi', 'SMA', '', 0);
 
 -- --------------------------------------------------------
 
@@ -182,7 +178,7 @@ CREATE TABLE IF NOT EXISTS `jadwal_jagas` (
   `jam_selesai` int(11) NOT NULL,
   `drg_ortodonti_id` int(11) NOT NULL,
   `admin_id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `jadwal_jagas`
@@ -233,7 +229,7 @@ CREATE TABLE IF NOT EXISTS `medical_records` (
 --
 
 CREATE TABLE IF NOT EXISTS `mengirims` (
-  `waktu` timestamp NULL DEFAULT NULL,
+  `tanggal` date DEFAULT NULL,
 `id` int(11) NOT NULL,
   `admin_id` int(11) DEFAULT NULL,
   `umum_id` int(11) DEFAULT NULL,
@@ -244,19 +240,17 @@ CREATE TABLE IF NOT EXISTS `mengirims` (
   `kandidat2` varchar(50) DEFAULT NULL,
   `kandidat3` varchar(50) DEFAULT NULL,
   `kandidat4` varchar(50) DEFAULT NULL,
-  `kandidat5` varchar(50) DEFAULT NULL,
-  `pesan` varchar(1000) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=latin1;
+  `kandidat5` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `mengirims`
 --
 
-INSERT INTO `mengirims` (`waktu`, `id`, `admin_id`, `umum_id`, `orto_id`, `pusat_id`, `analisis_id`, `kandidat1`, `kandidat2`, `kandidat3`, `kandidat4`, `kandidat5`, `pesan`) VALUES
-(NULL, 58, NULL, 123154, NULL, 123157, 75, 'Cita Indraswari', NULL, NULL, NULL, NULL, NULL),
-(NULL, 59, NULL, 123154, NULL, 123157, 76, 'jvvjgvgk', NULL, NULL, NULL, NULL, NULL),
-('2015-03-31 17:00:00', 60, 123142, 123154, NULL, 123157, 77, 'Wira Bau', NULL, NULL, NULL, NULL, NULL),
-('0000-00-00 00:00:00', 61, NULL, NULL, NULL, NULL, 79, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `mengirims` (`tanggal`, `id`, `admin_id`, `umum_id`, `orto_id`, `pusat_id`, `analisis_id`, `kandidat1`, `kandidat2`, `kandidat3`, `kandidat4`, `kandidat5`) VALUES
+(NULL, 58, NULL, 123154, NULL, 123157, 75, 'Cita Indraswari', NULL, NULL, NULL, NULL),
+(NULL, 59, NULL, 123154, NULL, 123157, 76, 'jvvjgvgk', NULL, NULL, NULL, NULL),
+('2015-04-01', 60, 123142, 123154, NULL, 123157, 77, 'Wira Bau', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -265,14 +259,24 @@ INSERT INTO `mengirims` (`waktu`, `id`, `admin_id`, `umum_id`, `orto_id`, `pusat
 --
 
 CREATE TABLE IF NOT EXISTS `merawats` (
-`id` int(11) NOT NULL,
   `pasien_id` int(11) NOT NULL,
   `orto_id` int(11) DEFAULT NULL,
   `umum_id` int(11) DEFAULT NULL,
-  `pusat_id` int(11) DEFAULT NULL,
-  `waktu` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `pesan` varchar(1000) DEFAULT NULL
+  `pusat_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `merawats`
+--
+
+INSERT INTO `merawats` (`pasien_id`, `orto_id`, `umum_id`, `pusat_id`) VALUES
+(19, NULL, NULL, NULL),
+(7, NULL, 123154, NULL),
+(8, NULL, 123154, NULL),
+(26, NULL, 123154, NULL),
+(27, NULL, 123154, NULL),
+(28, NULL, 123154, NULL),
+(31, 123155, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -347,7 +351,7 @@ CREATE TABLE IF NOT EXISTS `penggunas` (
 INSERT INTO `penggunas` (`id`, `username`, `password`, `nama`, `tanggal_lahir`, `tempat_lahir`, `warga_negara`, `jenis_kelamin`, `agama`, `foto`, `fverifikasi`, `email`, `role`) VALUES
 (123142, 'admin', 'password', 'admin', '2015-04-23', 'admin1', 'indonesia', 'admin', 'indonesia', 'uploads/images/21232f297a57a5a743894a0e4a801fc3.jpg', 'y', 'calvin.thurovin@gmail.com', 'admin'),
 (123150, 'tania', 'halo', 'tania', '2015-04-22', 'palembang', 'indonesia', 'perempuan', 'islam', '', 'y', 'tania@gmail.com', 'admin'),
-(123154, 'doktergigi', 'password', 'Cita Indraswari LAGI', '2015-04-01', 'Jakarta', 'Indonesia', 'Perempuan', 'islam', 'uploads/images/ae065ed38795a771f0bef84d9a6a5c77.jpg', 'y', 'cita.indraswari@gmail.com', 'umum'),
+(123154, 'doktergigi', 'password', 'Cita Indraswari LAGI', '2015-04-01', 'Jakarta', 'Indonesia', 'Perempuan', 'islam', 'uploads/images/ae065ed38795a771f0bef84d9a6a5c77.JPG', 'y', 'cita.indraswari@gmail.com', 'umum'),
 (123155, 'orthodonti', 'orthodonti', 'Cita Indraswari', '2015-04-03', 'Jakarta', 'Indonesia', 'Perempuan', 'islam', 'uploads/images/46d31fd6f736894bdd7be114294f816d.jpg', 'y', 'cita.indraswari@gmail.com', 'orthodonti'),
 (123157, 'pusat', 'password', 'Taniki', '2015-04-01', 'palembang', 'indo', 'perempuan', 'asd', 'uploads/images/42836637e4afa63e6ba120974d7671dc.jpg', 'y', 'tania@l.o', 'pusat'),
 (123158, 'Calvin Thurovin', '1234', 'Calvin Thurovin', '2015-04-01', 'Jakarta', 'Indonesia', 'Perempuan', 'Islam', 'uploads/images/woman.png', 'y', 'cita.indraswari@gmail.com', 'orthodonti'),
@@ -373,18 +377,7 @@ CREATE TABLE IF NOT EXISTS `pesans` (
   `waktu` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `pengguna_id` int(11) NOT NULL,
   `penerima_id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `pesans`
---
-
-INSERT INTO `pesans` (`id`, `subject`, `isi`, `waktu`, `pengguna_id`, `penerima_id`) VALUES
-(1, 'tes diri sendiri', 'halo', '2015-05-11 04:48:45', 123155, 123155),
-(2, 'Pasien dari dokter Cita Indraswari LAGI', 'Haidengan id rujukan1', '2015-05-11 04:50:39', 123154, 123155),
-(3, 'coba reply', 'coba reply', '2015-05-16 02:33:52', 123154, 123166),
-(4, 'Pasien dari dokter Cita Indraswari LAGI', 'dsfdengan id rujukan3', '2015-05-15 18:54:39', 123154, 123155),
-(6, 'Pasien dari dokter Cita Indraswari LAGI', 'tes taniadengan id rujukan4', '2015-05-16 06:33:13', 123154, 123155);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -397,20 +390,8 @@ CREATE TABLE IF NOT EXISTS `rujukans` (
   `orto_id` int(11) NOT NULL,
   `pusat_id` int(11) NOT NULL,
   `pasien_id` int(11) NOT NULL,
-  `analisi_id` int(11) NOT NULL,
-  `waktu` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `pesan` varchar(1000) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `rujukans`
---
-
-INSERT INTO `rujukans` (`id`, `orto_id`, `pusat_id`, `pasien_id`, `analisi_id`, `waktu`, `pesan`) VALUES
-(1, 123155, 123154, 7, 75, '2015-05-16 04:41:04', NULL),
-(2, 123166, 123154, 28, 77, '2015-05-16 04:41:04', NULL),
-(3, 123155, 123154, 7, 75, '2015-05-16 04:41:04', NULL),
-(4, 123155, 123154, 7, 75, '2015-05-16 06:33:13', NULL);
+  `analisi_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Indexes for dumped tables
@@ -462,13 +443,13 @@ ALTER TABLE `medical_records`
 -- Indexes for table `mengirims`
 --
 ALTER TABLE `mengirims`
- ADD PRIMARY KEY (`id`), ADD KEY `tanggal` (`waktu`), ADD KEY `admin_id` (`admin_id`), ADD KEY `umum_id` (`umum_id`), ADD KEY `orto_id` (`orto_id`), ADD KEY `pusat_id` (`pusat_id`), ADD KEY `analisis_id` (`analisis_id`);
+ ADD PRIMARY KEY (`id`), ADD KEY `tanggal` (`tanggal`), ADD KEY `admin_id` (`admin_id`), ADD KEY `umum_id` (`umum_id`), ADD KEY `orto_id` (`orto_id`), ADD KEY `pusat_id` (`pusat_id`), ADD KEY `analisis_id` (`analisis_id`);
 
 --
 -- Indexes for table `merawats`
 --
 ALTER TABLE `merawats`
- ADD PRIMARY KEY (`id`), ADD KEY `orto_id` (`orto_id`,`umum_id`,`pusat_id`), ADD KEY `umum_id` (`umum_id`), ADD KEY `pusat_id` (`pusat_id`), ADD KEY `pasien_id` (`pasien_id`);
+ ADD PRIMARY KEY (`pasien_id`), ADD KEY `orto_id` (`orto_id`,`umum_id`,`pusat_id`), ADD KEY `umum_id` (`umum_id`), ADD KEY `pusat_id` (`pusat_id`);
 
 --
 -- Indexes for table `pasiens`
@@ -502,12 +483,12 @@ ALTER TABLE `rujukans`
 -- AUTO_INCREMENT for table `analisis`
 --
 ALTER TABLE `analisis`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=80;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=79;
 --
 -- AUTO_INCREMENT for table `jadwal_jagas`
 --
 ALTER TABLE `jadwal_jagas`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=38;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=44;
 --
 -- AUTO_INCREMENT for table `medical_records`
 --
@@ -517,12 +498,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `mengirims`
 --
 ALTER TABLE `mengirims`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=62;
---
--- AUTO_INCREMENT for table `merawats`
---
-ALTER TABLE `merawats`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=61;
 --
 -- AUTO_INCREMENT for table `pasiens`
 --
@@ -537,12 +513,12 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=123177;
 -- AUTO_INCREMENT for table `pesans`
 --
 ALTER TABLE `pesans`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `rujukans`
 --
 ALTER TABLE `rujukans`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- Constraints for dumped tables
 --
@@ -606,10 +582,10 @@ ADD CONSTRAINT `mengirims_ibfk_8` FOREIGN KEY (`analisis_id`) REFERENCES `analis
 -- Constraints for table `merawats`
 --
 ALTER TABLE `merawats`
+ADD CONSTRAINT `merawats_ibfk_1` FOREIGN KEY (`pasien_id`) REFERENCES `pasiens` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 ADD CONSTRAINT `merawats_ibfk_2` FOREIGN KEY (`umum_id`) REFERENCES `drg_lains` (`pengguna_id`) ON DELETE CASCADE ON UPDATE CASCADE,
 ADD CONSTRAINT `merawats_ibfk_3` FOREIGN KEY (`orto_id`) REFERENCES `drg_ortodontis` (`doktergigi_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT `merawats_ibfk_4` FOREIGN KEY (`pusat_id`) REFERENCES `drg_ortodontis` (`doktergigi_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT `merawats_ibfk_5` FOREIGN KEY (`pasien_id`) REFERENCES `pasiens` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `merawats_ibfk_4` FOREIGN KEY (`pusat_id`) REFERENCES `drg_ortodontis` (`doktergigi_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `pasiens`
