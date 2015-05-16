@@ -666,7 +666,7 @@ public function retrievejadwalp(){
 									<td><center>Reference and Diagnosis</center></td>
 									<td><center><a class='btn btn-primary' href='../pusat/view_reference_fkg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
 				}
-				else if($row->admin_id==null && $row->pusat_id==$lala && $row->orto_id!=null $row->flag_outbox!=1){
+				else if($row->admin_id==null && $row->pusat_id==$lala && $row->orto_id!=null && $row->flag_outbox!=1){
 					//echo 'lala';
 					$nama_penerima1 = new pengguna();
 					$nama_penerima1->where('id', $row->orto_id)->get();
@@ -684,7 +684,7 @@ public function retrievejadwalp(){
 									<td><b><center>Reference and Diagnosis</center></b></td>
 									<td><b><center><a class='btn btn-primary' href='../pusat/view_reference_fkg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></b></td></tr>";
 				}
-				else if($row->admin_id==null && $row->pusat_id==$lala && $row->orto_id!=null $row->flag_outbox==1){
+				else if($row->admin_id==null && $row->pusat_id==$lala && $row->orto_id!=null  && $row->flag_outbox==1){
 					//echo 'lala';
 					$nama_penerima1 = new pengguna();
 					$nama_penerima1->where('id', $row->orto_id)->get();
@@ -717,7 +717,7 @@ public function retrievejadwalp(){
 
 		foreach($analisi->order_by('id', 'desc')->get() as $row){
 			//foreach ($pesan as $row1) {
-				if($row->flag_mengirim==1 && $row->orto_id==$lala $row->flag_outbox!=1){
+				if($row->flag_mengirim==1 && $row->orto_id==$lala && $row->flag_outbox!=1){
 					$nama_penerima = new pengguna();
 					$nama_penerima->where('id', '123142')->get();
 					$content2 .= "<tr><td><center>".$row->waktu."</center></a></td>
@@ -725,7 +725,7 @@ public function retrievejadwalp(){
 									<td><center>Diagnosis To Admin</center></td>
 									<td><center><a class='btn btn-primary' href='../pusat/view_diagnosis_fkg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
 			}
-			else if($row->flag_mengirim==1 && $row->orto_id==$lala $row->flag_outbox==1){
+			else if($row->flag_mengirim==1 && $row->orto_id==$lala && $row->flag_outbox==1){
 					$nama_penerima = new pengguna();
 					$nama_penerima->where('id', '123142')->get();
 					$content2 .= "<tr><td><b><center>".$row->waktu."</center></b></a></td>
