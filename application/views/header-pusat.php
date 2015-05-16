@@ -47,7 +47,7 @@
                         <li class="<?php echo $home; ?>">
                             <a href="<?php echo base_url(); ?>index.php/pusat">Home</a>
                         </li>
-                        <li class="dropdown <?php echo $pasien; ?>">
+                        <li class="dropdown <?php echo $jadwal; ?>">
                              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Patient<strong class="caret"></strong></a>
                             <ul class="dropdown-menu">
                                 <li>
@@ -56,13 +56,16 @@
                             </ul>
                         </li>
                         <li class="<?php echo $jadwal; ?>">
-                            <a href="<?php echo base_url(); ?>index.php/pusat/jadwal">Daily Schedule</a>
+                            <a href="<?php echo base_url(); ?>index.php/pusat/retrievejadwalp">Daily Schedule</a>
                         </li>
-                        <li class="dropdown <?php echo $jadwal; ?>">
+                        <li class="dropdown <?php echo $inbox; ?>">
                              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Inbox<strong class="caret"></strong></a>
                             <ul class="dropdown-menu">
                                 <li>
                                     <a href="<?php echo base_url(); ?>index.php/pusat/listrujukan">Reference Patient</a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo base_url(); ?>index.php/pusat/list_outbox_fkg">Outbox</a>
                                 </li>
                             </ul>
                             <li class="dropdown <?php echo $setting; ?>">

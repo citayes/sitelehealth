@@ -573,11 +573,224 @@ public function save_diagnose($n){
 		<tr><td colspan="2"><a class="btn btn-primary" href="../verifyAcc/'.$m.'">Verify</a></td>'
 		);
 	
-$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => '', 'setting' => '');
+$data['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> 'active', 'inbox' => '', 'setting' => '');
 	$this->load->view('header-pusat', $data['menu']);
 	$this->load->view('view_doctor', $data['array']);
 	$this->load->view('footer');
 	}	
 
+public function retrievejadwalp(){
+		session_start();
+		if(!isset($_SESSION['pusat']))
+			redirect ("homepage");
+
+		$jadwaljaga = new jadwal_jaga();
+		$jadwaljaga-> get();
+		$content="";
+		if($jadwaljaga->result_count() != 0){
+			$content = "<table class='table'>
+						<tr>
+							<td><center><b>Day</b><center></td>
+							<td><center><b>Start Hour</center></b></td>
+							<td><center><b>End Hour</center></b></td>
+							<td><center><b>Doctor</center></b></td>
+						</tr>";
+			foreach($jadwaljaga as $row){
+				$pengguna = new pengguna();
+				$pengguna-> where('id',$row->drg_ortodonti_id)->get();
+					$content .= "<tr><td><center>".$row->hari."</center></a></td>
+								 <td><center>".$row->jam_mulai."</center></td>
+								 <td><center>".$row->jam_selesai."</center></td>
+								 <td><center>".$pengguna->nama."</center></td>
+								 </center></td></tr>";
+			}
+			$content .=  "</table>";
+			$data['array']=array('content'=>$content);
+		}
+		else{
+			$data['array']=array();
+		}
+		
+		$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => '', 'setting' => '');
+		$this->load->view('header-pusat', $data['menu']);
+		$this->load->view('retrievejadwalp', $data['array']);
+		$this->load->view('footer');
+	}
+
+	public function list_outbox_fkg(){
+		session_start();
+		if(!isset($_SESSION['pusat']))
+			redirect ("homepage");
+		
+		$content="";
+		$mengirim = new mengirim();
+		$mengirim->get();
+		$pengguna = new pengguna;
+		$pengguna->where('username', $_SESSION['pusat'])->get();		
+		$lala = $pengguna->id;
+		$pesan = new pesan();
+		$pesan->get();
+		$analisi = new analisi();
+		$analisi->get();
+
+		$content.='<table class="table">
+				<tr>
+				<td><center><b>Id Penerima</center></b></td>
+				<td><center><b>Nama Penerima</center></b></td>
+				<td><center><b>Keterangan</center></b></td>
+				<td><center><b>Operation</center></b></td>
+			</tr>';
+		foreach($mengirim as $row){
+			//foreach ($pesan as $row1) {
+				if($row->admin_id==null && $row->pusat_id==$lala && $row->umum_id!=null){
+					$nama_penerima = new pengguna();
+					$nama_penerima->where('id', $row->umum_id)->get();
+					$content .= "<tr><td><center>".$row->umum_id."</center></a></td>
+									<td><center>".$nama_penerima->nama."</center></td>
+									<td><center>Reference and Diagnosis</center></td>
+									<td><center><a class='btn btn-primary' href='../pusat/view_reference_fkg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
+				}
+				else if($row->admin_id==null && $row->pusat_id==$lala && $row->orto_id!=null){
+					echo 'lala';
+					$nama_penerima1 = new pengguna();
+					$nama_penerima1->where('id', $row->orto_id)->get();
+					$content .= "<tr><td><center>".$row->orto_id."</center></a></td>
+									<td><center>".$nama_penerima1->nama."</center></td>
+									<td><center>Reference and Diagnosis</center></td>
+									<td><center><a class='btn btn-primary' href='../pusat/view_reference_fkg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
+				}
+
+			//}
+		} 
+		foreach ($pesan as $row) {
+			if($row->pengguna_id==$lala){
+				$nama_penerima = new pengguna();
+					$nama_penerima->where('id', $row->penerima_id)->get();
+					$content .= "<tr><td><center>".$row->penerima_id."</center></a></td>
+									<td><center>".$nama_penerima->nama."</center></td>
+									<td><center>Message</center></td>
+									<td><center><a class='btn btn-primary' href='../pusat/outbox_message_fkg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
+			}
+		}
+
+		foreach($analisi as $row){
+			//foreach ($pesan as $row1) {
+				if($row->flag_mengirim==1 && $row->orto_id==$lala){
+					$nama_penerima = new pengguna();
+					$nama_penerima->where('id', '123142')->get();
+					$content .= "<tr><td><center>".$nama_penerima->id."</center></a></td>
+									<td><center>".$nama_penerima->nama."</center></td>
+									<td><center>Diagnosis To Admin</center></td>
+									<td><center><a class='btn btn-primary' href='../pusat/view_diagnosis_fkg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
+			}
+		}
+				
+		$content.='</table>';
+
+		$data['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> '', 'inbox' => 'active', 'setting' => '', 'content'=>$content);
+		//$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'setting' => '');
+		$this->load->view('header-pusat', $data['menu']);
+		$this->load->view('list_outbox_fkg');
+		$this->load->view('footer');
+	}
+
+	public function view_reference_fkg($n){
+		  session_start();
+		  if(!isset($_SESSION['pusat']))
+		  	redirect ("homepage");
+		
+		$pengguna = new pengguna();
+		$pengguna->where('username', $_SESSION['pusat'])->get();
+		$mengirim = new mengirim();
+		$mengirim->where('id', $n)->get();
+		$analisis_id= $mengirim->analisis_id;
+		$analisis = new analisi();
+		$analisis->where('id', $analisis_id)->get();
+		$nama_pusat = new pengguna();
+		$nama_pusat->where('id', $mengirim->pusat_id)->get();
+		$nama_admin = new pengguna();
+		$nama_admin->where('id', $mengirim->admin_id)->get();
+		$nama_penerima = new pengguna();
+		$nama_penerima->where('id', $mengirim->umum_id)->get();
+		$nama_pasien = new pasien();
+		$nama_pasien->where('id', $analisis->pasien_id)->get();
+
+		$data['array'] = array('content' => '<tr><td><b>Recipient id</b></td><td>'.$mengirim->umum_id.'</td></tr>
+			<tr><td><b>Recipient name</b></td><td>'.$nama_penerima->nama.'</td></tr>
+			<tr><td><b>Date</b></td><td>'.$mengirim->tanggal.'</td></tr>
+			<tr><td><b>FKG Doctors name</b></td><td>'.$nama_pusat->nama.'</td></tr>
+			<tr><td><b>Patients id</b></td><td>'.$analisis->pasien_id.'</td></tr>
+			<tr><td><b>Patients name</b></td><td>'.$nama_pasien->nama.'</td></tr>
+			<tr><td><b>PAR Scor</b></td><td>'.$analisis->skor.'</td></tr>
+			<tr><td><b>Maloklusi</b></td><td>'.$analisis->maloklusi_menurut_angka.'</td></tr>
+			<tr><td><b>Diagnosis</b></td><td>'.$analisis->diagnosis_rekomendasi.'</td></tr>
+			<tr><td><b>Kandidat 1</b></td><td>'.$mengirim->kandidat1.'</td></tr>
+			<tr><td><b>Kandidat 2</b></td><td>'.$mengirim->kandidat2.'</td></tr>
+			<tr><td><b>Kandidat 3</b></td><td>'.$mengirim->kandidat3.'</td></tr>
+			<tr><td><b>Kandidat 4</b></td><td>'.$mengirim->kandidat4.'</td></tr>
+			<tr><td><b>Kandidat 5</b></td><td>'.$mengirim->kandidat5.'</td></tr>');
+
+		$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => 'active', 'setting' => '');
+		$this->load->view('header-pusat', $data['menu']);
+		$this->load->view('view_reference_fkg', $data['array']);
+		$this->load->view('footer');
+	}
+
+		public function outbox_message_fkg($n){
+		 session_start();
+		 if(!isset($_SESSION['pusat']))
+			redirect ("homepage");
+
+		$pesan = new pesan();
+		$pesan->where('id', $n)->get();
+		$pengguna = new pengguna();
+		$pengguna->where('id',$pesan->pengguna_id)->get();
+		$nama_penerima = new pengguna();
+		$nama_penerima->where('id', $pesan->penerima_id)->get();
+
+		$data['array'] = array('content' => '<tr><td><b>Recipient id</b></td><td>'.$pesan->penerima_id.'</td></tr>
+			<tr><td><b>Recipient Name</b></td><td>'.$nama_penerima->nama.'</td></tr>
+			<tr><td><b>Subject</b></td><td>'.$pesan->subject.'</td></tr>
+			<tr><td><b>Sender</b></td><td>'.$pengguna->nama.'</td></tr>
+			<tr><td><b>Message</b></td><td>'.$pesan->isi.'</td></tr>
+			</td></tr>');
+
+
+		$data['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> '', 'inbox' => 'active', 'setting' => '');
+		$this->load->view('header-pusat', $data['menu']);
+		$this->load->view('outbox_message_fkg', $data['array']); 
+		$this->load->view('footer');
+	}
+
+	
+	public function view_diagnosis_fkg($n){
+		  session_start();
+		  if(!isset($_SESSION['pusat']))
+		  	redirect ("homepage");
+		
+		$pengguna = new pengguna();
+
+		$pengguna->where('username', $_SESSION['pusat'])->get();
+		//$analisis_id= $mengirim->analisis_id;
+		$analisis = new analisi();
+		$analisis->where('id', $n)->get();
+		$nama_admin = new pengguna();
+		//$nama_admin->where('id', $mengirim->admin_id)->get();
+		$nama_pasien = new pasien();
+		$nama_pasien->where('id', $analisis->pasien_id)->get();
+
+		$data['array'] = array('content' => '
+			<tr><td><b>Recipient name</b></td><td>Admin</td></tr>
+			<tr><td><b>Patients id</b></td><td>'.$analisis->pasien_id.'</td></tr>
+			<tr><td><b>Patients name</b></td><td>'.$nama_pasien->nama.'</td></tr>
+			<tr><td><b>PAR Scor</b></td><td>'.$analisis->skor.'</td></tr>
+			<tr><td><b>Maloklusi</b></td><td>'.$analisis->maloklusi_menurut_angka.'</td></tr>
+			<tr><td><b>Diagnosis</b></td><td>'.$analisis->diagnosis_rekomendasi.'</td></tr>');
+
+		$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => 'active', 'setting' => '');
+		$this->load->view('header-pusat', $data['menu']);
+		$this->load->view('view_diagnosis_fkg', $data['array']);
+		$this->load->view('footer');
+	}	
 }
 ?>

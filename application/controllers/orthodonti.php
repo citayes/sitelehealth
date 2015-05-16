@@ -688,6 +688,99 @@ function do_upload(){
 		$this->load->view('footer');
 	}
 
+	public function view_reference(){
+		session_start();
+		if(!isset($_SESSION['orthodonti']))
+		  	redirect ("homepage");
+		
+		$pengguna = new pengguna();
+		$pengguna->where('username', $_SESSION['orthodonti'])->get();
+		$idDokter = $pengguna->id;
+
+		$pesan = new pesan();
+		$pesan->get();
+
+		if($pesan->result_count()!=0){
+			$content = "<table class='table table-hover'>";
+			$content .="<tr>
+							<td><center><b><strong>From</strong></b></center></td>
+							<td><center><b><strong>Subject</strong></b></center></td>
+							<td><center><b><strong>Patient's Name</strong></b></center></td>
+							<td><center><b><strong>Address</strong></b></center></td>
+							<td><center><b><strong>Action</strong></b></center></td>
+							</tr>";
+
+			foreach($pesan as $row){
+				if($row->penerima_id == $idDokter){
+					$nama_pengirim = new pengguna();
+					$nama_pengirim->where('id', $row->pengguna_id)->get();
+					
+					$rujukan = new rujukan();
+					$rujukan->where('orto_id', $idDokter)->get();	
+					
+					$analisi = new analisi();
+					$analisi->where('id',$rujukan->analisi_id)->get();
+
+					$pasien = new pasien();
+					$pasien->where('id',$analisi->pasien_id)->get();
+
+						$content .= "<tr>
+									<td><center>".$nama_pengirim->nama."</center></td>
+									<td><center>".$row->subject."</center></td>
+									<td><center>".$pasien->nama."</center></td>
+									<td><center>".$pasien->alamat_rumah."</center></td>
+									<td><center><a class='btn btn-primary' href='../orthodonti/detail_reference/".$pasien->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a> 
+								</tr>";
+				}
+			}
+			$content .= "</table>";
+			$data['array']=array('content'=> $content);
+		}
+
+		$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');
+		$this->load->view('header-orthodonti', $data['menu']);
+		$this->load->view('view_reference', $data['array']);
+		$this->load->view('footer');
+	}
+
+	public function detail_reference($n){
+		 session_start();
+		 if(!isset($_SESSION['orthodonti']))
+			redirect ("homepage");
+
+		$pasien = new pasien();
+		$pasien->where('id', $n)->get();
+
+		$pesan = new pesan();
+	//	$pesan->where('id',$p);
+
+		$analisi = new analisi();
+		$analisi->where('pasien_id', $n)->get();
+
+		$data['array'] = array('content' => '<tr><td><b>Name</b></td><td>'.$pasien->nama.'</td></tr>
+			<tr><td><b>Birth Date</b></td><td>'.$pasien->tanggal_lahir.'</td></tr>
+			<tr><td><b>Place of Birth</b></td><td>'.$pasien->tempat_lahir.'</td></tr>
+			<tr><td><b>Religion</b></td><td>'.$pasien->agama.'</td></tr>
+			<tr><td><b>Age</b></td><td>'.$pasien->umur.'</td></tr>
+			<tr><td><b>Height</b></td><td>'.$pasien->tinggi.'</td></tr>
+			<tr><td><b>Weight</b></td><td>'.$pasien->berat.'</td></tr>
+			<tr><td><b>Gender</b></td><td>'.$pasien->jenis_kelamin.'</td></tr>
+			<tr><td><b>Address</b></td><td>'.$pasien->alamat_rumah.'</td></tr>
+			<tr><td><b>Nationality</b></td><td>'.$pasien->warga_negara.'</td></tr>
+			<tr><td><center><b>Diagnose</b></center></td></tr>
+			<tr><td><b>Image</b></td><td>'.$analisi->foto.'</td></tr>			
+			<tr><td><b>Score</b></td><td>'.$analisi->skor.'</td></tr>	
+			<tr><td><b>Malocclusion</b></td><td>'.$analisi->maloklusi_menurut_angka.'</td></tr>	
+			<tr><td><b>Diagnose</b></td><td>'.$analisi->diagnosis_rekomendasi.'</td></tr>	
+			<tr><td><form method="post" action="../detail_reference/'.$pesan->pengguna_id.'"><button type="submit" class="btn btn-primary pull-right">Reply</button></form></td>
+			</tr>');
+
+
+		$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');
+		$this->load->view('header-orthodonti', $data['menu']);
+		$this->load->view('detail_reference',                                                                                                                                                                                                                                                                               $data['array']); 
+		$this->load->view('footer');
+	}
 	
 }
 ?>

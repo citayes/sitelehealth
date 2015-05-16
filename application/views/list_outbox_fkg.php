@@ -4,7 +4,7 @@
     <!-- Sidebar content-->
     <?php
         $pengguna = new pengguna();
-        $pengguna->where('username', $_SESSION['admin'])->get();
+        $pengguna->where('username', $_SESSION['pusat'])->get();
         $profile="";
         $profile .="<br><center><img alt='140x140' src='../../".$pengguna->foto."' style='width:125px; height:125px;' class='img-circle'>
         <p><b>".$pengguna->nama."</b><br>
@@ -23,7 +23,7 @@
                     <div class="row mar-bot40">
 		<div class="col-md-offset-3 col-md-6">
 			<div class="section-header">
-				<center><h2 class="section-heading animated" data-animation="bounceInUp">Daily Schedule</h2></center><hr>
+				<center><h2 class="section-heading animated" data-animation="bounceInUp">Retrieve Outbox</h2></center><hr>
 			</div>
 		</div>
 	</div>
@@ -45,21 +45,3 @@
         </div>
     </div>
     <!-- /#page-content-wrapper -->
-
-
-<script type="text/javascript" src="<?php echo base_url(); ?>asset/js/jquery-1.8.3.min.js" charset="UTF-8"></script>
-<script type="text/javascript" src="<?php echo base_url(); ?>asset/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url(); ?>asset/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
-<script type="text/javascript" src="<?php echo base_url(); ?>asset/js/bootstrap-datetimepicker.id.js" charset="UTF-8"></script>
-<script type="text/javascript">
- $('.form_date').datetimepicker({
-        language:  'id',
-        weekStart: 1,
-        todayBtn:  1,
-  autoclose: 1,
-  todayHighlight: 1,
-  startView: 2,
-  minView: 2,
-  forceParse: 0
-    });
-</script>

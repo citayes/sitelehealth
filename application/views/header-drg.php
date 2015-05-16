@@ -69,7 +69,7 @@
                                     <a href="<?php echo base_url(); ?>index.php/drg/change">Inbox-Message</a>
                                 </li>
                                 <li>
-                                    <a href="<?php echo base_url(); ?>index.php/drg/change">Outbox</a>
+                                    <a href="<?php echo base_url(); ?>index.php/drg/list_outbox_drg">Outbox</a>
                                 </li>
                             </ul>
                         </li>
