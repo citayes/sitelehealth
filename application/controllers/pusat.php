@@ -400,6 +400,7 @@ function do_upload(){
 		
 	}
 
+
 public function save_diagnose($n){
 		session_start();
 				
@@ -410,7 +411,7 @@ public function save_diagnose($n){
 			$skor = $_POST['Skor'];
 			$maloklusi= $_POST['Maloklusi'];
 			$diagnose = $_POST['Diagnose'];
-			$foto = $_POST['Foto'];
+			//$foto = $_POST['Foto'];
 
 			$analisi = new analisi();
 			$rujukan = new rujukan();
@@ -426,6 +427,14 @@ public function save_diagnose($n){
 			$pengguna->where('username', $_SESSION['pusat'])->get();
 			$analisi->orto_id=$pengguna->id;
 			$analisi->foto=$foto;
+<<<<<<< Updated upstream
+=======
+
+
+
+			$analisi->flag_mengirim='2';
+			$analisi->save();
+>>>>>>> Stashed changes
 
 			$merawat->where('pasien_id', $n)->get();
 			$mengirim->umum_id=$merawat->umum_id;
@@ -456,6 +465,52 @@ public function save_diagnose($n){
 
 			
 	}
+
+	function image_upload(){
+		session_start();
+		if(!isset($_SESSION['pusat']))
+			redirect ("homepage");
+
+		$config['upload_path'] = './uploads/images';
+		$config['allowed_types'] = 'jpeg|jpg|png';
+		$config['max_size']	= '2000';
+		$config['max_width']  = '2000';
+		$config['max_height']  = '2000';
+		$config['file_name'] = md5($_SESSION['pusat']);
+		$config['overwrite'] = true;
+
+ 
+		$this->load->library('upload', $config);
+ 
+		if (!$this->upload->do_upload()){
+			$status['menu'] = array('home' => '', 'pasien' => '', 'inbox' => '', 'setting' => 'active', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
+				<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+					<strong>Warning !</strong> Upload failure.
+				</div>");
+			$status['array']=array('content' => '<a href="edit_profile">Back to profile.</a>');
+			$this->load->view('header-pusat', $status['menu']);
+			$this->load->view('upload_image', $status['array']);
+			$this->load->view('footer');		
+		}
+		else{
+			$data = $this->upload->data();
+			$temp ="uploads/images/";
+			$temp .= $config['file_name'];
+			$temp .= $data['file_ext'];
+			$analisi = new analisi();
+			$analisi->where('pasien_id', $n)->update('foto', $temp);
+
+			$status['menu'] = array('home' => '', 'pasien' => '', 'inbox' => '', 'setting' => 'active', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+				<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+					<strong>Well done!</strong> Photo profile successfully changed.
+				</div>");
+			$status['array']=array('content' => '<a href="edit_profile">Back to profile.</a>');
+			$this->load->view('header-pusat', $status['menu']);
+			$this->load->view('image_upload', $status['array']);
+			$this->load->view('footer');
+			//$this->load->vfprintf(handle, format, args)iew('admin', $data);
+		}
+	}
 		public function send_reference($n){
 		session_start();
 			
@@ -478,6 +533,8 @@ public function save_diagnose($n){
 		$this->load->view('send_reference', $data['array']);
 		$this->load->view('footer');
 	}
+
+	
 
 	public function save_reference($n){
 		session_start();
@@ -546,6 +603,7 @@ public function save_diagnose($n){
 		
 	}
 
+
 	public function view_doctor($m){
 	
 	session_start();
@@ -577,7 +635,8 @@ $data['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> 'active', 'inbox'
 	$this->load->view('header-pusat', $data['menu']);
 	$this->load->view('view_doctor', $data['array']);
 	$this->load->view('footer');
-	}	
+}	
+
 
 public function retrievejadwalp(){
 		session_start();

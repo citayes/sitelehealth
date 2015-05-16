@@ -596,6 +596,7 @@ function do_upload(){
 
 	}
 
+<<<<<<< Updated upstream
 
 
 	public function list_pengguna(){
@@ -632,6 +633,9 @@ function do_upload(){
 
 	}
 
+=======
+	
+>>>>>>> Stashed changes
 	public function view_message(){
 		session_start();
 		if(!isset($_SESSION['orthodonti']))
@@ -729,7 +733,11 @@ function do_upload(){
 									<td><center>".$row->subject."</center></td>
 									<td><center>".$pasien->nama."</center></td>
 									<td><center>".$pasien->alamat_rumah."</center></td>
+<<<<<<< Updated upstream
 									<td><center><a class='btn btn-primary' href='../orthodonti/detail_reference/".$pasien->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a> 
+=======
+									<td><center><a class='btn btn-primary' href='../orthodonti/detail_reference/".$pasien->id."/".$pesan->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a> 
+>>>>>>> Stashed changes
 								</tr>";
 				}
 			}
@@ -743,7 +751,11 @@ function do_upload(){
 		$this->load->view('footer');
 	}
 
+<<<<<<< Updated upstream
 	public function detail_reference($n){
+=======
+	public function detail_reference($n,$p){
+>>>>>>> Stashed changes
 		 session_start();
 		 if(!isset($_SESSION['orthodonti']))
 			redirect ("homepage");
@@ -752,7 +764,11 @@ function do_upload(){
 		$pasien->where('id', $n)->get();
 
 		$pesan = new pesan();
+<<<<<<< Updated upstream
 	//	$pesan->where('id',$p);
+=======
+		$pesan->where('id',$p)->get();
+>>>>>>> Stashed changes
 
 		$analisi = new analisi();
 		$analisi->where('pasien_id', $n)->get();
@@ -772,6 +788,7 @@ function do_upload(){
 			<tr><td><b>Score</b></td><td>'.$analisi->skor.'</td></tr>	
 			<tr><td><b>Malocclusion</b></td><td>'.$analisi->maloklusi_menurut_angka.'</td></tr>	
 			<tr><td><b>Diagnose</b></td><td>'.$analisi->diagnosis_rekomendasi.'</td></tr>	
+<<<<<<< Updated upstream
 			<tr><td><form method="post" action="../detail_reference/'.$pesan->pengguna_id.'"><button type="submit" class="btn btn-primary pull-right">Reply</button></form></td>
 			</tr>');
 
@@ -782,5 +799,52 @@ function do_upload(){
 		$this->load->view('footer');
 	}
 	
+=======
+			
+			<tr><td><center><a class="btn btn-primary" href="../orthodonti/reply_message/'.$pesan->id.'">Reply<a></center></td></tr>');
+		
+
+		$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');
+		$this->load->view('header-orthodonti', $data['menu']);
+		$this->load->view('detail_reference', $data['array']); 
+		$this->load->view('footer');
+	}
+
+	public function reply_message($n){
+		session_start();
+		if(!isset($_SESSION['orthodonti']))
+			redirect ("homepage");
+
+			// $pengguna = new pengguna();
+			// $pengguna->get();	
+			$pesan = new pesan();
+			$pesan->where('id',$n)->get();
+
+			$new_pesan = new pesan();
+			$new_pesan->pengguna_id=$pesan->penerima_id;
+
+			$tujuan=$pesan->pengguna_id;
+
+		if($_SERVER['REQUEST_METHOD'] == 'POST'){
+			$subject = $_POST['subject'];
+			$isi = $_POST['isi'];
+
+			// $new_pengguna = new pengguna();
+			// $new_pengguna->where('username', $_SESSION['orthodonti'])->get();
+
+			$new_pesan->penerima_id=$tujuan;
+			$pesan->subject=$subject;
+			$pesan->isi=$isi;
+
+			$pesan->save();
+		}
+
+		$data['array'] = array('content' => $tujuan);	
+		$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');		
+		$this->load->view('header-orthodonti', $data['menu']);
+		$this->load->view('reply_message');
+		$this->load->view('footer');
+	}
+>>>>>>> Stashed changes
 }
 ?>

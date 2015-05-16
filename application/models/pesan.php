@@ -2,6 +2,7 @@
 <?php
 	class pesan extends DataMapper {
 		var $has_one = array('pengguna');
+<<<<<<< Updated upstream
 		var $validation = array(
     	'subject' => array(
      	'rules' => array('required', 'min_length' => 1, 'max_length' => 200)
@@ -13,4 +14,7 @@
      	'rules' => array('required')
     	),
 );
+=======
+		
+>>>>>>> Stashed changes
 	}

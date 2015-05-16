@@ -64,8 +64,13 @@
                                 <li>
                                     <a href="<?php echo base_url(); ?>index.php/orthodonti/send_message">Send Message</a>
                                 </li>
+<<<<<<< Updated upstream
                                 <li class="dropdown-submenu <?php echo $setting; ?>">
                                      <a tabindex="-1" href="#">Inbox<strong class="caret"></strong></a>
+=======
+                               <!--  <li class="dropdown <?php echo $setting; ?>">
+                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Inbox<strong class="caret"></strong></a>
+>>>>>>> Stashed changes
                                         <ul class="dropdown-menu">
                                             <li>
                                                 <a href="<?php echo base_url(); ?>index.php/orthodonti/view_message">View Messages</a>
@@ -74,10 +79,19 @@
                                                 <a href="<?php echo base_url(); ?>index.php/orthodonti/view_message">Diagnosis From FKG UI</a>
                                             </li>
                                         </ul>
-                                </li>
+                                </li> -->
                                 <li>
                                     <a href="<?php echo base_url(); ?>index.php/orthodonti/change">Outbox</a>
                                 </li>
+                                    <li>
+                                        <a href="<?php echo base_url(); ?>index.php/orthodonti/view_message">View Messages</a>
+                                    </li>
+                                    <li>
+                                        <a href="<?php echo base_url(); ?>index.php/orthodonti/view_message">Diagnosis From FKG UI</a>
+                                    </li>
+                                    <li>
+                                        <a href="<?php echo base_url(); ?>index.php/orthodonti/view_reference">Reference</a>
+                                    </li>
                             </ul>
                         </li> -->
                         <li class="dropdown <?php echo $inbox; ?>">

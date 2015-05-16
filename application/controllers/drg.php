@@ -29,8 +29,7 @@ class DRG extends CI_Controller {
 			$Jenis_Kelamin = $_POST['Gender'];
 			$Warga_Negara = $_POST['Nationality'];
 			$Agama = $_POST['Religion'];
-			$Skor_PAR = $_POST['Par'];
-
+			
 			$pengguna = new pengguna();
 			$pengguna->where('username', $_SESSION['drg'])->get();
 			$idDokter = $pengguna->id;
