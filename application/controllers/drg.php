@@ -538,13 +538,21 @@ class DRG extends CI_Controller {
 				<td><center><b>Operation</center></b></td>
 			</tr>';
 		foreach($mengirim as $row){
-			if($row->umum_id==$lala && $row->pusat_id!=null){
+			if($row->umum_id==$lala && $row->pusat_id!=null && $row->flag_membaca!=1){
 				$nama_pusat = new pengguna();
 				$nama_pusat->where('id', $row->pusat_id)->get();
 				$content .= "<tr><td><center>".$row->analisis_id."</center></a></td>
 								<td><center>".$row->umum_id."</center></td>
 								<td><center>".$nama_pusat->nama."</center></td>
 								<td><center><a class='btn btn-primary' href='../drg/reference_drg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
+			}
+			else if($row->umum_id==$lala && $row->pusat_id!=null && $row->flag_membaca==1){
+				$nama_pusat = new pengguna();
+				$nama_pusat->where('id', $row->pusat_id)->get();
+				$content .= "<tr><td><b><center>".$row->analisis_id."</center></b></a></td>
+								<td><b><center>".$row->umum_id."</center></b></td>
+								<td><b><center>".$nama_pusat->nama."</center></b></td>
+								<td><b><center><a class='btn btn-primary' href='../drg/reference_drg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></b></td></tr>";
 			}
 		} 
 				
@@ -673,6 +681,11 @@ class DRG extends CI_Controller {
 		$nama_admin->where('id', $mengirim->admin_id)->get();
 		$nama_pasien = new pasien();
 		$nama_pasien->where('id', $analisis->pasien_id)->get();
+
+		$mengirim1 = new mengirim();
+		$mengirim1->where('id', $n)->update('flag_membaca', '2');
+		$analisis1 = new analisi();
+		$analisis1->where('id', $n)->update('flag_membaca', '2');
 
 		$data['array'] = array('content' => '<tr><td><b>Date</b></td><td>'.$mengirim->tanggal.'</td></tr>
 			<tr><td><b>Admins name</b></td><td>'.$nama_admin->nama.'</td></tr>
