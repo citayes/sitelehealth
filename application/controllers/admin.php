@@ -562,12 +562,12 @@ class Admin extends CI_Controller {
 			redirect ("homepage");
 
 		$analisi = new analisi();
-		$analisi-> get();
+		$analisi->order_by('id', 'desc')->get();
 		$content="";
 		if($analisi->result_count() != 0){
 			$content = "<table class='table'>
 						<tr>
-							<td><center><b>Patient's id</b><center></td>
+							<td><center><b>Date</b><center></td>
 							<td><center><b>Patient's name</center></b></td>
 							<td><center><b>FKG UI's Id</center></b></td>
 							<td><center><b>Operation</center></b></td>
@@ -576,7 +576,7 @@ class Admin extends CI_Controller {
 				if($row->flag_mengirim=='1' && $row->flag_membaca!=1){
 					$pasien = new pasien();
 					$pasien->where('id', $row->pasien_id)->get();
-					$content .= "<tr><td><center>".$row->pasien_id."</center></a></td>
+					$content .= "<tr><td><center>".$row->waktu."</center></a></td>
 								 <td><center>".$pasien->nama."</center></td>
 								 <td><center>".$row->orto_id."</center></td>
 								 <td><center><a class='btn btn-primary' href='../admin/read_diagnosa/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'> Detail</span></a></center></td></tr>";
@@ -584,7 +584,7 @@ class Admin extends CI_Controller {
 				else if($row->flag_mengirim=='1' && $row->flag_membaca==1){
 					$pasien = new pasien();
 					$pasien->where('id', $row->pasien_id)->get();
-					$content .= "<tr><td><b><center>".$row->pasien_id."</center></a></b></td>
+					$content .= "<tr><td><b><center>".$row->waktu."</center></a></b></td>
 								 <td><b><center>".$pasien->nama."</center></b></td>
 								 <td><b><center>".$row->orto_id."</center></b></td>
 								 <td><b><center><a class='btn btn-primary' href='../admin/read_diagnosa/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'> Detail</span></a></center></b></td></tr>";

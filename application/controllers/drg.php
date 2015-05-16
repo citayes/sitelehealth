@@ -526,13 +526,13 @@ class DRG extends CI_Controller {
 		
 		$content="";
 		$mengirim = new mengirim();
-		$mengirim->get();
+		$mengirim->order_by('waktu', 'desc')->get();
 		$pengguna = new pengguna;
 		$pengguna->where('username', $_SESSION['drg'])->get();		
 		$lala = $pengguna->id;
 		$content.='<table class="table">
 				<tr>
-				<td><center><b>Id Analisa</center></b></td>
+				<td><center><b>Date</center></b></td>
 				<td><center><b>Id Dokter</center></b></td>
 				<td><center><b>Nama Dokter</center></b></td>
 				<td><center><b>Operation</center></b></td>
@@ -541,7 +541,7 @@ class DRG extends CI_Controller {
 			if($row->umum_id==$lala && $row->pusat_id!=null && $row->flag_membaca!=1){
 				$nama_pusat = new pengguna();
 				$nama_pusat->where('id', $row->pusat_id)->get();
-				$content .= "<tr><td><center>".$row->analisis_id."</center></a></td>
+				$content .= "<tr><td><center>".$row->waktu."</center></a></td>
 								<td><center>".$row->umum_id."</center></td>
 								<td><center>".$nama_pusat->nama."</center></td>
 								<td><center><a class='btn btn-primary' href='../drg/reference_drg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
@@ -549,7 +549,7 @@ class DRG extends CI_Controller {
 			else if($row->umum_id==$lala && $row->pusat_id!=null && $row->flag_membaca==1){
 				$nama_pusat = new pengguna();
 				$nama_pusat->where('id', $row->pusat_id)->get();
-				$content .= "<tr><td><b><center>".$row->analisis_id."</center></b></a></td>
+				$content .= "<tr><td><b><center>".$row->waktu."</center></b></a></td>
 								<td><b><center>".$row->umum_id."</center></b></td>
 								<td><b><center>".$nama_pusat->nama."</center></b></td>
 								<td><b><center><a class='btn btn-primary' href='../drg/reference_drg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></b></td></tr>";
