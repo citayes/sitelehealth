@@ -427,6 +427,9 @@ public function save_diagnose($n){
 			$analisi->orto_id=$pengguna->id;
 			$analisi->foto=$foto;
 
+			$analisi->flag_mengirim='2';
+			$analisi->save();
+
 			$merawat->where('pasien_id', $n)->get();
 			$mengirim->umum_id=$merawat->umum_id;
 			$mengirim->pusat_id=$merawat->pusat_id;

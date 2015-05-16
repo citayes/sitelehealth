@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>Sistem Informasi Telehealth Orthodontist</title>
-	<!-- core CSS -->
+    <!-- core CSS -->
     <link href="<?php echo base_url(); ?>asset/css/bootstrap.min.css" rel="stylesheet">
     <link href="<?php echo base_url(); ?>asset/css/font-awesome.min.css" rel="stylesheet">
     <link href="<?php echo base_url(); ?>asset/css/animate.min.css" rel="stylesheet">
@@ -41,7 +41,7 @@
                     </button>
                     <a class="navbar-brand" href="homepage"><img src="<?php echo base_url(); ?>asset/images/logo.png" alt="logo" width="104" height="57"></a>
                 </div>
-				
+                
                 <div class="collapse navbar-collapse navbar-right">
                     <ul class="nav navbar-nav">
                         <li class="<?php echo $home; ?>">
@@ -58,28 +58,6 @@
                                 </li>
                             </ul>
                         </li>
-<!--                         <li class="dropdown <?php echo $setting; ?>">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Messages<strong class="caret"></strong></a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a href="<?php echo base_url(); ?>index.php/orthodonti/send_message">Send Message</a>
-                                </li>
-                                <li class="dropdown-submenu <?php echo $setting; ?>">
-                                     <a tabindex="-1" href="#">Inbox<strong class="caret"></strong></a>
-                                        <ul class="dropdown-menu">
-                                            <li>
-                                                <a href="<?php echo base_url(); ?>index.php/orthodonti/view_message">View Messages</a>
-                                            </li>
-                                            <li>
-                                                <a href="<?php echo base_url(); ?>index.php/orthodonti/view_message">Diagnosis From FKG UI</a>
-                                            </li>
-                                        </ul>
-                                </li>
-                                <li>
-                                    <a href="<?php echo base_url(); ?>index.php/orthodonti/change">Outbox</a>
-                                </li>
-                            </ul>
-                        </li> -->
                         <li class="dropdown <?php echo $inbox; ?>">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Message<strong class="caret"></strong></a>
                             <ul class="dropdown-menu">
