@@ -18,6 +18,9 @@
     <link href="<?php echo base_url(); ?>asset/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
 
     <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>asset/css/jquery.gritter.css" />
+    <script
+    src="http://maps.googleapis.com/maps/api/js">
+    </script>
      
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>

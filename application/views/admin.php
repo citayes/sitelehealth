@@ -21,7 +21,9 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h1>Home</h1>
-                    
+                    <div id="googleMap" style="width:100%;height:400px;">
+                        <button class="btn btn-info"onclick="getLocation()">Show Map</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -30,23 +32,31 @@
 
 </div>
 <!-- /#wrapper calvin thurovin -->
+    
+<script>
+var x = document.getElementById("googleMap");
 
-<script type="text/javascript">
-        $(document).ready(function(){
-        var unique_id = $.gritter.add({
-            // (string | mandatory) the heading of the notification
-            title: 'Welcome to SITO!',
-            // (string | mandatory) the text inside the notification
-            text: 'We are a small but enthusiastic team of software designers and developers. We exchange ideas and work in a room that we call innovation labs. <a href="http://alfath.co.id" target="_blank" style="color:#ffd777">alfath.co.id</a>',
-            // (string | optional) the image to display on the left
-            image: '',
-            // (bool | optional) if you want it to fade out on its own or just sit there
-            sticky: true,
-            // (int | optional) the time you want it to be alive for before fading out
-            time: '',
-            // (string | optional) the class name you want to apply to that specific message
-            class_name: 'my-sticky-class'
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+}
+
+function showPosition(position) {
+    var lat = position.coords.latitude;
+    var lon = position.coords.longitude;
+    var myCenter=new google.maps.LatLng(lat, lon);    
+    var mapProp = {
+        center:myCenter,
+        zoom:15,
+        mapTypeId:google.maps.MapTypeId.ROADMAP
+        };
+    var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+    var marker=new google.maps.Marker({
+            position:myCenter,
         });
-        return false;
-        });
+        marker.setMap(map);
+}
 </script>
