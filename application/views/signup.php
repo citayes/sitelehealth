@@ -110,7 +110,7 @@
 										</div>
 									</div>
 									<div class="form-group">
-									<label class="col-sm-3 control-label" for="role">Daftar Sebagai</label>
+									<label class="col-sm-3 control-label" for="role">Role</label>
 										<div class="col-sm-9">
 											<input type="radio" name="Role"  value='orthodonti'>Orthodontist</input>
 											<input type="radio" name="Role"  value='umum'>Dentist</input>
