@@ -573,13 +573,21 @@ class Admin extends CI_Controller {
 							<td><center><b>Operation</center></b></td>
 						</tr>";
 			foreach($analisi as $row){
-				if($row->flag_mengirim=='1'){
+				if($row->flag_mengirim=='1' && $row->flag_membaca!=1){
 					$pasien = new pasien();
 					$pasien->where('id', $row->pasien_id)->get();
 					$content .= "<tr><td><center>".$row->pasien_id."</center></a></td>
 								 <td><center>".$pasien->nama."</center></td>
 								 <td><center>".$row->orto_id."</center></td>
 								 <td><center><a class='btn btn-primary' href='../admin/read_diagnosa/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'> Detail</span></a></center></td></tr>";
+				}
+				else if($row->flag_mengirim=='1' && $row->flag_membaca==1){
+					$pasien = new pasien();
+					$pasien->where('id', $row->pasien_id)->get();
+					$content .= "<tr><td><b><center>".$row->pasien_id."</center></a></b></td>
+								 <td><b><center>".$pasien->nama."</center></b></td>
+								 <td><b><center>".$row->orto_id."</center></b></td>
+								 <td><b><center><a class='btn btn-primary' href='../admin/read_diagnosa/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'> Detail</span></a></center></b></td></tr>";
 				}
 			}
 			$content .=  "</table>";
@@ -602,6 +610,8 @@ class Admin extends CI_Controller {
 		
 		$analisi = new analisi();
 		$analisi->where('id', $n)->get();
+		$analisi1 = new analisi();
+		$analisi1->where('id', $n)->update('flag_membaca', '2');
 
 		$data['array'] = array('content' => '<tr><td><b>Id pasien</b></td><td>'.$analisi->pasien_id.'</td></tr>
 			<tr><td><b>Id Orthodontist</b></td><td>'.$analisi->orto_id.'</td`></tr>
