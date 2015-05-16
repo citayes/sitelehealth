@@ -80,7 +80,6 @@
 										</div>
 									</div>
 									<div class="form-group">
-<<<<<<< HEAD
 									<label class="col-sm-3 control-label" for="latitude">Latitude</label>
 										<div class="col-sm-6">
 											<input id="latitude" type="text" class="form-control" name="Latitude" required readonly>
@@ -88,18 +87,6 @@
 										<div class="col-sm-3">
 											<button class="btn btn-danger btn-sm" onclick="getLatitude()">Get Latitude</button>
 										</div>
-=======
-									<label class="col-sm-3 control-label" for="alamat">Clinic Address</label>
-										<div class="col-sm-9">
-											<input type="text" class="form-control" name="Alamat" placeholder="Your Clinic Address" required autofocus>
-										</div>
-									</div>
-									<div class="form-group">
-									<label class="col-sm-3 control-label" for="kodepos">Postal Code</label>
-										<div class="col-sm-9">
-											<input type="text" class="form-control" name="Kodepos" placeholder="Your Postal Code" required autofocus>
-										</di4v>
->>>>>>> 64140d1eb9b200b886e7cb0865957a81c9e80b49
 									</div>
 									<div class="form-group">
 									<label class="col-sm-3 control-label" for="longitude">Longitude</label>
@@ -111,15 +98,15 @@
 										</div>
 									</div>
 									<div class="form-group">
-									<label class="col-sm-3 control-label" for="alamat">Alamat Praktik</label>
+									<label class="col-sm-3 control-label" for="alamat">Clinic Address</label>
 										<div class="col-sm-9">
-											<input type="text" class="form-control" name="Alamat" placeholder="Masukkan Alamat Praktik" required autofocus>
+											<input type="text" class="form-control" name="Alamat" placeholder="Your Clinic Address" required autofocus>
 										</div>
 									</div>
 									<div class="form-group">
-									<label class="col-sm-3 control-label" for="kodepos">Kode Pos</label>
+									<label class="col-sm-3 control-label" for="kodepos">Postal Code</label>
 										<div class="col-sm-9">
-											<input type="text" class="form-control" name="Kodepos" placeholder="Masukkan Kode Pos Alamat Praktik" required autofocus>
+											<input type="text" class="form-control" name="Kodepos" placeholder="Your Postal Code" required autofocus>
 										</div>
 									</div>
 									<div class="form-group">
