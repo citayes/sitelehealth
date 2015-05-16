@@ -129,37 +129,15 @@ class Homepage extends CI_Controller {
 							$dokter_gigi->pengguna_id = $pengguna->id;
 							$dokter_gigi->kursus = $Kursus;
 							$dokter_gigi->pendidikan_dokter = $Pendidikan;
-							$dokter_gigi->alamat_prakitk = $Alamat;
+							$dokter_gigi->alamat_praktik = $Alamat;
 							$dokter_gigi->kode_pos = $Kode_pos;
+							$dokter_gigi->longitude = $longitude;
+							$dokter_gigi->latitude = $latitude;
 							
 							$dokter_gigi->validate();
 							if($dokter_gigi->valid){
 								$dokter_gigi->save();
 
-<<<<<<< Updated upstream
-						$pengguna->where('username', $Username)->get();
-						$dokter_gigi->pengguna_id = $pengguna->id;
-						$dokter_gigi->kursus = $Kursus;
-						$dokter_gigi->pendidikan_dokter = $Pendidikan;
-						$dokter_gigi->alamat_praktik = $Alamat;
-						$dokter_gigi->kode_pos = $Kode_pos;
-						$dokter_gigi->longitude = $longitude;
-						$dokter_gigi->latitude = $latitude;
-						$dokter_gigi->save();
-
-						if($Role=='umum'){
-							$drg_lain->pengguna_id=$pengguna->id;
-							$drg_lain->kursus_ortodonti=$Kursus;
-							$drg_lain->jadwal_praktik='n';
-							$drg_lain->save();
-							$data['menu'] = array('home' => '', 'signin' => '', 'signup' => 'active', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
-	  						<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-	  						<strong>Well done!</strong> You successfully registered. Please wait. Your account will be verified soon.
-							</div>");
-							$this->load->view('header-home', $data['menu']);
-							$this->load->view('signup');
-							$this->load->view('footer');
-=======
 								if($Role=='umum'){
 									$drg_lain->pengguna_id=$pengguna->id;
 									$drg_lain->kursus_orthodonti=$Kursus;
@@ -193,7 +171,6 @@ class Homepage extends CI_Controller {
 									$this->load->view('signup');
 									$this->load->view('footer');
 							}
->>>>>>> Stashed changes
 						}else{
 							$data['menu'] = array('home' => '', 'signin' => '', 'signup' => 'active', 'status'=> "<div class='alert alert-warning alert-dismissible' role='alert'>
 			  						<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>

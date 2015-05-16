@@ -82,7 +82,7 @@
 									<div class="form-group">
 									<label class="col-sm-3 control-label" for="latitude">Latitude</label>
 										<div class="col-sm-6">
-											<input id="latitude" type="text" class="form-control" name="Latitude" required readonly>
+											<input id="latitude" type="text" class="form-control" name="Latitude" required readonly maxlength='50'>
 										</div>
 										<div class="col-sm-3">
 											<button class="btn btn-danger btn-sm" onclick="getLatitude()">Get Latitude</button>
@@ -91,7 +91,7 @@
 									<div class="form-group">
 									<label class="col-sm-3 control-label" for="longitude">Longitude</label>
 										<div class="col-sm-6">
-											<input id="longitude" type="text" class="form-control" name="Longitude" required readonly>
+											<input id="longitude" type="text" class="form-control" name="Longitude" required readonly maxlength='50' >
 										</div>
 										<div class="col-sm-3">
 											<button class="btn btn-danger btn-sm" onclick="getLongitude()">Get Longitude</button>
