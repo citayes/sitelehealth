@@ -385,17 +385,17 @@ class Admin extends CI_Controller {
 	$dokter_gigi->where('pengguna_id', $m)->get();
 
 
-	$data['array']= array('content' => '<tr><td>Nama</td><td>' .$pengguna->nama.'</td><tr>
+	$data['array']= array('content' => '<tr><td>Name</td><td>' .$pengguna->nama.'</td><tr>
 		<tr><td>Email</td><td>'.$pengguna->email.'</td></tr>
-		<tr><td>Tanggal_Lahir</td><td>'.$pengguna->tanggal_lahir.'</td></tr>
-		<tr><td>Tempat_Lahir</td><td>'.$pengguna->tempat_lahir.'</td></tr>
-		<tr><td>Warga_Negara</td><td>'.$pengguna->warga_negara.'</td></tr>
-		<tr><td>Jenis_kelamin</td><td>'.$pengguna->jenis_kelamin.'</td></tr>
-		<tr><td>Agama</td><td>'.$pengguna->agama.'</td></tr>
-		<tr><td>Foto</td><td>'.$pengguna->foto.'</td></tr>
-		<tr><td>Kursus</td><td>'.$dokter_gigi->kursus.'</td></tr>
-		<tr><td>Pendidikan_Dokter</td><td>'.$dokter_gigi->pendidikan_dokter.'</td></tr>
-		<tr><td>Alamat_Praktik</td><td>'.$dokter_gigi->alamat_praktik.'</td></tr>
+		<tr><td>Date of Birth</td><td>'.$pengguna->tanggal_lahir.'</td></tr>
+		<tr><td>TPlace of Birth</td><td>'.$pengguna->tempat_lahir.'</td></tr>
+		<tr><td>Nationality</td><td>'.$pengguna->warga_negara.'</td></tr>
+		<tr><td>Gender</td><td>'.$pengguna->jenis_kelamin.'</td></tr>
+		<tr><td>Religion</td><td>'.$pengguna->agama.'</td></tr>
+		<tr><td>Photo</td><td>'.$pengguna->foto.'</td></tr>
+		<tr><td>Course</td><td>'.$dokter_gigi->kursus.'</td></tr>
+		<tr><td>Education</td><td>'.$dokter_gigi->pendidikan_dokter.'</td></tr>
+		<tr><td>Clinic Address</td><td>'.$dokter_gigi->alamat_praktik.'</td></tr>
 		<tr><td colspan="2"><a class="btn btn-primary" href="../verifyAcc/'.$m.'">Verify</a></td>'
 		);
 	
@@ -837,16 +837,16 @@ class Admin extends CI_Controller {
 		$pesan->get();
 		$content.='<table class="table">
 				<tr>
-				<td><center><b>Waktu</center></b></td>
-				<td><center><b>Nama Penerima</center></b></td>
-				<td><center><b>Keterangan</center></b></td>
+				<td><center><b>Time</center></b></td>
+				<td><center><b>To</center></b></td>
+				<td><center><bInformation</center></b></td>
 				<td><center><b>Operation</center></b></td>
 			</tr>';
 		$content1.='<table class="table">
 				<tr>
-				<td><center><b>Waktu</center></b></td>
-				<td><center><b>Nama Penerima</center></b></td>
-				<td><center><b>Keterangan</center></b></td>
+				<td><center><b>Time</center></b></td>
+				<td><center><b>To</center></b></td>
+				<td><center><b>Information</center></b></td>
 				<td><center><b>Operation</center></b></td>
 			</tr>';
 		foreach($mengirim->order_by('id', 'desc')->get() as $row){
@@ -940,21 +940,21 @@ class Admin extends CI_Controller {
 		$mengirim1 = new mengirim();
 		$mengirim1->where('id', $n)->update('flag_outbox', '2');
 
-		$data['array'] = array('content' => '<tr><td><b>Recipient id</b></td><td>'.$mengirim->umum_id.'</td></tr>
-			<tr><td><b>Recipient name</b></td><td>'.$nama_penerima->nama.'</td></tr>
+		$data['array'] = array('content' => '<tr><td><b>Recipient ID</b></td><td>'.$mengirim->umum_id.'</td></tr>
+			<tr><td><b>Recipient Name</b></td><td>'.$nama_penerima->nama.'</td></tr>
 			<tr><td><b>Date</b></td><td>'.$mengirim->tanggal.'</td></tr>
-			<tr><td><b>Admins name</b></td><td>'.$nama_admin->nama.'</td></tr>
-			<tr><td><b>FKG Doctors name</b></td><td>'.$nama_pusat->nama.'</td></tr>
-			<tr><td><b>Patients id</b></td><td>'.$analisis->pasien_id.'</td></tr>
-			<tr><td><b>Patients name</b></td><td>'.$nama_pasien->nama.'</td></tr>
-			<tr><td><b>PAR Scor</b></td><td>'.$analisis->skor.'</td></tr>
-			<tr><td><b>Maloklusi</b></td><td>'.$analisis->maloklusi_menurut_angka.'</td></tr>
+			<tr><td><b>Admins Name</b></td><td>'.$nama_admin->nama.'</td></tr>
+			<tr><td><b>Doctors Name</b></td><td>'.$nama_pusat->nama.'</td></tr>
+			<tr><td><b>Patients ID</b></td><td>'.$analisis->pasien_id.'</td></tr>
+			<tr><td><b>Patients Name</b></td><td>'.$nama_pasien->nama.'</td></tr>
+			<tr><td><b>PAR Score</b></td><td>'.$analisis->skor.'</td></tr>
+			<tr><td><b>Malocclusion</b></td><td>'.$analisis->maloklusi_menurut_angka.'</td></tr>
 			<tr><td><b>Diagnosis</b></td><td>'.$analisis->diagnosis_rekomendasi.'</td></tr>
-			<tr><td><b>Kandidat 1</b></td><td>'.$mengirim->kandidat1.'</td></tr>
-			<tr><td><b>Kandidat 2</b></td><td>'.$mengirim->kandidat2.'</td></tr>
-			<tr><td><b>Kandidat 3</b></td><td>'.$mengirim->kandidat3.'</td></tr>
-			<tr><td><b>Kandidat 4</b></td><td>'.$mengirim->kandidat4.'</td></tr>
-			<tr><td><b>Kandidat 5</b></td><td>'.$mengirim->kandidat5.'</td></tr>');
+			<tr><td><b>Candidate 1</b></td><td>'.$mengirim->kandidat1.'</td></tr>
+			<tr><td><b>Candidate 2</b></td><td>'.$mengirim->kandidat2.'</td></tr>
+			<tr><td><b>Candidate 3</b></td><td>'.$mengirim->kandidat3.'</td></tr>
+			<tr><td><b>Candidate 4</b></td><td>'.$mengirim->kandidat4.'</td></tr>
+			<tr><td><b>Candidate 5</b></td><td>'.$mengirim->kandidat5.'</td></tr>');
 
 		$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => 'active', 'setting' => '');
 		$this->load->view('header-admin', $data['menu']);
@@ -1125,10 +1125,14 @@ class Admin extends CI_Controller {
 		$nama_penerima = new pengguna();
 		$nama_penerima->where('id', $pesan->penerima_id)->get();
 
+<<<<<<< Updated upstream
 		$pesan1 = new pesan();
 		$pesan1->where('id', $n)->update('flag_outbox', '2');
 
 		$data['array'] = array('content' => '<tr><td><b>Recipient id</b></td><td>'.$pesan->penerima_id.'</td></tr>
+=======
+		$data['array'] = array('content' => '<tr><td><b>Recipient ID</b></td><td>'.$pesan->penerima_id.'</td></tr>
+>>>>>>> Stashed changes
 			<tr><td><b>Recipient Name</b></td><td>'.$nama_penerima->nama.'</td></tr>
 			<tr><td><b>Subject</b></td><td>'.$pesan->subject.'</td></tr>
 			<tr><td><b>Sender</b></td><td>'.$pengguna->nama.'</td></tr>

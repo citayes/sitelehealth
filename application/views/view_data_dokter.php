@@ -17,7 +17,7 @@
     <div class="row">
 		<div class="col-md-offset-3 col-md-6">
 			<div class="section-header">
-				<h2 class="section-heading animated" data-animation="bounceInUp"><center>Data Dokter Gigi</center></h2><hr>
+				<h2 class="section-heading animated" data-animation="bounceInUp"><center>Doctor's Data</center></h2><hr>
 			</div>
 		</div>
 		<div class="col-md-8 col-md-offset-2">

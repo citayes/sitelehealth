@@ -26,10 +26,10 @@
                     <div class="col-md-10">
                       <ul class="nav nav-tabs">
                          <li class="active">
-                            <a href="#panel-346120" data-toggle="tab">Referral and Diagnosis Sent</a>
+                            <a href="#panel-346120" data-toggle="tab">Reference and Diagnosis</a>
                         </li>
                         <li>
-                            <a href="#panel-486345" data-toggle="tab">Message</a>
+                            <a href="#panel-486345" data-toggle="tab">Messages</a>
                         </li>
                     </ul>
                     <div class="tab-content">
@@ -43,7 +43,7 @@
                                         <div class="row mar-bot40">
                                             <div class="col-md-offset-3 col-md-6">
                                                 <div class="section-header">
-                                                    <center><h2 class="section-heading animated" data-animation="bounceInUp">References and Diagnosis Sent</h2></center><hr>
+                                                    <center><h2 class="section-heading animated" data-animation="bounceInUp">Reference and Diagnosis</h2></center><hr>
                                                 </div>
                                             </div>
                                         </div>
