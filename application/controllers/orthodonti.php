@@ -183,26 +183,34 @@ function do_upload(){
 			redirect ("homepage");
 		$content="";
 		$mengirim = new mengirim();
-		$mengirim->get();
+		$mengirim->order_by('waktu', 'desc')->get();
 
 		$pengguna = new pengguna;
 		$pengguna->where('username', $_SESSION['orthodonti'])->get();		
  		$lala = $pengguna->id;
 		$content .= '<table class="table">
 				<tr>
-				<td><center><b>Id Analisa</center></b></td>
+				<td><center><b>Date</center></b></td>
 				<td><center><b>Id Dokter</center></b></td>
 				<td><center><b>Nama Dokter</center></b></td>
 				<td><center><b>Operation</center></b></td>
 			</tr>';				
 		foreach($mengirim as $row){
-			if($row->orto_id==$lala){
+			if($row->orto_id==$lala && $row->flag_membaca!=1){
 				$nama_pusat = new pengguna();
 				$nama_pusat->where('id', $row->pusat_id)->get();
-				$content .= "<tr><td><center>".$row->analisis_id."</center></a></td>
+				$content .= "<tr><td><center>".$row->waktu."</center></a></td>
 								<td><center>".$row->orto_id."</center></td>
 								<td><center>".$nama_pusat->nama."</center></td>
-								<td><center><a class='btn btn-primary' href='../admin/read_diagnosa/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a></center></td></tr>";
+								<td><center><a class='btn btn-primary' href='../orthodonti/reference_orthodonti/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a></center></b></td></tr>";
+			}
+			else if($row->orto_id==$lala && $row->flag_membaca==1){
+				$nama_pusat = new pengguna();
+				$nama_pusat->where('id', $row->pusat_id)->get();
+				$content .= "<tr><td><b><center>".$row->waktu."</center></a></b></td>
+								<td><b><center>".$row->orto_id."</center></b></td>
+								<td><b><center>".$nama_pusat->nama."</center></b></td>
+								<td><b><center><a class='btn btn-primary' href='../orthodonti/reference_orthodonti/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a></center></b></td></tr>";
 			}
 		}
 		$content.='</table>';
@@ -210,6 +218,52 @@ function do_upload(){
 		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'setting' => '', 'content'=>$content);
 		$this->load->view('header-orthodonti', $data['menu']);
 		$this->load->view('list_reference');
+		$this->load->view('footer');
+	}
+
+	public function reference_orthodonti($n){
+		  session_start();
+		  if(!isset($_SESSION['orthodonti']))
+		  	redirect ("homepage");
+		
+		$pengguna = new pengguna();
+		$pengguna->where('username', $_SESSION['orthodonti'])->get();
+		$mengirim = new mengirim();
+		$mengirim->where('id', $n)->get();
+		$analisis_id= $mengirim->analisis_id;
+		$analisis = new analisi();
+		$analisis->where('id', $analisis_id)->get();
+		$nama_pusat = new pengguna();
+		$nama_pusat->where('id', $mengirim->pusat_id)->get();
+		$nama_admin = new pengguna();
+		$nama_admin->where('id', $mengirim->admin_id)->get();
+		$nama_pasien = new pasien();
+		$nama_pasien->where('id', $analisis->pasien_id)->get();
+
+		$mengirim1 = new mengirim();
+		$mengirim1->where('id', $n)->update('flag_membaca', '2');
+		$analisis1 = new analisi();
+		$analisis1->where('id', $n)->update('flag_membaca', '2');
+
+		$data['array'] = array('content' => '<tr><td><b>Date</b></td><td>'.$mengirim->tanggal.'</td></tr>
+			<tr><td><b>Admins name</b></td><td>'.$nama_admin->nama.'</td></tr>
+			<tr><td><b>FKG Doctors name</b></td><td>'.$nama_pusat->nama.'</td></tr>
+			<tr><td><b>Patients id</b></td><td>'.$analisis->pasien_id.'</td></tr>
+			<tr><td><b>Patients name</b></td><td>'.$nama_pasien->nama.'</td></tr>
+			<tr><td><b>PAR Scor</b></td><td>'.$analisis->skor.'</td></tr>
+			<tr><td><b>Maloklusi</b></td><td>'.$analisis->maloklusi_menurut_angka.'</td></tr>
+			<tr><td><b>Diagnosis</b></td><td>'.$analisis->diagnosis_rekomendasi.'</td></tr>
+			<tr><td><b>Kandidat 1</b></td><td>'.$mengirim->kandidat1.'</td></tr>
+			<tr><td><b>Kandidat 2</b></td><td>'.$mengirim->kandidat2.'</td></tr>
+			<tr><td><b>Kandidat 3</b></td><td>'.$mengirim->kandidat3.'</td></tr>
+			<tr><td><b>Kandidat 4</b></td><td>'.$mengirim->kandidat4.'</td></tr>
+			<tr><td><b>Kandidat 5</b></td><td>'.$mengirim->kandidat5.'</td></tr>
+			<tr><td><center><a class="btn btn-warning" href="../list_reference_drg">Back<a></center></td>
+			<td><center><a class="btn btn-primary" href="../send_to_referral/'.$n.'">Send Reference<a></center></td></tr>');
+
+		$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');
+		$this->load->view('header-orthodonti', $data['menu']);
+		$this->load->view('reference_orthodonti', $data['array']);
 		$this->load->view('footer');
 	}
 
@@ -638,24 +692,35 @@ function do_upload(){
 			redirect ("homepage");
 		$content="";
 		$pesan = new pesan();
-		$pesan->get();
+		$pesan->order_by('waktu', 'desc')->get();
 
 		$pengguna = new pengguna;
 		$pengguna->where('username', $_SESSION['orthodonti'])->get();		
  		$idPengguna = $pengguna->id;
 		$content .= '<table class="table">
 				<tr>
+					<td><center><b>Date</center></b></td>
 					<td><center><b>From</center></b></td>
 					<td><center><b>Subject</center></b></td>
 					<td><center><b>Action</center></b></td>
 				</tr>';				
 		foreach($pesan as $row){
-			if($row->penerima_id==$idPengguna){
+			if($row->penerima_id==$idPengguna && $row->flag_membaca!=1){
 				$nama_pengirim = new pengguna();
 				$nama_pengirim->where('id', $row->pengguna_id)->get();
-				$content .= "<tr><td><center>".$nama_pengirim->nama."</center></a></td>
+				$content .= "<tr><td><center>".$row->waktu."</center></a></td>
+								<td><center>".$nama_pengirim->nama."</center></a></td>
 								<td><center>".$row->subject."</center></td>
 								<td><center><a class='btn btn-primary' href='../orthodonti/detail_message/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a></center></td>
+							</tr>";
+			}
+			else if($row->penerima_id==$idPengguna && $row->flag_membaca==1){
+				$nama_pengirim = new pengguna();
+				$nama_pengirim->where('id', $row->pengguna_id)->get();
+				$content .= "<tr><td><b><center>".$row->waktu."</center></b></a></td>
+								<td><b><center>".$nama_pengirim->nama."</center></b></a></td>
+								<td><b><center>".$row->subject."</center></b></td>
+								<td><center><b><a class='btn btn-primary' href='../orthodonti/detail_message/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a></b></center></td>
 							</tr>";
 			}
 		}
@@ -676,6 +741,8 @@ function do_upload(){
 		$pesan->where('id', $n)->get();
 		$pengguna = new pengguna();
 		$pengguna->where('id',$pesan->pengguna_id)->get();
+		$pesan1 = new pesan();
+		$pesan1->where('id', $n)->update('flag_membaca', '2');
 		$data['array'] = array('content' => '<tr><td><b>Subject</b></td><td>'.$pesan->subject.'</td></tr>
 			<tr><td><b>Sender</b></td><td>'.$pengguna->nama.'</td></tr>
 			<tr><td><b>Message</b></td><td>'.$pesan->isi.'</td></tr>
