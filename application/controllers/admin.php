@@ -581,10 +581,10 @@ class Admin extends CI_Controller {
 		$analisi->where('id', $n)->get();
 
 		$data['array'] = array('content' => '<tr><td><b>Id pasien</b></td><td>'.$analisi->pasien_id.'</td></tr>
-			<tr><td><b>Id Ortho</b></td><td>'.$analisi->orto_id.'</td`></tr>
-			<tr><td><b>Skor</b></td><td>'.$analisi->skor.'</td></tr>
-			<tr><td><b>Maloklusi Menurut Angka</b></td><td>'.$analisi->maloklusi_menurut_angka.'</td></tr>
-			<tr><td><b>Diagnosis Rekomendasi</b></td><td>'.$analisi->diagnosis_rekomendasi.'</td></tr>
+			<tr><td><b>Id Orthodontist</b></td><td>'.$analisi->orto_id.'</td`></tr>
+			<tr><td><b>PAR Score</b></td><td>'.$analisi->skor.'</td></tr>
+			<tr><td><b>Malocclusion</b></td><td>'.$analisi->maloklusi_menurut_angka.'</td></tr>
+			<tr><td><b>Recommendation</b></td><td>'.$analisi->diagnosis_rekomendasi.'</td></tr>
 			<tr><td colspan="2"><form method="post" action="../send_rujukan/'.$n.'"><center><button type="submit" class="btn btn-primary ">Send Reference</button></center></form>
 			</td></tr>');
 

@@ -30,7 +30,7 @@
 						        <center><img class='img-circle' style="width:125px; height:125px;" src="../../../<?php echo $foto; ?>"></center><br>
 						        <table class="table table-hover">
 						        	<tr>
-						        		<td><b>Nama</b></td>
+						        		<td><b>Name</b></td>
 						        		<td><?php echo $nama?></td>
 						        	</tr>
 						        	<tr>
@@ -38,31 +38,31 @@
 						        		<td><?php echo $email?></td>
 						        	</tr>
 						        	<tr>
-						        		<td><b>Tanggal Lahir</b></td>
+						        		<td><b>Date of Birth</b></td>
 						        		<td><?php echo $tanggallahir?></td>
 						        	</tr>
 						        	<tr>
-						        		<td><b>Tempat Lahir</b></td>
+						        		<td><b>Place of Birth</b></td>
 						        		<td><?php echo $tempatlahir?></td>
 						        	</tr>
 						        	<tr>
-						        		<td><b>Jenis Kelamin</b></td>
+						        		<td><b>Gender</b></td>
 						        		<td><?php echo $jeniskelamin?></td>
 						        	</tr>
 						        	<tr>
-						        		<td><b>Agama</b></td>
+						        		<td><b>Religion</b></td>
 						        		<td><?php echo $agama?></td>
 						        	</tr>
 						        	<tr>
-						        		<td><b>Kursus</b></td>
+						        		<td><b>Course</b></td>
 						        		<td><?php echo $kursus?></td>
 						        	</tr>
 						        	<tr>
-						        		<td><b>Pendidikan</b></td>
+						        		<td><b>Education</b></td>
 						        		<td><?php echo $pendidikan?></td>
 						        	</tr>
 						        	<tr>
-						        		<td><b>Alamat</b></td>
+						        		<td><b>Clinic Adress</b></td>
 						        		<td><?php echo $alamat?></td>
 						        	</tr>
 						        	<tr>
