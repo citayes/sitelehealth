@@ -27,69 +27,69 @@
 										</div>
 									</div>
 									<div class="form-group">
-									<label class="col-sm-3 control-label" for="nama">Nama</label>
+									<label class="col-sm-3 control-label" for="nama">Name</label>
 										<div class="col-sm-9">
-											<input type="text" class="form-control" name="Nama" placeholder="Masukkan Nama Lengkap Anda" required autofocus>
+											<input type="text" class="form-control" name="Nama" placeholder="Your Full Name" required autofocus>
 										</div>
 									</div>
 									<div class="form-group">
-									<label class="col-sm-3 control-label" for="tempat_lahir">Tempat Lahir</label>
+									<label class="col-sm-3 control-label" for="tempat_lahir">Place of Birth</label>
 										<div class="col-sm-9">
-											<input type="text" class="form-control" name="Tempat_Lahir" placeholder="Masukkan Tempat Lahir Anda" required autofocus>
+											<input type="text" class="form-control" name="Tempat_Lahir" placeholder="Your Place of Birth" required autofocus>
 										</div>
 									</div>
 									<div class="form-group">
-									<label class="col-sm-3 control-label" for="tanggal_lahir">Tanggal Lahir</label>
+									<label class="col-sm-3 control-label" for="tanggal_lahir">Date of Birth</label>
 										<div class="col-sm-9">
 											<div class="input-group date form_date col-md-12" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-							                    <input class="form-control" type="text" name="Tanggal_Lahir" placeholder='Masukkan Tanggal Lahir'>
+							                    <input class="form-control" type="text" name="Tanggal_Lahir" placeholder='Your Date of Birth'>
 							     				<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 							                </div>
 							    			<input type="hidden" id="dtp_input2" value=""/>
 										</div>
 									</div>
 									<div class="form-group">
-									<label class="col-sm-3 control-label" for="warga_negara">Warga Negara</label>
+									<label class="col-sm-3 control-label" for="warga_negara">Nationality</label>
 										<div class="col-sm-9">
-											<input type="text" class="form-control" name="Warga_Negara" placeholder="Masukkan Kewarganegaraan Anda" required autofocus>
+											<input type="text" class="form-control" name="Warga_Negara" placeholder="Your Nationality" required autofocus>
 										</div>
 									</div>
 									<div class="form-group">
-									<label class="col-sm-3 control-label" for="jenis_kelamin">Jenis Kelamin</label>
+									<label class="col-sm-3 control-label" for="jenis_kelamin">Gender</label>
 										<div class="col-sm-9">
-											<input type='radio' name='Jenis_Kelamin' value='Laki-laki'>Laki - Laki 	</input>
-											<input type='radio' name='Jenis_Kelamin' value='Perempuan'>Perempuan</input>											
+											<input type='radio' name='Jenis_Kelamin' value='Laki-laki'>Male</input>
+											<input type='radio' name='Jenis_Kelamin' value='Perempuan'>Female</input>											
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-sm-3 control-label" for="agama">Agama</label>
+										<label class="col-sm-3 control-label" for="agama">Religion</label>
 										<div class="col-sm-9">
-											<input type="text" class="form-control" name="Agama" placeholder="Masukkan Agama Anda" required autofocus>
+											<input type="text" class="form-control" name="Agama" placeholder="Your Religion" required autofocus>
 										</div>
 									</div>
 									<div class="form-group">
-									<label class="col-sm-3 control-label" for="pendidikan">Pendidikan Terakhir</label>
+									<label class="col-sm-3 control-label" for="pendidikan">Last Education</label>
 										<div class="col-sm-9">
-											<input type="text" class="form-control" name="Pendidikan" placeholder="Pendidikan Terkahir" required autofocus>
+											<input type="text" class="form-control" name="Pendidikan" placeholder="Your Last Education" required autofocus>
 										</div>
 									</div>
 									<div class="form-group">
-									<label class="col-sm-3 control-label" for="kursus">Kursus</label>
+									<label class="col-sm-3 control-label" for="kursus">Course</label>
 										<div class="col-sm-9">
-											<input type="text" class="form-control" name="Kursus" placeholder="Kursus Orthodonti" required autofocus>
+											<input type="text" class="form-control" name="Kursus" placeholder="Your Course" required autofocus>
 										</div>
 									</div>
 									<div class="form-group">
-									<label class="col-sm-3 control-label" for="alamat">Alamat Praktik</label>
+									<label class="col-sm-3 control-label" for="alamat">Clinic Address</label>
 										<div class="col-sm-9">
-											<input type="text" class="form-control" name="Alamat" placeholder="Masukkan Alamat Praktik" required autofocus>
+											<input type="text" class="form-control" name="Alamat" placeholder="Your Clinic Address" required autofocus>
 										</div>
 									</div>
 									<div class="form-group">
-									<label class="col-sm-3 control-label" for="kodepos">Kode Pos</label>
+									<label class="col-sm-3 control-label" for="kodepos">Postal Code</label>
 										<div class="col-sm-9">
-											<input type="text" class="form-control" name="Kodepos" placeholder="Masukkan Kode Pos Alamat Praktik" required autofocus>
-										</div>
+											<input type="text" class="form-control" name="Kodepos" placeholder="Your Postal Code" required autofocus>
+										</di4v>
 									</div>
 									<div class="form-group">
 									<label class="col-sm-3 control-label" for="latitude">Latitude</label>
@@ -112,8 +112,8 @@
 									<div class="form-group">
 									<label class="col-sm-3 control-label" for="role">Daftar Sebagai</label>
 										<div class="col-sm-9">
-											<input type="radio" name="Role"  value='orthodonti'>Dokter Gigi Spesialis Orthodonti</input>
-											<input type="radio" name="Role"  value='umum'>Dokter Gigi Umum/Spesialis Lain</input>
+											<input type="radio" name="Role"  value='orthodonti'>Orthodontist</input>
+											<input type="radio" name="Role"  value='umum'>Dentist</input>
 										</div>
 									</div>
 									<div class="form-group last">
