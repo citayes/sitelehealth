@@ -792,6 +792,8 @@ class DRG extends CI_Controller {
 			redirect ("homepage");
 		
 		$content="";
+		$content1="";
+		$content2="";
 		$merawat = new merawat();
 		$merawat->get();
 		$pengguna = new pengguna;
@@ -809,12 +811,28 @@ class DRG extends CI_Controller {
 				<td><center><b>Keterangan</center></b></td>
 				<td><center><b>Operation</center></b></td>
 			</tr>';
+			$content1.='<table class="table">
+				<tr>
+				<td><center><b>Id Penerima</center></b></td>
+				<td><center><b>Nama Penerima</center></b></td>
+				<td><center><b>Keterangan</center></b></td>
+				<td><center><b>Operation</center></b></td>
+			</tr>';
+			$content2.='<table class="table">
+				<tr>
+				<td><center><b>Id Penerima</center></b></td>
+				<td><center><b>Nama Penerima</center></b></td>
+				<td><center><b>Keterangan</center></b></td>
+				<td><center><b>Operation</center></b></td>
+			</tr>';
 		foreach($merawat as $row){
+
+
 			//foreach ($pesan as $row1) {
 				//if($row->umum_id!=null){
 					// $nama_penerima = new pengguna();
 					// $nama_penerima->where('id', $row->pusat_id)->get();
-					$content .= "<tr><td><center>".$row->pusat_id."</center></a></td>
+					$content .= "<tr><td><center>".$row->waktu."</center></a></td>
 									<td><center>FKG UI</center></td>
 									<td><center>Send Patient to FKG UI</center></td>
 									<td><center><a class='btn btn-primary' href='../drg/view_merawat_drg/".$row->pasien_id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
@@ -824,7 +842,7 @@ class DRG extends CI_Controller {
 			if($row->pengguna_id==$lala){
 				$nama_penerima = new pengguna();
 					$nama_penerima->where('id', $row->penerima_id)->get();
-					$content .= "<tr><td><center>".$row->penerima_id."</center></a></td>
+					$content1 .= "<tr><td><center>".$row->waktu."</center></a></td>
 									<td><center>".$nama_penerima->nama."</center></td>
 									<td><center>Message</center></td>
 									<td><center><a class='btn btn-primary' href='../drg/outbox_message_drg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
@@ -836,7 +854,7 @@ class DRG extends CI_Controller {
 				if($row->pusat_id==$lala){
 					$nama_penerima = new pengguna();
 					$nama_penerima->where('id', $row->orto_id )->get();
-					$content .= "<tr><td><center>".$nama_penerima->id."</center></a></td>
+					$content2 .= "<tr><td><center>".$row->waktu."</center></a></td>
 									<td><center>".$nama_penerima->nama."</center></td>
 									<td><center>Send Reference</center></td>
 									<td><center><a class='btn btn-primary' href='../drg/view_rujukan_drg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
@@ -844,8 +862,10 @@ class DRG extends CI_Controller {
 		}
 				
 		$content.='</table>';
+		$content1.='</table>';
+		$content2.='</table>';
 
-		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'setting' => '', 'content'=>$content);
+		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'setting' => '', 'content'=>$content, 'content1'=>$content1, 'content2'=>$content2);
 		//$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'setting' => '');
 		$this->load->view('header-drg', $data['menu']);
 		$this->load->view('list_outbox_drg');
@@ -872,10 +892,13 @@ class DRG extends CI_Controller {
 		// $nama_penerima->where('id', $mengirim->umum_id)->get();
 		// $nama_pasien = new pasien();
 		// $nama_pasien->where('id', $merawat->pasien_id)->get();
+		$splitTimeStamp = explode(" ",$merawat->waktu);
+		$date = $splitTimeStamp[0];
+		$time = $splitTimeStamp[1];
 
-		$data['array'] = array('content' => '
+		$data['array'] = array('content' => '<tr><td><b>Date</b></td><td>'.$date.'</td></tr>
+			<tr><td><b>Time</b></td><td>'.$time.'</td></tr>
 			<tr><td><b>Recipient name</b></td><td>FKG UI</td></tr>
-			<tr><td><b>Date</b></td><td>'.$merawat->tanggal.'</td></tr>
 			<tr><td><b>Patients id</b></td><td>'.$merawat->pasien_id.'</td></tr>
 			<tr><td><b>Patients name</b></td><td>'.$pasien->nama.'</td></tr>
 			<tr><td><b>Patient Birth Date</b></td><td>'.$pasien->tanggal_lahir.'</td></tr>
@@ -902,8 +925,15 @@ class DRG extends CI_Controller {
 		$pengguna->where('id',$pesan->pengguna_id)->get();
 		$nama_penerima = new pengguna();
 		$nama_penerima->where('id', $pesan->penerima_id)->get();
+		//var_dump($pesan->waktu);
+		$splitTimeStamp = explode(" ",$pesan->waktu);
+		$date = $splitTimeStamp[0];
+		$time = $splitTimeStamp[1];
+		//var_dump($date);
 
-		$data['array'] = array('content' => '<tr><td><b>Recipient id</b></td><td>'.$pesan->penerima_id.'</td></tr>
+		$data['array'] = array('content' => '<tr><td><b>Date</b></td><td>'.$date.'</td></tr>
+			<tr><td><b>Time</b></td><td>'.$time.'</td></tr>
+			<tr><td><b>Recipient id</b></td><td>'.$pesan->penerima_id.'</td></tr>
 			<tr><td><b>Recipient Name</b></td><td>'.$nama_penerima->nama.'</td></tr>
 			<tr><td><b>Subject</b></td><td>'.$pesan->subject.'</td></tr>
 			<tr><td><b>Sender</b></td><td>'.$pengguna->nama.'</td></tr>
@@ -914,6 +944,50 @@ class DRG extends CI_Controller {
 		$data['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> '', 'inbox' => 'active', 'setting' => '');
 		$this->load->view('header-pusat', $data['menu']);
 		$this->load->view('outbox_message_drg', $data['array']); 
+		$this->load->view('footer');
+	}
+
+	public function view_rujukan_drg($n){
+		  session_start();
+		  if(!isset($_SESSION['drg']))
+		  	redirect ("homepage");
+		
+		$pengguna = new pengguna();
+		$pengguna->where('username', $_SESSION['drg'])->get();
+		$rujukan = new rujukan();
+		$rujukan->where('id', $n)->get();
+		$pasien_id= $rujukan->pasien_id;
+		$pasien = new pasien();
+		$pasien->where('id', $pasien_id)->get();
+		$analisi = new analisi();
+		$analisi->where('id', $rujukan->analisi_id)->get();
+		$pengguna1 = new pengguna();
+		$pengguna1->where('id', $rujukan->orto_id)->get();
+		$splitTimeStamp = explode(" ",$rujukan->waktu);
+		$date = $splitTimeStamp[0];
+		$time = $splitTimeStamp[1];
+
+		$data['array'] = array('content' => '<tr><td><b>Date</b></td><td>'.$date.'</td></tr>
+			<tr><td><b>Time</b></td><td>'.$time.'</td></tr>
+			<tr><td><b>Recipient ID</b></td><td>'.$rujukan->orto_id.'</td></tr>
+			<tr><td><b>Recipient name</b></td><td>'.$pengguna1->nama.'</td></tr>
+			<tr><td><b>Date</b></td><td>'.$rujukan->waktu.'</td></tr>
+			<tr><td><b>Patients id</b></td><td>'.$rujukan->pasien_id.'</td></tr>
+			<tr><td><b>Patients name</b></td><td>'.$pasien->nama.'</td></tr>
+			<tr><td><b>Patient Birth Date</b></td><td>'.$pasien->tanggal_lahir.'</td></tr>
+			<tr><td><b>Patient Age</b></td><td>'.$pasien->umur.'</td></tr>
+			<tr><td><b>Patient Height</b></td><td>'.$pasien->tinggi.'</td></tr>
+			<tr><td><b>Patient Weight</b></td><td>'.$pasien->berat.'</td></tr>
+			<tr><td><b>Patient Gender</b></td><td>'.$pasien->jenis_kelamin.'</td></tr>
+			<tr><td><b>Patient Diagnosis from</b></td><td>'.$analisi->orto_id.'</td></tr>
+			<tr><td><b>Patient Par Scor</b></td><td>'.$analisi->skor.'</td></tr>
+			<tr><td><b>Patient Maloclution</b></td><td>'.$analisi->maloklusi_menurut_angka.'</td></tr>
+			<tr><td><b>Patient Diagnosis</b></td><td>'.$analisi->diagnosis_rekomendasi.'</td></tr>
+			');
+
+		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'setting' => '');
+		$this->load->view('header-drg', $data['menu']);
+		$this->load->view('view_merawat_drg', $data['array']);
 		$this->load->view('footer');
 	}
 
