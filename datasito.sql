@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 16, 2015 at 11:47 AM
+-- Generation Time: May 16, 2015 at 12:27 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.5.19
 
@@ -102,8 +102,8 @@ CREATE TABLE IF NOT EXISTS `dokter_gigis` (
   `pendidikan_dokter` varchar(20) NOT NULL,
   `alamat_prakitk` varchar(20) NOT NULL,
   `kode_pos` int(5) NOT NULL,
-  `longitude` varchar(50) NOT NULL,
-  `latitude` varchar(50) NOT NULL
+  `longitude` varchar(50) DEFAULT NULL,
+  `latitude` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -246,18 +246,19 @@ CREATE TABLE IF NOT EXISTS `mengirims` (
   `kandidat3` varchar(50) DEFAULT NULL,
   `kandidat4` varchar(50) DEFAULT NULL,
   `kandidat5` varchar(50) DEFAULT NULL,
-  `pesan` varchar(1000) DEFAULT NULL
+  `pesan` varchar(1000) DEFAULT NULL,
+  `flag_membaca` int(1) DEFAULT '1'
 ) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `mengirims`
 --
 
-INSERT INTO `mengirims` (`waktu`, `id`, `admin_id`, `umum_id`, `orto_id`, `pusat_id`, `analisis_id`, `kandidat1`, `kandidat2`, `kandidat3`, `kandidat4`, `kandidat5`, `pesan`) VALUES
-(NULL, 58, NULL, 123154, NULL, 123157, 75, 'Cita Indraswari', NULL, NULL, NULL, NULL, NULL),
-(NULL, 59, NULL, 123154, NULL, 123157, 76, 'jvvjgvgk', NULL, NULL, NULL, NULL, NULL),
-('2015-03-31 17:00:00', 60, 123142, 123154, NULL, 123157, 77, 'Wira Bau', NULL, NULL, NULL, NULL, NULL),
-('0000-00-00 00:00:00', 61, NULL, NULL, NULL, NULL, 79, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `mengirims` (`waktu`, `id`, `admin_id`, `umum_id`, `orto_id`, `pusat_id`, `analisis_id`, `kandidat1`, `kandidat2`, `kandidat3`, `kandidat4`, `kandidat5`, `pesan`, `flag_membaca`) VALUES
+(NULL, 58, NULL, 123154, NULL, 123157, 75, 'Cita Indraswari', NULL, NULL, NULL, NULL, NULL, 1),
+(NULL, 59, NULL, 123154, NULL, 123157, 76, 'jvvjgvgk', NULL, NULL, NULL, NULL, NULL, 1),
+('2015-03-31 17:00:00', 60, 123142, 123154, NULL, 123157, 77, 'Wira Bau', NULL, NULL, NULL, NULL, NULL, 1),
+('0000-00-00 00:00:00', 61, NULL, NULL, NULL, NULL, 79, NULL, NULL, NULL, NULL, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -272,7 +273,8 @@ CREATE TABLE IF NOT EXISTS `merawats` (
   `umum_id` int(11) DEFAULT NULL,
   `pusat_id` int(11) DEFAULT NULL,
   `waktu` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `pesan` varchar(1000) DEFAULT NULL
+  `pesan` varchar(1000) DEFAULT NULL,
+  `flag_membaca` int(1) DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -373,19 +375,20 @@ CREATE TABLE IF NOT EXISTS `pesans` (
   `isi` varchar(1000) NOT NULL,
   `waktu` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `pengguna_id` int(11) NOT NULL,
-  `penerima_id` int(11) NOT NULL
+  `penerima_id` int(11) NOT NULL,
+  `flag_membaca` int(1) DEFAULT '1'
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `pesans`
 --
 
-INSERT INTO `pesans` (`id`, `subject`, `isi`, `waktu`, `pengguna_id`, `penerima_id`) VALUES
-(1, 'tes diri sendiri', 'halo', '2015-05-11 04:48:45', 123155, 123155),
-(2, 'Pasien dari dokter Cita Indraswari LAGI', 'Haidengan id rujukan1', '2015-05-11 04:50:39', 123154, 123155),
-(3, 'coba reply', 'coba reply', '2015-05-16 02:33:52', 123154, 123166),
-(4, 'Pasien dari dokter Cita Indraswari LAGI', 'dsfdengan id rujukan3', '2015-05-15 18:54:39', 123154, 123155),
-(6, 'Pasien dari dokter Cita Indraswari LAGI', 'tes taniadengan id rujukan4', '2015-05-16 06:33:13', 123154, 123155);
+INSERT INTO `pesans` (`id`, `subject`, `isi`, `waktu`, `pengguna_id`, `penerima_id`, `flag_membaca`) VALUES
+(1, 'tes diri sendiri', 'halo', '2015-05-11 04:48:45', 123155, 123155, 1),
+(2, 'Pasien dari dokter Cita Indraswari LAGI', 'Haidengan id rujukan1', '2015-05-11 04:50:39', 123154, 123155, 1),
+(3, 'coba reply', 'coba reply', '2015-05-16 02:33:52', 123154, 123166, 1),
+(4, 'Pasien dari dokter Cita Indraswari LAGI', 'dsfdengan id rujukan3', '2015-05-15 18:54:39', 123154, 123155, 1),
+(6, 'Pasien dari dokter Cita Indraswari LAGI', 'tes taniadengan id rujukan4', '2015-05-16 06:33:13', 123154, 123155, 1);
 
 -- --------------------------------------------------------
 
@@ -400,18 +403,19 @@ CREATE TABLE IF NOT EXISTS `rujukans` (
   `pasien_id` int(11) NOT NULL,
   `analisi_id` int(11) NOT NULL,
   `waktu` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `pesan` varchar(1000) DEFAULT NULL
+  `pesan` varchar(1000) DEFAULT NULL,
+  `flag_membaca` int(1) DEFAULT '1'
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `rujukans`
 --
 
-INSERT INTO `rujukans` (`id`, `orto_id`, `pengirim_id`, `pasien_id`, `analisi_id`, `waktu`, `pesan`) VALUES
-(1, 123155, 123154, 7, 75, '2015-05-16 04:41:04', NULL),
-(2, 123166, 123154, 28, 77, '2015-05-16 04:41:04', NULL),
-(3, 123155, 123154, 7, 75, '2015-05-16 04:41:04', NULL),
-(4, 123155, 123154, 7, 75, '2015-05-16 06:33:13', NULL);
+INSERT INTO `rujukans` (`id`, `orto_id`, `pengirim_id`, `pasien_id`, `analisi_id`, `waktu`, `pesan`, `flag_membaca`) VALUES
+(1, 123155, 123154, 7, 75, '2015-05-16 04:41:04', NULL, 1),
+(2, 123166, 123154, 28, 77, '2015-05-16 04:41:04', NULL, 1),
+(3, 123155, 123154, 7, 75, '2015-05-16 04:41:04', NULL, 1),
+(4, 123155, 123154, 7, 75, '2015-05-16 06:33:13', NULL, 1);
 
 --
 -- Indexes for dumped tables
