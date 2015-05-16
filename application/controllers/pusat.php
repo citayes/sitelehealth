@@ -328,25 +328,35 @@ function do_upload(){
 		
 		$content ="";
 		$merawat = new merawat();
-		$merawat->get();
+		$merawat->order_by('id', 'desc')->get();
 		$pasien= new pasien();
         $pengguna = new pengguna();
 		if($merawat->result_count!==0){
 			$content .='<table class="table">
 						<tr>
-							<td><center><b>Id Pasien</b></center></td>
+							<td><center><b>Date</b></center></td>
 			                <td><center><b>Nama Pasien</b></center></td>
 			                <td><center><b>Nama Dokter Umum/Spesialis Lain</b></center></td>
 			                <td><center><b>Nama Dokter Spesialis Orthodontist Selain Pusat</b></center></td>
 			                <td><center><b>Operation</b></center></td>
 						</tr>';
 			foreach($merawat as $row){
-				$content .= "<tr><td><center>".$row->pasien_id."</center></td>
+				if($row->flag_membaca!=1){
+				$content .= "<tr><td><center>".$row->waktu."</center></td>
                                 <td><center>".$pasien->where('id', $row->pasien_id)->get()->nama."</center></td>
                                 <td><center>".$pengguna->where('id', $row->umum_id)->get()->nama."</center></td>
                                 <td><center>".$pengguna->where('id', $row->orto_id)->get()->nama."</center></td>
                                 <td><center><a class='btn btn-primary' href='show_rujukan/".$row->pasien_id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'> Detail</span></a></center></td>
                                 </tr>";
+                }
+                if($row->flag_membaca==1){
+				$content .= "<tr><td><b><center>".$row->waktu."</center></b></td>
+                                <td><b><center>".$pasien->where('id', $row->pasien_id)->get()->nama."</center></b<</td>
+                                <td><b><center>".$pengguna->where('id', $row->umum_id)->get()->nama."</center></b></td>
+                                <td><b><center>".$pengguna->where('id', $row->orto_id)->get()->nama."</center></b></td>
+                                <td><b><center><a class='btn btn-primary' href='show_rujukan/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'> Detail</span></a></center></b></td>
+                                </tr>";
+                }
             }
 			$content .= '</table>';
 		}
@@ -361,8 +371,12 @@ function do_upload(){
 		if(!isset($_session['pusat']))
 			//redirect ("homepage");
 		
+		$merawat = new merawat();
+		$merawat->where('id', $n)->get();
 		$pasien = new pasien();
-		$pasien->where('id', $n)->get();
+		$pasien->where('id', $merawat->pasien_id)->get();
+		$merawat1 = new merawat();
+		$merawat1->where('id', $n)->update('flag_membaca', '2');
 
 		$data['array'] = array('content' => '<tr><td><b>Id pasien</b></td><td>'.$pasien->id.'</td></tr>
 			<tr><td><b>Nama</b></td><td>'.$pasien->nama.'</td`></tr>
