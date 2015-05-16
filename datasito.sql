@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 16, 2015 at 12:27 PM
+-- Generation Time: May 16, 2015 at 02:02 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.5.19
 
@@ -49,14 +49,14 @@ CREATE TABLE IF NOT EXISTS `analisis` (
   `pasien_id` int(11) NOT NULL,
   `skor` decimal(4,2) NOT NULL,
   `maloklusi_menurut_angka` decimal(4,2) NOT NULL,
-  `diagnosis_rekomendasi` varchar(500) NOT NULL,
+  `diagnosis_rekomendasi` varchar(1000) NOT NULL,
   `orto_id` int(11) NOT NULL,
   `foto` varchar(100) NOT NULL,
   `flag_mengirim` char(1) NOT NULL,
   `flag_menerima` char(1) NOT NULL,
   `waktu` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `pesan` varchar(1000) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `analisis`
@@ -88,7 +88,10 @@ INSERT INTO `analisis` (`id`, `pasien_id`, `skor`, `maloklusi_menurut_angka`, `d
 (76, 27, '1.20', '3.20', 'dfsdlkfks', 123157, '', '2', '', '2015-05-16 04:17:53', ''),
 (77, 28, '2.40', '4.10', 'saya lapar', 123157, '', '1', '1', '2015-05-16 04:17:53', ''),
 (78, 28, '2.20', '3.00', 'fff', 123157, '', '2', '', '2015-05-16 04:17:53', ''),
-(79, 19, '0.00', '0.00', '', 123157, '', '2', '', '2015-05-16 04:17:53', '');
+(79, 19, '0.00', '0.00', '', 123157, '', '2', '', '2015-05-16 04:17:53', ''),
+(80, 32, '1.10', '3.40', 'kdkfsjkldshgjkdsjgrkljfkldjsfkljsdklfj dskfjkldj', 123157, 'tes', '2', '', '2015-05-16 11:06:16', NULL),
+(81, 32, '1.10', '3.40', 'fdsa', 123157, 'kljdf', '2', '', '2015-05-16 11:08:29', NULL),
+(82, 32, '2.10', '1.20', 'kdkfsjkldshgjkdsjgrkljfkldjsfkljsdklfj dskfjkldj', 123157, 'halo', '2', '', '2015-05-16 11:20:32', NULL);
 
 -- --------------------------------------------------------
 
@@ -98,32 +101,33 @@ INSERT INTO `analisis` (`id`, `pasien_id`, `skor`, `maloklusi_menurut_angka`, `d
 
 CREATE TABLE IF NOT EXISTS `dokter_gigis` (
   `pengguna_id` int(11) NOT NULL,
-  `kursus` varchar(20) NOT NULL,
-  `pendidikan_dokter` varchar(20) NOT NULL,
-  `alamat_prakitk` varchar(20) NOT NULL,
-  `kode_pos` int(5) NOT NULL,
+  `kursus` varchar(100) NOT NULL,
+  `pendidikan_dokter` varchar(100) NOT NULL,
+  `alamat_praktik` varchar(500) NOT NULL,
+  `kode_pos` varchar(10) NOT NULL,
   `longitude` varchar(50) DEFAULT NULL,
-  `latitude` varchar(50) DEFAULT NULL
+  `latitude` varchar(50) DEFAULT NULL,
+  `no_dokter` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `dokter_gigis`
 --
 
-INSERT INTO `dokter_gigis` (`pengguna_id`, `kursus`, `pendidikan_dokter`, `alamat_prakitk`, `kode_pos`, `longitude`, `latitude`) VALUES
-(123142, '', '', '', 0, '', ''),
-(123154, 'Kursus mobil', 'SMA', 'tes', 222, '', ''),
-(123155, 'Kursus mobil', 'SMA', 'lakdasda', 12345, '', ''),
-(123157, 'orto', 's2', 'sawangan', 12345, '', ''),
-(123158, 'Kursus mobil', 'SMA', '', 0, '', ''),
-(123159, 'Kursus mobil', 'SMA', '', 0, '', ''),
-(123161, 'Kursus mobil', 'SMA', '', 0, '', ''),
-(123163, 'dsdd', 'sma', '', 0, '', ''),
-(123164, 'ee', 'eee', '', 0, '', ''),
-(123166, 'fff', 'ff', '', 0, '', ''),
-(123167, 'Kursus mobil', 'SMA', '', 0, '', ''),
-(123169, 'kursus', 'pendidikan', '', 0, '', ''),
-(123176, 'Kursus gigi', 'SMA', '', 0, '', '');
+INSERT INTO `dokter_gigis` (`pengguna_id`, `kursus`, `pendidikan_dokter`, `alamat_praktik`, `kode_pos`, `longitude`, `latitude`, `no_dokter`) VALUES
+(123142, '', '', '', '0', '', '', ''),
+(123154, 'Kursus mobil', 'SMA', 'tes', '222', '', '', ''),
+(123155, 'Kursus mobil', 'SMA', 'lakdasda', '12345', '', '', ''),
+(123157, 'orto', 's2', 'sawangan', '12345', '', '', ''),
+(123158, 'Kursus mobil', 'SMA', '', '0', '', '', ''),
+(123159, 'Kursus mobil', 'SMA', '', '0', '', '', ''),
+(123161, 'Kursus mobil', 'SMA', '', '0', '', '', ''),
+(123163, 'dsdd', 'sma', '', '0', '', '', ''),
+(123164, 'ee', 'eee', '', '0', '', '', ''),
+(123166, 'fff', 'ff', '', '0', '', '', ''),
+(123167, 'Kursus mobil', 'SMA', '', '0', '', '', ''),
+(123169, 'kursus', 'pendidikan', '', '0', '', '', ''),
+(123176, 'Kursus gigi', 'SMA', '', '0', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -133,8 +137,8 @@ INSERT INTO `dokter_gigis` (`pengguna_id`, `kursus`, `pendidikan_dokter`, `alama
 
 CREATE TABLE IF NOT EXISTS `drg_lains` (
   `pengguna_id` int(11) NOT NULL,
-  `kursus_ortodonti` varchar(20) NOT NULL,
-  `jadwal_praktik` varchar(20) NOT NULL
+  `kursus_ortodonti` varchar(100) NOT NULL,
+  `jadwal_praktik` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -154,21 +158,22 @@ INSERT INTO `drg_lains` (`pengguna_id`, `kursus_ortodonti`, `jadwal_praktik`) VA
 --
 
 CREATE TABLE IF NOT EXISTS `drg_ortodontis` (
-  `doktergigi_id` int(11) NOT NULL
+  `doktergigi_id` int(11) NOT NULL,
+  `no_ikorti` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `drg_ortodontis`
 --
 
-INSERT INTO `drg_ortodontis` (`doktergigi_id`) VALUES
-(123154),
-(123155),
-(123157),
-(123158),
-(123166),
-(123169),
-(123176);
+INSERT INTO `drg_ortodontis` (`doktergigi_id`, `no_ikorti`) VALUES
+(123154, ''),
+(123155, ''),
+(123157, ''),
+(123158, ''),
+(123166, ''),
+(123169, ''),
+(123176, '');
 
 -- --------------------------------------------------------
 
@@ -225,7 +230,14 @@ CREATE TABLE IF NOT EXISTS `medical_records` (
   `deskripsi` varchar(1000) NOT NULL,
   `pasien_id` int(11) NOT NULL,
   `dokter_gigi_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `medical_records`
+--
+
+INSERT INTO `medical_records` (`id`, `tanggal`, `jam`, `deskripsi`, `pasien_id`, `dokter_gigi_id`) VALUES
+(1, '2015-05-15', 18, 'Halo aku coba masukkan manual nih', 32, 123163);
 
 -- --------------------------------------------------------
 
@@ -248,7 +260,7 @@ CREATE TABLE IF NOT EXISTS `mengirims` (
   `kandidat5` varchar(50) DEFAULT NULL,
   `pesan` varchar(1000) DEFAULT NULL,
   `flag_membaca` int(1) DEFAULT '1'
-) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `mengirims`
@@ -258,7 +270,8 @@ INSERT INTO `mengirims` (`waktu`, `id`, `admin_id`, `umum_id`, `orto_id`, `pusat
 (NULL, 58, NULL, 123154, NULL, 123157, 75, 'Cita Indraswari', NULL, NULL, NULL, NULL, NULL, 1),
 (NULL, 59, NULL, 123154, NULL, 123157, 76, 'jvvjgvgk', NULL, NULL, NULL, NULL, NULL, 1),
 ('2015-03-31 17:00:00', 60, 123142, 123154, NULL, 123157, 77, 'Wira Bau', NULL, NULL, NULL, NULL, NULL, 1),
-('0000-00-00 00:00:00', 61, NULL, NULL, NULL, NULL, 79, NULL, NULL, NULL, NULL, NULL, NULL, 1);
+('0000-00-00 00:00:00', 61, NULL, NULL, NULL, NULL, 79, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(NULL, 62, NULL, 123163, NULL, 123157, 82, 'Lili Lala', NULL, NULL, NULL, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -275,7 +288,15 @@ CREATE TABLE IF NOT EXISTS `merawats` (
   `waktu` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `pesan` varchar(1000) DEFAULT NULL,
   `flag_membaca` int(1) DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `merawats`
+--
+
+INSERT INTO `merawats` (`id`, `pasien_id`, `orto_id`, `umum_id`, `pusat_id`, `waktu`, `pesan`, `flag_membaca`) VALUES
+(1, 32, NULL, 123163, NULL, '2015-05-16 11:01:24', NULL, 1),
+(2, 32, NULL, 123163, NULL, '2015-05-16 11:12:17', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -285,18 +306,18 @@ CREATE TABLE IF NOT EXISTS `merawats` (
 
 CREATE TABLE IF NOT EXISTS `pasiens` (
 `id` int(11) NOT NULL,
-  `nama` varchar(20) NOT NULL,
+  `nama` varchar(100) NOT NULL,
   `tanggal_lahir` date NOT NULL,
-  `tempat_lahir` varchar(15) NOT NULL,
-  `agama` varchar(10) NOT NULL,
+  `tempat_lahir` varchar(100) NOT NULL,
+  `agama` varchar(100) NOT NULL,
   `umur` tinyint(4) NOT NULL,
-  `alamat_rumah` varchar(50) NOT NULL,
+  `alamat_rumah` varchar(100) NOT NULL,
   `tinggi` decimal(5,2) NOT NULL,
   `berat` smallint(6) NOT NULL,
   `jenis_kelamin` varchar(10) NOT NULL,
-  `warga_negara` varchar(15) NOT NULL,
+  `warga_negara` varchar(100) NOT NULL,
   `doktergigi_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `pasiens`
@@ -319,7 +340,8 @@ INSERT INTO `pasiens` (`id`, `nama`, `tanggal_lahir`, `tempat_lahir`, `agama`, `
 (28, 'Calvin', '2015-04-06', 'ejejjee', 'islam', 14, 'lksdfjlkdsj', '122.00', 45, 'Perempuan', 'Indonesia', 123154),
 (29, 'Mahasiswa Cantik', '2015-04-02', 'semarang', 'agama', 12, 'jakarta', '134.00', 123, 'Perempuan', 'Indonesia', 123155),
 (30, 'Wira ganteng sekali', '2015-04-04', 'semarang', 'islam', 34, 'Surga', '167.00', 45, 'Laki-laki', 'Indonesia', 123155),
-(31, 'Cita Indraswari', '2015-04-01', 'semarang', 'agama', 23, 'jakarta', '234.32', 145, 'Perempuan', 'Indonesia', 123155);
+(31, 'Cita Indraswari', '2015-04-01', 'semarang', 'agama', 23, 'jakarta', '234.32', 145, 'Perempuan', 'Indonesia', 123155),
+(32, 'Cheetos', '1994-07-06', 'Palembang', 'Islam', 20, 'Jln. Trikora Swakarya 1 No. A20', '160.50', 59, 'Perempuan', 'Indonesia', 123163);
 
 -- --------------------------------------------------------
 
@@ -331,12 +353,12 @@ CREATE TABLE IF NOT EXISTS `penggunas` (
 `id` int(11) NOT NULL,
   `username` varchar(20) NOT NULL,
   `password` varchar(20) NOT NULL,
-  `nama` varchar(75) NOT NULL,
+  `nama` varchar(100) NOT NULL,
   `tanggal_lahir` date NOT NULL,
-  `tempat_lahir` varchar(15) NOT NULL,
-  `warga_negara` varchar(15) NOT NULL,
+  `tempat_lahir` varchar(100) NOT NULL,
+  `warga_negara` varchar(100) NOT NULL,
   `jenis_kelamin` varchar(10) NOT NULL,
-  `agama` varchar(10) NOT NULL,
+  `agama` varchar(100) NOT NULL,
   `foto` varchar(100) NOT NULL,
   `fverifikasi` char(1) NOT NULL DEFAULT 'N',
   `email` varchar(100) NOT NULL,
@@ -351,12 +373,12 @@ INSERT INTO `penggunas` (`id`, `username`, `password`, `nama`, `tanggal_lahir`, 
 (123142, 'admin', 'password', 'admin', '2015-04-23', 'admin1', 'indonesia', 'admin', 'indonesia', 'uploads/images/21232f297a57a5a743894a0e4a801fc3.jpg', 'y', 'calvin.thurovin@gmail.com', 'admin'),
 (123150, 'tania', 'halo', 'tania', '2015-04-22', 'palembang', 'indonesia', 'perempuan', 'islam', '', 'y', 'tania@gmail.com', 'admin'),
 (123154, 'doktergigi', 'password', 'Cita Indraswari LAGI', '2015-04-01', 'Jakarta', 'Indonesia', 'Perempuan', 'islam', 'uploads/images/ae065ed38795a771f0bef84d9a6a5c77.jpg', 'y', 'cita.indraswari@gmail.com', 'umum'),
-(123155, 'orthodonti', 'orthodonti', 'Cita Indraswari', '2015-04-03', 'Jakarta', 'Indonesia', 'Perempuan', 'islam', 'uploads/images/46d31fd6f736894bdd7be114294f816d.jpg', 'y', 'cita.indraswari@gmail.com', 'orthodonti'),
+(123155, 'orthodonti', 'orthodonti', 'Lili Lala', '2015-04-03', 'Jakarta', 'Indonesia', 'Perempuan', 'islam', 'uploads/images/46d31fd6f736894bdd7be114294f816d.jpg', 'y', 'cita.indraswari@gmail.com', 'orthodonti'),
 (123157, 'pusat', 'password', 'Taniki', '2015-04-01', 'palembang', 'indo', 'perempuan', 'asd', 'uploads/images/42836637e4afa63e6ba120974d7671dc.jpg', 'y', 'tania@l.o', 'pusat'),
 (123158, 'Calvin Thurovin', '1234', 'Calvin Thurovin', '2015-04-01', 'Jakarta', 'Indonesia', 'Perempuan', 'Islam', 'uploads/images/woman.png', 'y', 'cita.indraswari@gmail.com', 'orthodonti'),
 (123159, 'caca', '1234', 'Cita Indraswari', '2015-04-01', 'Jakarta', 'Indonesia', 'Perempuan', 'Islam', 'uploads/images/woman.png', 'y', 'cita.indraswari@gmail.com', 'orthodonti'),
 (123161, 'lkjkljklj', 'jhjhkhj', 'Cita Indraswari', '2015-04-01', 'Jakarta', 'Indonesia', 'Perempuan', 'Islam', 'uploads/images/woman.png', 'y', 'cita.indraswari@gmail.com', 'orthodonti'),
-(123163, 'admin12', 'asdasd', 'Cita Indraswari', '2015-04-02', 'jakarta', 'indonesia', 'Perempuan', 'islam', 'uploads/images/woman.png', 'n', 'cita.indraswari@yeye.com', 'umum'),
+(123163, 'umumlagi', 'password', 'Cita Indraswari', '2015-04-02', 'jakarta', 'indonesia', 'Perempuan', 'islam', 'uploads/images/woman.png', 'y', 'cita.indraswari@yeye.com', 'umum'),
 (123164, 'skskskksks', 'admin', 'jvvjgvgk', '2015-04-02', 'krrkr', 'rkrkr', 'Perempuan', 'eee', 'uploads/images/woman.png', 'y', 'ssis#@yahoo.com', 'orthodonti'),
 (123166, 'jjwjwjjwjwjw', '1234', 'Wira Bau', '2015-04-16', 'dff', 'fff', 'Perempuan', 'ffff', 'uploads/images/woman.png', 'y', 'cita.indraswari@gmail.com', 'orthodonti'),
 (123167, 'citayes12345678', 'lalalala', 'Cita Indraswari', '2015-04-02', 'Jakarta', 'Indonesia', 'Perempuan', 'Islam', 'uploads/images/woman.png', 'y', 'cita.indraswari@gmail.com', 'orthodonti'),
@@ -507,7 +529,7 @@ ALTER TABLE `rujukans`
 -- AUTO_INCREMENT for table `analisis`
 --
 ALTER TABLE `analisis`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=80;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=83;
 --
 -- AUTO_INCREMENT for table `jadwal_jagas`
 --
@@ -517,22 +539,22 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=38;
 -- AUTO_INCREMENT for table `medical_records`
 --
 ALTER TABLE `medical_records`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `mengirims`
 --
 ALTER TABLE `mengirims`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=62;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=63;
 --
 -- AUTO_INCREMENT for table `merawats`
 --
 ALTER TABLE `merawats`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `pasiens`
 --
 ALTER TABLE `pasiens`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=32;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=33;
 --
 -- AUTO_INCREMENT for table `penggunas`
 --
