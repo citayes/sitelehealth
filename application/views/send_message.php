@@ -37,8 +37,7 @@
                         <option value="">--Choose One--</option>
                         <?php echo($content); ?>
                     </select> 
-                    <a class='btn btn-primary' href='../orthodonti/list_pengguna/'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a> 
-                  </div>
+                   </div>
                   <div class="form-group">
                     <label for="name">Subject</label>
                     <input type="input" name="subject" class="form-control" id="subject" placeholder="Subject of The Message"/>

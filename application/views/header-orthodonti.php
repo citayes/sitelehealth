@@ -87,7 +87,7 @@
                                     <a href="<?php echo base_url(); ?>index.php/orthodonti/send_message">Create Message</a>
                                 </li>
                                 <li>
-                                    <a href="<?php echo base_url(); ?>index.php/orthodonti/view_message1">Inbox-Reference</a>
+                                    <a href="<?php echo base_url(); ?>index.php/orthodonti/view_reference">Inbox-Reference</a>
                                 </li>
                                 <li>
                                     <a href="<?php echo base_url(); ?>index.php/orthodonti/view_message">Inbox-Message</a>
