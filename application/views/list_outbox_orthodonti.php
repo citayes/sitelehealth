@@ -46,7 +46,7 @@
                                         <div class="row mar-bot40">
                                             <div class="col-md-offset-3 col-md-6">
                                                 <div class="section-header">
-                                                    <center><h2 class="section-heading animated" data-animation="bounceInUp">Outbox</h2></center><hr>
+                                                    <center><h2 class="section-heading animated" data-animation="bounceInUp">Send Patient to FKG UI</h2></center><hr>
                                                 </div>
                                             </div>
                                         </div>
@@ -74,7 +74,7 @@
                                     <div class="row mar-bot40">
                                         <div class="col-md-offset-3 col-md-6">
                                             <div class="section-header">
-                                                <center><h2 class="section-heading animated" data-animation="bounceInUp"></h2></center><hr>
+                                                <center><h2 class="section-heading animated" data-animation="bounceInUp">Messages</h2></center><hr>
                                             </div>
                                         </div>
                                     </div>

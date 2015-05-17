@@ -964,7 +964,7 @@ function do_upload(){
 
 
 			//foreach ($pesan as $row1) {
-				if($row->flag_outbox!=1){
+				if($row->flag_outbox!=1 && $row->orto_id==$lala){
 					// $nama_penerima = new pengguna();
 					// $nama_penerima->where('id', $row->pusat_id)->get();
 					$content .= "<tr><td><center>".$row->waktu."</center></a></td>
@@ -972,7 +972,7 @@ function do_upload(){
 									<td><center>Send Patient to FKG UI</center></td>
 									<td><center><a class='btn btn-primary' href='../orthodonti/view_merawat_orthodonti/".$row->pasien_id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
 				}
-				else if($row->flag_outbox==1){
+				else if($row->flag_outbox==1 && $row->orto_id==$lala){
 					// $nama_penerima = new pengguna();
 					// $nama_penerima->where('id', $row->pusat_id)->get();
 					$content .= "<tr><td><b><center>".$row->waktu."</center></b></a></td>
@@ -1002,7 +1002,7 @@ function do_upload(){
 
 		foreach($rujukan->order_by('id', 'desc')->get() as $row){
 			//foreach ($pesan as $row1) {
-				if($row->pusat_id==$lala && $row->flag_outbox!=1){
+				if($row->pengirim_id==$lala && $row->flag_outbox!=1){
 					$nama_penerima = new pengguna();
 					$nama_penerima->where('id', $row->orto_id )->get();
 					$content2 .= "<tr><td><center>".$row->waktu."</center></a></td>
@@ -1010,7 +1010,7 @@ function do_upload(){
 									<td><center>Send Reference</center></td>
 									<td><center><a class='btn btn-primary' href='../orthodonti/view_rujukan_orthodonti/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
 			}
-			if($row->pusat_id==$lala && $row->flag_outbox==1){
+			if($row->pengirim_id==$lala && $row->flag_outbox==1){
 					$nama_penerima = new pengguna();
 					$nama_penerima->where('id', $row->orto_id )->get();
 					$content2 .= "<tr><td><b><center>".$row->waktu."</center></b></a></td>
@@ -1132,7 +1132,7 @@ function do_upload(){
 		$date = $splitTimeStamp[0];
 		$time = $splitTimeStamp[1];
 
-		$rujukan1 = new pesan();
+		$rujukan1 = new rujukan();
 		$rujukan1->where('id', $n)->update('flag_outbox', '2');
 
 		$data['array'] = array('content' => '<tr><td><b>Date</b></td><td>'.$date.'</td></tr>
