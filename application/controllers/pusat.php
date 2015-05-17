@@ -507,9 +507,10 @@ public function save_diagnose($n){
 				<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 					<strong>Warning !</strong> Upload failure.
 				</div>");
-			$status['array']=array('content' => '<a href="edit_profile">Back to profile.</a>');
+			//$status['array']=array('content' => '<a href="edit_profile">Back to profile.</a>');
+			$data['array']=array('n'=>$n);
 			$this->load->view('header-pusat', $status['menu']);
-			$this->load->view('result-upload_image', $status['array']);
+			$this->load->view('choose_image', $data['array']);
 			$this->load->view('footer');		
 		}
 		else{
@@ -524,14 +525,10 @@ public function save_diagnose($n){
 			$analisi = new analisi();
 			$analisi->where('id',$n)->update('foto', $temp);
 
-			$status['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> '', 'inbox' => '', 'setting' => 'active', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
-				<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-					<strong>Well done!</strong> Photo profile successfully changed.
-				</div>");
-			$status['array']=array('content' => '<a href="edit_profile">Back to profile.</a>');
-			$this->load->view('header-pusat', $status['menu']);
-			$this->load->view('result-upload_image', $status['array']);
-			$this->load->view('footer');
+			//$status['array']=array('content' => '<a href="../send_reference/'.$n.'">Send reference.</a>');
+
+			$data['array']=array('n'=>$n);
+			redirect("pusat/send_reference/$n");
 			//$this->load->vfprintf(handle, format, args)iew('admin', $data);
 		}
 	}
