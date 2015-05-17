@@ -191,8 +191,8 @@ function do_upload(){
 		$content .= '<table class="table">
 				<tr>
 				<td><center><b>Date</center></b></td>
-				<td><center><b>Id Dokter</center></b></td>
-				<td><center><b>Nama Dokter</center></b></td>
+				<td><center><b>Doctors ID</center></b></td>
+				<td><center><b>Doctors Name</center></b></td>
 				<td><center><b>Operation</center></b></td>
 			</tr>';				
 		foreach($mengirim as $row){
@@ -941,23 +941,23 @@ function do_upload(){
 
 		$content.='<table class="table">
 				<tr>
-				<td><center><b>Id Penerima</center></b></td>
-				<td><center><b>Nama Penerima</center></b></td>
-				<td><center><b>Keterangan</center></b></td>
+				<td><center><b>Recipient ID</center></b></td>
+				<td><center><b>Recipient Name</center></b></td>
+				<td><center><b>Information</center></b></td>
 				<td><center><b>Operation</center></b></td>
 			</tr>';
 			$content1.='<table class="table">
 				<tr>
-				<td><center><b>Id Penerima</center></b></td>
-				<td><center><b>Nama Penerima</center></b></td>
-				<td><center><b>Keterangan</center></b></td>
+				<td><center><b>Recipient ID</center></b></td>
+				<td><center><b>Recipient Name</center></b></td>
+				<td><center><b>Information</center></b></td>
 				<td><center><b>Operation</center></b></td>
 			</tr>';
 			$content2.='<table class="table">
 				<tr>
-				<td><center><b>Id Penerima</center></b></td>
-				<td><center><b>Nama Penerima</center></b></td>
-				<td><center><b>Keterangan</center></b></td>
+				<td><center><b>Recipient ID</center></b></td>
+				<td><center><b>Recipient Name</center></b></td>
+				<td><center><b>Information</center></b></td>
 				<td><center><b>Operation</center></b></td>
 			</tr>';
 		foreach($merawat->order_by('id', 'desc')->get() as $row){
