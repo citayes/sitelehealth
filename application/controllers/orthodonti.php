@@ -896,11 +896,26 @@ function do_upload(){
 			$pesan->isi = $_POST['isi'];
 			$pesan->penerima_id=$rujukan->pengirim_id;
 			$pesan->pengguna_id=$rujukan->orto_id;
-			$pesan->save();
+
+			$pesan->validate();
+			if($pesan->valid){
+
+				$pesan->save();
+				$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+								<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+			  					<strong>Well done!</strong> Message has been sent.
+								</div>");
+			}
+			else{
+				$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'setting' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
+								<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+			  					<strong>Message has been not sent</strong>".$pesan->error->subject."".$pesan->error->isi."".$pesan->error->penerima_id."
+								</div>");
+			}
 		}
 
 		$data['array'] = array('n'=>$n);	
-		$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');		
+		//$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');		
 		$this->load->view('header-orthodonti', $data['menu']);
 		$this->load->view('reply_message', $data['array']);
 		$this->load->view('footer');
