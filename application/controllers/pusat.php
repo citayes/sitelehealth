@@ -78,7 +78,10 @@ class Pusat extends CI_Controller {
 		
 		$Pasien = new pasien();
 		$Merawat = new merawat();
-		$Pasien->where('id', $n)->get();
+		$Merawat->where('id', $n)->get();
+		$medical_record = new medical_record();
+		$medical_record->where('id', $Merawat->medicalrecord_id)->get();
+		$Pasien->where('id', $Merawat->pasien_id)->get();
 
 		$data['array'] = array('content' => '<tr><td><b>Name</b></td><td>'.$Pasien->nama.'</td></tr>
 			<tr><td><b>Tanggal_Lahir</b></td><td>'.$Pasien->tanggal_lahir.'</td`></tr>
@@ -90,6 +93,11 @@ class Pusat extends CI_Controller {
 			<tr><td><b>Jenis_Kelamin</b></td><td>'.$Pasien->jenis_kelamin.'</td></tr>
 			<tr><td><b>Alamat_Rumah</b></td><td>'.$Pasien->alamat_rumah.'</td></tr>
 			<tr><td><b>Warga_Negara</b></td><td>'.$Pasien->warga_negara.'</td></tr>
+			<tr><td><b>Medical Record ID</b></td><td>'.$medical_record->id.'</td></tr>
+			<tr><td><b>Date Medical Record</b></td><td>'.$medical_record->tanggal.'</td></tr>
+			<tr><td><b>Time Medical Record</b></td><td>'.$medical_record->jam.'</td></tr>
+			<tr><td><center><img alt="140x140" src="../../../../'.$medical_record->foto.'" style="width:125px; height:125px;" class="img-circle"></center></tr></td>
+			<tr><td><b>Description</b></td><td>'.$medical_record->deskripsi.'</td></tr>
 			<tr><td><form method="post" action="../send_diagnose_to_admin/'.$n.'"><button type="submit" class="btn btn-primary pull-right">Send Diagnose to Admin</button></form></td>
 			<td><form method="post" action="../create_diagnose/'.$n.'"><button type="submit" class="btn btn-primary">Send Reference</button></form>
 			<td><form method="post" action="../view_doctor/'.$Pasien->doktergigi_id.'"><button type="submit" class="btn btn-primary">View Doctor</button></form>
@@ -130,7 +138,7 @@ class Pusat extends CI_Controller {
 							<td><center>".$pasien->where('id',$row->pasien_id)->get()->tinggi."</center></td>
 							<td><center>".$pasien->where('id',$row->pasien_id)->get()->berat."</center></td>
 							<td><center>".$pasien->where('id',$row->pasien_id)->get()->jenis_kelamin."</center></td>
-							<td><center><a class='btn btn-primary' href='../pusat/read2/".$pasien->where('id',$row->pasien_id)->get()->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'> Detail</span></a> 
+							<td><center><a class='btn btn-primary' href='../pusat/read2/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'> Detail</span></a> 
 								
 							</center></td></tr>";
 			}
@@ -449,6 +457,8 @@ function do_upload(){
 		$merawat->where('id', $n)->get();
 		$pasien = new pasien();
 		$pasien->where('id', $merawat->pasien_id)->get();
+		$medical_record = new medical_record();
+		$medical_record->where('id', $merawat->medicalrecord_id)->get();
 		$merawat1 = new merawat();
 		$merawat1->where('id', $n)->update('flag_membaca', '2');
 
@@ -463,6 +473,12 @@ function do_upload(){
 			<tr><td><b>Berat</b></td><td>'.$pasien->berat.'</td></tr>
 			<tr><td><b>Jenis Kelamin</b></td><td>'.$pasien->jenis_kelamin.'</td></tr>
 			<tr><td><b>Warga_Negara</b></td><td>'.$pasien->warga_negara.'</td></tr>
+			<tr><td><b>Medical Record ID</b></td><td>'.$medical_record->id.'</td></tr>
+			<tr><td><b>Date Medical Record</b></td><td>'.$medical_record->tanggal.'</td></tr>
+			<tr><td><b>Time Medical Record</b></td><td>'.$medical_record->jam.'</td></tr>
+			<tr><td><center><img alt="140x140" src="../../'.$medical_record->foto.'" style="width:125px; height:125px;" class="img-circle"></center></tr></td>
+			<tr><td><b>Description</b></td><td>'.$medical_record->deskripsi.'</td></tr>
+
 
 			</td></tr>');
 

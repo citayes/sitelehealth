@@ -167,7 +167,7 @@ class DRG extends CI_Controller {
 			<tr><td><b>Nationality</b></td><td>'.$pasien->warga_negara.'</td></tr>
 			<tr><td><form method="post" action="../medical_record/'.$n.'"><button type="submit" class="btn btn-primary pull-right">Add Medical Record</button></form></td>
 			<td><form method="post" action="../list_medical_record/'.$n.'"><button type="submit" class="btn btn-primary pull-right">View Medical Record</button></form></td>
-			<td><form method="post" action="../send_data/'.$n.'"><button type="submit" class="btn btn-primary ">Send to FKG UI</button></form>
+			
 			</td></tr>');
 
 
@@ -418,6 +418,7 @@ class DRG extends CI_Controller {
 			<tr><td><b>Time</b></td><td>'.$medical_record->jam.'</td></tr>
 			<tr><td><center><img alt="140x140" src="../../../../'.$medical_record->foto.'" style="width:125px; height:125px;" class="img-circle"></center></tr></td>
 			<tr><td><b>Description</b></td><td>'.$medical_record->deskripsi.'</td></tr>
+			<td><form method="post" action="../send_data/'.$n.'"><button type="submit" class="btn btn-primary ">Send to FKG UI</button></form>
 			</td></tr>');
 
 
@@ -649,8 +650,11 @@ class DRG extends CI_Controller {
 
 		 		$pengguna->where('username', $_SESSION['drg'])->get();
 		 		$id = $pengguna->id;
-		 		$merawat->pasien_id=$n;
+		 		$merawat->medicalrecord_id=$n;
 		 		$merawat->umum_id= $id;
+		 		$medical_record = new medical_record();
+		 		$medical_record->where('id', $n)->get();
+		 		$merawat->pasien_id=$medical_record->pasien_id;
 		 		$merawat->save();
 
 					//redirect('admin/send_diagnose_to_admin');							
