@@ -378,7 +378,7 @@ class DRG extends CI_Controller {
 			$content = "<table class='table table-hover'>";
 			$content .="<tr>
 							<td><center><b><strong>ID Medical Record</strong></b></center></td>
-							<td><center><b><strong>Tanggal</strong></b></center></td>
+							<td><center><b><strong>Date</strong></b></center></td>
 							<td><center><b><strong>Operation</strong></b></center></td>
 							</tr>";
 			foreach($medical_record as $row){
@@ -533,8 +533,8 @@ class DRG extends CI_Controller {
 		$content.='<table class="table">
 				<tr>
 				<td><center><b>Date</center></b></td>
-				<td><center><b>Id Dokter</center></b></td>
-				<td><center><b>Nama Dokter</center></b></td>
+				<td><center><b>Doctors ID</center></b></td>
+				<td><center><b>Doctors Name</center></b></td>
 				<td><center><b>Operation</center></b></td>
 			</tr>';
 		foreach($mengirim as $row){
@@ -819,23 +819,23 @@ class DRG extends CI_Controller {
 
 		$content.='<table class="table">
 				<tr>
-				<td><center><b>Id Penerima</center></b></td>
-				<td><center><b>Nama Penerima</center></b></td>
-				<td><center><b>Keterangan</center></b></td>
+				<td><center><b>Recipient ID</center></b></td>
+				<td><center><b>Recipient Name</center></b></td>
+				<td><center><b>Information</center></b></td>
 				<td><center><b>Operation</center></b></td>
 			</tr>';
 			$content1.='<table class="table">
 				<tr>
-				<td><center><b>Id Penerima</center></b></td>
-				<td><center><b>Nama Penerima</center></b></td>
-				<td><center><b>Keterangan</center></b></td>
+				<td><center><b>Recipient ID</center></b></td>
+				<td><center><b>Recipient Name</center></b></td>
+				<td><center><b>Information</center></b></td>
 				<td><center><b>Operation</center></b></td>
 			</tr>';
 			$content2.='<table class="table">
 				<tr>
-				<td><center><b>Id Penerima</center></b></td>
-				<td><center><b>Nama Penerima</center></b></td>
-				<td><center><b>Keterangan</center></b></td>
+				<td><center><b>Recipient ID</center></b></td>
+				<td><center><b>Recipient Name</center></b></td>
+				<td><center><b>Information</center></b></td>
 				<td><center><b>Operation</center></b></td>
 			</tr>';
 		foreach($merawat->order_by('id', 'desc')->get() as $row){

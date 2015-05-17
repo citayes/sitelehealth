@@ -26,13 +26,13 @@
                     <div class="col-md-10">
                       <ul class="nav nav-tabs">
                          <li class="active">
-                            <a href="#panel-346120" data-toggle="tab">Send Patient to FKG UI</a>
+                            <a href="#panel-346120" data-toggle="tab">Patient Sent</a>
                         </li>
                         <li>
-                            <a href="#panel-486345" data-toggle="tab">Message</a>
+                            <a href="#panel-486345" data-toggle="tab">Messages</a>
                         </li>
                         <li>
-                            <a href="#panel-111111" data-toggle="tab">Send Patient to Referral</a>
+                            <a href="#panel-111111" data-toggle="tab">References</a>
                         </li>
                     </ul>
                     <div class="tab-content">
