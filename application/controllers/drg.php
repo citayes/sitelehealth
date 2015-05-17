@@ -416,6 +416,7 @@ class DRG extends CI_Controller {
 		$data['array'] = array('content' => '<tr><td><b>Medical Record ID</b></td><td>'.$medical_record->id.'</td></tr>
 			<tr><td><b>Date</b></td><td>'.$medical_record->tanggal.'</td></tr>
 			<tr><td><b>Time</b></td><td>'.$medical_record->jam.'</td></tr>
+			<tr><td><center><img alt="140x140" src="../../../../'.$medical_record->foto.'" style="width:125px; height:125px;" class="img-circle"></center></tr></td>
 			<tr><td><b>Description</b></td><td>'.$medical_record->deskripsi.'</td></tr>
 			</td></tr>');
 
