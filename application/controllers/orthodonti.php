@@ -339,7 +339,7 @@ function do_upload(){
 			<tr><td><b>Address</b></td><td>'.$Pasien->alamat_rumah.'</td></tr>
 			<tr><td><b>Nationality</b></td><td>'.$Pasien->warga_negara.'</td></tr>
 			<tr><td><form method="post" action="../medical_record1/'.$n.'"><button type="submit" class="btn btn-primary pull-right">Create Medical Record</button></form></td>
-			<td><form method="post" action="../send_data/'.$n.'"><button type="submit" class="btn btn-primary">Send to FKG UI</button></form>
+			<tr><td><form method="post" action="../list_medical_record_ortho/'.$n.'"><button type="submit" class="btn btn-primary pull-right">View Medical Record</button></form></td>			
 			</td></tr>');
 
 		//$this->load->view('header-orthodonti');
@@ -419,7 +419,77 @@ function do_upload(){
 		$this->load->view('footer');
 	}	
 
-	public function simpan_medical_record1($n){
+	
+	public function list_medical_record_ortho($n){
+		  session_start();
+		  if(!isset($_SESSION['orthodonti']))
+		  	redirect ("homepage");
+		
+		//echo $n;
+		$medical_record = new medical_record();
+		$pasien = new pasien();
+		$medical_record->where('pasien_id', $n)->get();
+
+		$pengguna = new pengguna();
+		$pengguna->where('username', $_SESSION['orthodonti'])->get();
+		$idDokter = $pengguna->id;
+		//echo $medical_record;
+
+		//if($medical_record->result_count()!=0){
+			$content = "<table class='table table-hover'>";
+			$content .="<tr>
+							<td><center><b><strong>ID Medical Record</strong></b></center></td>
+							<td><center><b><strong>Date</strong></b></center></td>
+							<td><center><b><strong>Operation</strong></b></center></td>
+							</tr>";
+			foreach($medical_record as $row){
+				if($row->dokter_gigi_id == $idDokter){
+					//echo $row->doktergigi_id;
+					//echo $idDokter;
+					$content .= "<tr>
+
+								<td><center>".$row->id."</center></td>
+								<td><center>".$row->tanggal."</center></td>
+								<td><center><a class='btn btn-primary' href='../view_medical_record/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a> 
+								</center></td></tr>";
+				}
+			}
+			$content .= "</table>";
+			$data['array']=array('content'=> $content);
+			$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');
+			$this->load->view('header-orthodonti', $data['menu']);
+			$this->load->view('list_medical_record_ortho', $data['array']);
+			$this->load->view('footer');
+		//}
+
+	}
+
+
+	public function view_medical_record_ortho($n){
+		 session_start();
+		 if(!isset($_SESSION['orthodonti']))
+			redirect ("homepage");
+
+		//echo $n;
+		$medical_record = new medical_record();
+		$medical_record->where('id', $n)->get();
+
+		$data['array'] = array('content' => '<tr><td><b>Medical Record ID</b></td><td>'.$medical_record->id.'</td></tr>
+			<tr><td><b>Date</b></td><td>'.$medical_record->tanggal.'</td></tr>
+			<tr><td><b>Time</b></td><td>'.$medical_record->jam.'</td></tr>
+			<tr><td><center><img alt="140x140" src="../../../../'.$medical_record->foto.'" style="width:125px; height:125px;" class="img-circle"></center></tr></td>
+			<tr><td><b>Description</b></td><td>'.$medical_record->deskripsi.'</td></tr>
+			<td><form method="post" action="../send_data_/'.$n.'"><button type="submit" class="btn btn-primary ">Send to FKG UI</button></form>
+			</td></tr>');
+
+
+		$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');
+		$this->load->view('header-orthodonti', $data['menu']);
+		$this->load->view('view_medical_record_ortho', $data['array']); 
+		$this->load->view('footer');
+	}
+
+	public function simpan_medical_record_ortho($n){
 		//session_start();
 		session_start();
 		if(!isset($_SESSION['orthodonti']))
@@ -434,21 +504,114 @@ function do_upload(){
 			$medical_record = new medical_record();
 
 			$pengguna->where('username', $_SESSION['orthodonti'])->get();		
-		 	$medical_record->umum_id= $pengguna->id;
+		 		$medical_record->dokter_gigi_id= $pengguna->id;
 			$medical_record->tanggal=$tanggal;
 			$medical_record->jam=$jam;
 			$medical_record->deskripsi=$deskripsi;
 			$medical_record->pasien_id=$n;
 
-			$medical_record->save();
-			$data['array']= array('content' => '<a href ="../pasien_read_ortho">Back to Patient List.</a>');
-			$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+			$medical_record->validate();
+			if($medical_record->valid){
+				$medical_record->save();
+				// $data['array']= array('content' => '<a href ="../pasien_read">Back to Patient List.</a>');
+				// $data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => '', 'setting' => 'active', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+				// 			<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+		  // 					<strong>Well done!</strong> Patient data has been saved.
+				// 			</div>");
+				// 			$this->load->view('header-drg', $data['menu']);
+				// 			$this->load->view('result-drg', $data['array']);
+				// 			$this->load->view('footer');
+				redirect("orthodonti/choose_image_orthodonti/$medical_record->id");
+			}
+			else{
+							//$data['array']= array('content' => '<a href ="../pasien_read">Back to Patient List.</a>');
+							$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
+									<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+				  					Patient data not been created.".$medical_record->error->tanggal."".$medical_record->error->jam."".$medical_record->error->deskripsi."
+									</div>");
+				// echo $medical_record->error->tanggal;
+				// echo $medical_record->error->jam;
+				// echo $medical_record->error->deskripsi;
+						redirect("orthodonti/medical_record1/$n");
+						$data['array'] = array('n' => $n);
+						//$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => '', 'setting' => 'active');
+						$this->load->view('header-orthodonti', $data['menu']);
+						$this->load->view('medical_record1', $data['array']);
+						$this->load->view('footer');
+			}
+
+
+		}
+
+	}
+
+	function choose_image_orthodonti($n){
+		session_start();
+		
+		if(!isset($_SESSION['orthodonti']))
+			redirect ("homepage");
+		
+		$data['array']=array('n'=>$n);
+		$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');
+		$this->load->view('header-orthodonti', $data['menu']);
+
+		//$this->load->view('header-pusat');
+		$this->load->view('choose_image_orthodonti', $data['array']);
+		$this->load->view('footer');
+	}
+
+	function upload_image_orthodonti($n){
+		session_start();
+		if(!isset($_SESSION['drg']))
+			redirect ("homepage");
+
+		$config['upload_path'] = './uploads/citra';
+		$config['allowed_types'] = 'jpeg|jpg|png';
+		$config['max_size']	= '200';
+		$config['max_width']  = '2000';
+		$config['max_height']  = '2000';
+		$config['file_name'] = md5($_SESSION['orthodonti']);
+		$config['overwrite'] = true;
+
+ 
+		$this->load->library('upload', $config);
+ 
+		if (!$this->upload->do_upload()){
+			echo $this->upload->display_errors();
+			$status['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
+				<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+					<strong>Warning !</strong> Upload failure.
+				</div>");
+			//$status['array']=array('content' => '<a href="edit_profile">Back to profile.</a>');
+			redirect("orthodonti/choose_image_orthodonti/$n");
+			$data['array']=array('n'=>$n);
+			$this->load->view('header-drg', $status['menu']);
+			$this->load->view('choose_image_orthodonti', $data['array']);
+			$this->load->view('footer');		
+		}
+		else{
+			$data = $this->upload->data();
+			$temp ="uploads/images/citra";
+			$temp .= $config['file_name'];
+			$temp .= $data['file_ext'];
+
+			$pengguna = new pengguna();
+			$pengguna->where('username', $_SESSION['orthodonti'])->get();
+
+			$medical_record = new medical_record();
+			$medical_record->where('id',$n)->update('foto', $temp);
+
+			//$status['array']=array('content' => '<a href="../send_reference/'.$n.'">Send reference.</a>');
+
+			$data['array']=array('n'=>$n);
+					 			$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
 							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-		  					<strong>Well done!</strong> Patient data has been saved.
-							</div>");
-			$this->load->view('header-orthodonti', $data['menu']);
-			$this->load->view('result-orthodonti', $data['array']);
-			$this->load->view('footer');
+		  					<strong>Well done!</strong> medical record has been created.
+							</div>", 'content' => '<a href="../pasien_read">Back to patient list.</a>');
+		 					$this->load->view('header-orthodonti', $data['menu']);
+		$this->load->view('result-orthodonti');
+		$this->load->view('footer');
+			//$this->load->vfprintf(handle, format, args)iew('admin', $data);
 		}
 	}
 
