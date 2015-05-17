@@ -38,15 +38,15 @@
 								<div class="cform" id="contact-form">
 									<form  method="post" action="edit_profile">
 									  <div class="form-group">
-										<label for="nama">Nama</label>
+										<label for="nama">Name</label>
 										<input type="text" class="form-control" name="Nama" value="<?php echo $nama;?>" required autofocus>
 									  </div>
 									  <div class="form-group">
-										<label for="tempat_lahir">Tempat Lahir</label>
+										<label for="tempat_lahir">Place of Birth</label>
 										<input type="text" class="form-control" name="Tempat_Lahir" value="<?php echo $tempat_lahir;?>" required autofocus>
 									  </div>
 									  <div class="form-group">
-										<label for="tanggal_lahir">Tanggal Lahir</label>
+										<label for="tanggal_lahir">Date of Birth</label>
 										<div class="input-group date form_date col-md-12" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
 										<input class="form-control" type="text" name="Tanggal_Lahir" value="<?php echo $tanggal_lahir;?>">
 							     		<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -54,11 +54,11 @@
 									  	<input type="hidden" id="dtp_input2" value=""/>
 									  </div>
 									  <div class="form-group">
-										<label for="warga_negara">Warga Negara</label>
+										<label for="warga_negara">Nationality</label>
 										<input type="text" class="form-control" name="Warga_Negara" value="<?php echo $warga_negara;?>"" required autofocus>
 									  </div>
 									  <div class="form-group">
-										<label for="agama">Agama</label>
+										<label for="agama">Religion</label>
 										<input type="text" class="form-control" name="Agama" value="<?php echo $agama;?>"" required autofocus>
 									  </div>
 									  <div class="form-group">
