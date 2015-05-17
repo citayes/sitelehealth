@@ -60,13 +60,14 @@ jQuery(function($) {'use strict';
 	      slideSpeed : 500,
 	      paginationSpeed : 500,
 	      singleItem : true,
-	      navigation : true,
-			navigationText: [
-			"<i class='fa fa-angle-left'></i>",
-			"<i class='fa fa-angle-right'></i>"
-			],
+	  		//navigation : true,
+			// navigationText: [
+			// "<i class='fa fa-angle-left'></i>",
+			// "<i class='fa fa-angle-right'></i>"
+			// ],
 	      afterInit : progressBar,
 	      afterMove : moved,
+	      autoHeight : true,
 	      startDragging : pauseOnDragging,
 	      //autoHeight : true,
 	      transitionStyle : "fadeUp"

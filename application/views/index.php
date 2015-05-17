@@ -1,176 +1,94 @@
-
-
-    <section id="main-slider">
-        <div class="owl-carousel">
-            <div class="item" style="background-image: url(<?php echo base_url(); ?>asset/images/slider/bg1.jpg);">
-                <div class="slider-inner">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="carousel-content">
-                                    <h2><span>Tes Biru</span> Judul</h2>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et  dolore magna incididunt ut labore aliqua. </p>
+<div id="cta" class="col-md-12">
+    <div class="col-md-1">
+    </div>
+    <div class="col-md-10">
+        <div class="col-md-7">
+            <section id="main-slider">
+                <div class="owl-carousel">
+                    <div class="item" style="background-image: url(<?php echo base_url(); ?>asset/images/slider/bg1.jpg);">
+                        <div class="slider-inner">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="carousel-content">
+                                            <h2><span>Tes Biru</span> Judul</h2>
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et  dolore magna incididunt ut labore aliqua. </p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div><!--/.item-->
-             <div class="item" style="background-image: url(<?php echo base_url(); ?>asset/images/slider/bg2.jpg);">
-                <div class="slider-inner">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="carousel-content">
-                                    <h2>Judul <span>Tes Biru</span> Waooo</h2>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et  dolore magna incididunt ut labore aliqua. </p>
+                    </div><!--/.item-->
+                    <div class="item" style="background-image: url(<?php echo base_url(); ?>asset/images/slider/bg2.jpg);">
+                        <div class="slider-inner">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="carousel-content">
+                                            <h2>Judul <span>Tes Biru</span> Waooo</h2>
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et  dolore magna incididunt ut labore aliqua. </p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div><!--/.item-->
-        </div><!--/.owl-carousel-->
-    </section><!--/#main-slider-->
-
-    <section id="cta" class="wow fadeIn">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-9">
-                    <h2>Welcome to Sistem Informasi Telehealth Orthodontist</h2>
-                    <p>Please sign in before you proceed. You can choose sign up if you have not registered on SITO.</p>
-                </div>
-            </div>
+                    </div><!--/.item-->
+                </div><!--/.owl-carousel-->
+            </section><!--/#main-slider-->
         </div>
-    </section><!--/#cta-->
-
-    <section id="services" >
-        <div class="container">
-
-            <div class="section-header">
-                <h2 class="section-title text-center wow fadeInDown">News and Information</h2>
-                <p class="text-center wow fadeInDown">Up-to-Date News and Information</p>
-            </div>
-
-            <div class="row">
-                <div class="features">
-                    <div class="col-md-4 col-sm-6 wow fadeInUp" data-wow-duration="300ms" data-wow-delay="0ms">
-                        <div class="media service-box">
-                            <div class="pull-left">
-                                <i class="fa fa-line-chart"></i>
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading">News 1</h4>
-                                <p>Backed by some of the biggest names in the industry, Firefox OS is an open platform that fosters greater</p>
-                            </div>
-                        </div>
-                    </div><!--/.col-md-4-->
-
-                    <div class="col-md-4 col-sm-6 wow fadeInUp" data-wow-duration="300ms" data-wow-delay="100ms">
-                        <div class="media service-box">
-                            <div class="pull-left">
-                                <i class="fa fa-cubes"></i>
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading">News 2</h4>
-                                <p>Backed by some of the biggest names in the industry, Firefox OS is an open platform that fosters greater</p>
-                            </div>
-                        </div>
-                    </div><!--/.col-md-4-->
-
-                    <div class="col-md-4 col-sm-6 wow fadeInUp" data-wow-duration="300ms" data-wow-delay="200ms">
-                        <div class="media service-box">
-                            <div class="pull-left">
-                                <i class="fa fa-pie-chart"></i>
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading">News 3</h4>
-                                <p>Backed by some of the biggest names in the industry, Firefox OS is an open platform that fosters greater</p>
-                            </div>
-                        </div>
-                    </div><!--/.col-md-4-->
-                
-                    <div class="col-md-4 col-sm-6 wow fadeInUp" data-wow-duration="300ms" data-wow-delay="300ms">
-                        <div class="media service-box">
-                            <div class="pull-left">
-                                <i class="fa fa-bar-chart"></i>
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading">News 4</h4>
-                                <p>Backed by some of the biggest names in the industry, Firefox OS is an open platform that fosters greater</p>
-                            </div>
-                        </div>
-                    </div><!--/.col-md-4-->
-
-                    <div class="col-md-4 col-sm-6 wow fadeInUp" data-wow-duration="300ms" data-wow-delay="400ms">
-                        <div class="media service-box">
-                            <div class="pull-left">
-                                <i class="fa fa-language"></i>
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading">News 5</h4>
-                                <p>Backed by some of the biggest names in the industry, Firefox OS is an open platform that fosters greater</p>
-                            </div>
-                        </div>
-                    </div><!--/.col-md-4-->
-
-                    <div class="col-md-4 col-sm-6 wow fadeInUp" data-wow-duration="300ms" data-wow-delay="500ms">
-                        <div class="media service-box">
-                            <div class="pull-left">
-                                <i class="fa fa-bullseye"></i>
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading">News 6 </h4>
-                                <p>Backed by some of the biggest names in the industry, Firefox OS is an open platform that fosters greater</p>
-                            </div>
-                        </div>
-                    </div><!--/.col-md-4-->
+        <div class="col-md-5">
+            <section id="cta" class="wow fadeIn">    
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>Welcome to Sistem Informasi Telehealth Orthodontist</h3>
+                        <p>Sistem Informasi Teleheallth Orthodontist (SITO) is an information system by Fakultas Kedokteran Gigi, Universitas Indonesia (FKG UI). This system aims to connect orthodontists in FKG UI with orthodontists and dentists across Indonesia.</p>
+                    </div>
                 </div>
-            </div><!--/.row-->    
-        </div><!--/.container-->
-    </section><!--/#services-->
 
-    <section id="cta" class="wow fadeIn">
-        <div class="container">
+            </section><!--/#cta-->
+        </div>
+    </div>
+</div>
+<section class="wow fadeIn">
+    <div class="container">
 
-            <div class="section-header">
-                <h2 class="section-title text-center wow fadeInDown">Seminar</h2>
-                <p class="text-center wow fadeInDown">Information About Seminars Available</p>
-            </div>
+        <div class="section-header">
+            <h2 class="section-title text-center wow fadeInDown">Company Profile</h2>
+            <p class="text-center wow fadeInDown">Fakultas Kedokteran Gigi, Universitas Indonesia</p>
+        </div>
 
-            <div class="row">
+        <div class="row">
 
-                <div class="col-sm-6 wow fadeInRight">
-                    <h3 class="column-title">Seminar 1</h3>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+            <div class="col-sm-6 wow fadeInRight">
+                <h3 class="column-title">About</h3>
+                <h4>Location</h4>
 
-                    <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                <p>
+                    Jl.Salemba Raya No.4, Jakarta Pusat, 10430, 
+                    Indonesia
+                </p>
 
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <ul class="nostyle">
-                                <li><i class="fa fa-check-square"></i> Ipsum is simply dummy</li>
-                                <li><i class="fa fa-check-square"></i> When an unknown</li>
-                            </ul>
-                        </div>
-
-                        <div class="col-sm-6">
-                            <ul class="nostyle">
-                                <li><i class="fa fa-check-square"></i> The printing and typesetting</li>
-                                <li><i class="fa fa-check-square"></i> Lorem Ipsum has been</li>
-                            </ul>
-                        </div>
+                <h4>Contact Us</h4>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <ul class="nostyle">
+                            <li><i class="fa fa-check-square"></i> Phone: +62 21 31930270, 3151035</li>
+                            <li><i class="fa fa-check-square"></i> Email: fkg@ui.ac.id</li>
+                        </ul>
                     </div>
 
-
-                    <a class="btn btn-primary" href="#">Learn More</a>
-
+        
                 </div>
 
-                            <div class="row">
+
+                <a class="btn btn-primary" href="#">Learn More</a>
+
+            </div>
+
+            <div class="row">
 
                 <div class="col-sm-6 wow fadeInRight">
-                    <h3 class="column-title">Seminar 2</h3>
+                    <h3 class="column-title">Our Doctor</h3>
                     <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
 
                     <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
@@ -198,6 +116,91 @@
             </div>
         </div>
     </section><!--/#about-->
+<section  id="cta" id="services" >
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title text-center wow fadeInDown">News and Seminars</h2>
+            <p class="text-center wow fadeInDown">Up-to-Date News and Information</p>
+        </div>
+
+        <div class="row">
+            <div class="features">
+                <div class="col-md-4 col-sm-6 wow fadeInUp" data-wow-duration="300ms" data-wow-delay="0ms">
+                    <div class="media service-box">
+                        <div class="pull-left">
+                            <i class="fa fa-line-chart"></i>
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">News 1</h4>
+                            <p>Backed by some of the biggest names in the industry, Firefox OS is an open platform that fosters greater</p>
+                        </div>
+                    </div>
+                </div><!--/.col-md-4-->
+
+                <div class="col-md-4 col-sm-6 wow fadeInUp" data-wow-duration="300ms" data-wow-delay="100ms">
+                    <div class="media service-box">
+                        <div class="pull-left">
+                            <i class="fa fa-cubes"></i>
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">News 2</h4>
+                            <p>Backed by some of the biggest names in the industry, Firefox OS is an open platform that fosters greater</p>
+                        </div>
+                    </div>
+                </div><!--/.col-md-4-->
+
+                <div class="col-md-4 col-sm-6 wow fadeInUp" data-wow-duration="300ms" data-wow-delay="200ms">
+                    <div class="media service-box">
+                        <div class="pull-left">
+                            <i class="fa fa-pie-chart"></i>
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">News 3</h4>
+                            <p>Backed by some of the biggest names in the industry, Firefox OS is an open platform that fosters greater</p>
+                        </div>
+                    </div>
+                </div><!--/.col-md-4-->
+                
+                <div class="col-md-4 col-sm-6 wow fadeInUp" data-wow-duration="300ms" data-wow-delay="300ms">
+                    <div class="media service-box">
+                        <div class="pull-left">
+                            <i class="fa fa-bar-chart"></i>
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">News 4</h4>
+                            <p>Backed by some of the biggest names in the industry, Firefox OS is an open platform that fosters greater</p>
+                        </div>
+                    </div>
+                </div><!--/.col-md-4-->
+
+                <div class="col-md-4 col-sm-6 wow fadeInUp" data-wow-duration="300ms" data-wow-delay="400ms">
+                    <div class="media service-box">
+                        <div class="pull-left">
+                            <i class="fa fa-language"></i>
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">News 5</h4>
+                            <p>Backed by some of the biggest names in the industry, Firefox OS is an open platform that fosters greater</p>
+                        </div>
+                    </div>
+                </div><!--/.col-md-4-->
+
+                <div class="col-md-4 col-sm-6 wow fadeInUp" data-wow-duration="300ms" data-wow-delay="500ms">
+                    <div class="media service-box">
+                        <div class="pull-left">
+                            <i class="fa fa-bullseye"></i>
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">News 6 </h4>
+                            <p>Backed by some of the biggest names in the industry, Firefox OS is an open platform that fosters greater</p>
+                        </div>
+                    </div>
+                </div><!--/.col-md-4-->
+            </div>
+        </div><!--/.row-->    
+    </div><!--/.container-->
+</section><!--/#services-->
+
 <!--
     <section>
         <div class="container">
@@ -359,4 +362,7 @@
             </div>
         </div>
     </section><!--/#get-in-touch-->
-
+</div>
+</div>
+<div class="col-md-1">
+</div>
