@@ -695,6 +695,7 @@ class DRG extends CI_Controller {
 			<tr><td><b>PAR Scor</b></td><td>'.$analisis->skor.'</td></tr>
 			<tr><td><b>Maloklusi</b></td><td>'.$analisis->maloklusi_menurut_angka.'</td></tr>
 			<tr><td><b>Diagnosis</b></td><td>'.$analisis->diagnosis_rekomendasi.'</td></tr>
+			<tr><td><center><img alt="140x140" src="../../'.$analisis->foto.'" style="width:125px; height:125px;" class="img-circle"></center></tr></td>
 			<tr><td><b>Kandidat 1</b></td><td>'.$mengirim->kandidat1.'</td></tr>
 			<tr><td><b>Kandidat 2</b></td><td>'.$mengirim->kandidat2.'</td></tr>
 			<tr><td><b>Kandidat 3</b></td><td>'.$mengirim->kandidat3.'</td></tr>

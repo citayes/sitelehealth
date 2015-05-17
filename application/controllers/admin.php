@@ -618,6 +618,7 @@ class Admin extends CI_Controller {
 			<tr><td><b>PAR Score</b></td><td>'.$analisi->skor.'</td></tr>
 			<tr><td><b>Malocclusion</b></td><td>'.$analisi->maloklusi_menurut_angka.'</td></tr>
 			<tr><td><b>Recommendation</b></td><td>'.$analisi->diagnosis_rekomendasi.'</td></tr>
+			<tr><td><center><img alt="140x140" src="../../'.$analisi->foto.'" style="width:125px; height:125px;" class="img-circle"></center></tr></td>
 			<tr><td colspan="2"><form method="post" action="../send_rujukan/'.$n.'"><center><button type="submit" class="btn btn-primary ">Send Reference</button></center></form>
 			</td></tr>');
 
@@ -761,6 +762,8 @@ class Admin extends CI_Controller {
 		 	$jadwaljaga->where('id', $n)->update('jam_mulai', $mulai);
 		 	$jadwaljaga->where('id', $n)->update('jam_selesai', $selesai);
 			$jadwaljaga->where('id', $n)->update('drg_ortodonti_id', $Dokter);
+
+			
 
 
 	 		$pengguna->where('username', $_SESSION['admin'])->get();
