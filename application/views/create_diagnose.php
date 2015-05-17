@@ -31,16 +31,6 @@
 	<div class="col-md-2"></div>
 	<div class="col-md-8">
 		<form  method="post" action="../save_diagnose/<?php echo $n;?>">
-				<div class="form-group">
-					<div class="form-group">
-						<label for="tanggal">Tanggal</label>
-						<div class="input-group date form_date col-md-12" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-		                    <input class="form-control" type="text" name="tanggal" placeholder='Masukkan Tanggal'>
-		     				<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-		                </div>
-		    			<input type="hidden" id="dtp_input2" value=""/>
-					  </div>
-				</div>
 				  <div class="form-group">
 					<label for="name">Par Index's Score</label>
 					<input type="input" name="Skor" class="form-control" id="Skor" placeholder="Patient's Par Index Score"/>
@@ -54,10 +44,23 @@
 					<input type="input" name="Diagnose" class="form-control" id="Diagnose" placeholder="Your Diagnose"/>
 				  </div>
 
-				  <div class="form-group">
+<!-- 				  <div class="form-group">
 					<label for="placeofbirth">Foto</label>
 					<input type="input" name="Foto" class="form-control" id="Foto" placeholder="Photo"/>
-				  </div>
+				  </div> -->
+                    <div class="tab-pane" id="panel-486345">
+                                <!-- <?php echo $error;?>-->
+                               <center> <?php echo form_open_multipart('pusat/upload_image');?>
+                                <img alt='140x140' src='../../<?php $pengguna = new pengguna();
+                                                            $pengguna->where('username', $_SESSION['drg'])->get(); 
+                                                            echo $pengguna->foto ?>' 
+                                                            style='width:125px; height:125px;' class='img-circle'>
+                                <input type="file" name="userfile"/>
+                                <br /><br />
+                                <input type="submit" class="btn btn-primary" value="upload" />
+
+                                </form></center>
+                            </div>
 
 				  <button type="submit" class="btn btn-primary">Send</button>
 				   <button type="cancel" onclick="javascript:window.location='../homepage';" class="btn btn-warning">Cancel</button>

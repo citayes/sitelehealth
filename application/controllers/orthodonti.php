@@ -284,8 +284,7 @@ function do_upload(){
 			$Jenis_Kelamin = $_POST['Gender'];
 			$Warga_Negara = $_POST['Nationality'];
 			$Agama = $_POST['Religion'];
-			$Skor_PAR = $_POST['Par'];
-
+			
 			$Pasien = new pasien();
 			$pengguna = new pengguna();
 			$pengguna->where('username', $_SESSION['orthodonti'])->get();
@@ -764,40 +763,48 @@ function do_upload(){
 		$pengguna->where('username', $_SESSION['orthodonti'])->get();
 		$idDokter = $pengguna->id;
 
-		$pesan = new pesan();
-		$pesan->get();
+		// $pesan = new pesan();
+		// $pesan->get();
 
-		if($pesan->result_count()!=0){
+		$mengirim = new mengirim();
+		$mengirim->get();
+
+		$rujukan = new rujukan();
+		$rujukan->where('orto_id', $idDokter)->get();	
+
+		if($rujukan->result_count()!=0){
 			$content = "<table class='table table-hover'>";
 			$content .="<tr>
 							<td><center><b><strong>From</strong></b></center></td>
-							<td><center><b><strong>Subject</strong></b></center></td>
-							<td><center><b><strong>Patient's Name</strong></b></center></td>
-							<td><center><b><strong>Address</strong></b></center></td>
+							<td><center><b><strong>Patient</strong></b></center></td>
+							<td><center><b><strong>Patient's Address</strong></b></center></td>
+							<td><center><b><strong>Date</strong></b></center></td>
+							<td><center><b><strong>Time</strong></b></center></td>
 							<td><center><b><strong>Action</strong></b></center></td>
 							</tr>";
 
-			foreach($pesan as $row){
-				if($row->penerima_id == $idDokter){
+			foreach($rujukan as $row){
+				if($row->orto_id == $idDokter){
 					$nama_pengirim = new pengguna();
-					$nama_pengirim->where('id', $row->pengguna_id)->get();
-					
-					$rujukan = new rujukan();
-					$rujukan->where('orto_id', $idDokter)->get();	
+					$nama_pengirim->where('id', $row->pengirim_id)->get();
 					
 					$analisi = new analisi();
-					$analisi->where('id',$rujukan->analisi_id)->get();
+					$analisi->where('id',$row->analisi_id)->get();
+					$waktu=$row->waktu;
+					$splitWaktu = explode(" ", $waktu);
+					$date = $splitWaktu[0];
+					$time = $splitWaktu[1];
 
 					$pasien = new pasien();
 					$pasien->where('id',$analisi->pasien_id)->get();
 
 						$content .= "<tr>
 									<td><center>".$nama_pengirim->nama."</center></td>
-									<td><center>".$row->subject."</center></td>
 									<td><center>".$pasien->nama."</center></td>
 									<td><center>".$pasien->alamat_rumah."</center></td>
-
-									<td><center><a class='btn btn-primary' href='../orthodonti/detail_reference/".$pasien->id."/".$pesan->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a> 
+									<td><center>".$date."</center></td>
+									<td><center>".$time."</center></td>
+									<td><center><a class='btn btn-primary' href='../orthodonti/detail_reference/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a> 
 								</tr>";
 				}
 			}
@@ -811,22 +818,20 @@ function do_upload(){
 		$this->load->view('footer');
 	}
 
-	public function detail_reference($n,$p){
+	public function detail_reference($n){
 
 		 session_start();
 		 if(!isset($_SESSION['orthodonti']))
 			redirect ("homepage");
 
+		$rujukan = new rujukan();
+		$rujukan->where('id', $n)->get();
+
 		$pasien = new pasien();
-		$pasien->where('id', $n)->get();
-
-		$pesan = new pesan();
-
-		$pesan->where('id',$p)->get();
-
+		$pasien->where('id', $rujukan->pasien_id)->get();
 
 		$analisi = new analisi();
-		$analisi->where('pasien_id', $n)->get();
+		$analisi->where('id', $rujukan->analisi_id)->get();
 
 		$data['array'] = array('content' => '<tr><td><b>Name</b></td><td>'.$pasien->nama.'</td></tr>
 			<tr><td><b>Birth Date</b></td><td>'.$pasien->tanggal_lahir.'</td></tr>
@@ -842,8 +847,9 @@ function do_upload(){
 			<tr><td><b>Image</b></td><td>'.$analisi->foto.'</td></tr>			
 			<tr><td><b>Score</b></td><td>'.$analisi->skor.'</td></tr>	
 			<tr><td><b>Malocclusion</b></td><td>'.$analisi->maloklusi_menurut_angka.'</td></tr>	
-			<tr><td><b>Diagnose</b></td><td>'.$analisi->diagnosis_rekomendasi.'</td></tr>	
-		<tr><td><center><a class="btn btn-primary" href="../orthodonti/reply_message/'.$pesan->id.'">Reply<a></center></td></tr>');
+			<tr><td><b>Diagnose</b></td><td>'.$analisi->diagnosis_rekomendasi.'</td></tr>
+			<tr><td><b>Message</b></td><td>'.$rujukan->pesan.'</td></tr>	
+		<tr><td><center><a class="btn btn-primary" href="../reply_message/'.$rujukan->id.'">Reply<a></center></td></tr>');
 			
 
 		$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');
@@ -856,35 +862,37 @@ function do_upload(){
 		session_start();
 		if(!isset($_SESSION['orthodonti']))
 			redirect ("homepage");
+	
 
-			// $pengguna = new pengguna();
-			// $pengguna->get();	
-			$pesan = new pesan();
-			$pesan->where('id',$n)->get();
+		$data['array'] = array('n'=>$n);	
+		$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');		
+		$this->load->view('header-orthodonti', $data['menu']);
+		$this->load->view('reply_message', $data['array']);
+		$this->load->view('footer');
+	}
 
-			$new_pesan = new pesan();
-			$new_pesan->pengguna_id=$pesan->penerima_id;
+	public function save_reply_message($n){
+		session_start();
+		if(!isset($_SESSION['orthodonti']))
+			redirect("homepage");
 
-			$tujuan=$pesan->pengguna_id;
+		$rujukan = new rujukan();
+		$rujukan->where('id',$n)->get();
+
+		$pesan = new pesan();
 
 		if($_SERVER['REQUEST_METHOD'] == 'POST'){
-			$subject = $_POST['subject'];
-			$isi = $_POST['isi'];
-
-			// $new_pengguna = new pengguna();
-			// $new_pengguna->where('username', $_SESSION['orthodonti'])->get();
-
-			$new_pesan->penerima_id=$tujuan;
-			$pesan->subject=$subject;
-			$pesan->isi=$isi;
-
+			$pesan->subject = $_POST['subject'];
+			$pesan->isi = $_POST['isi'];
+			$pesan->penerima_id=$rujukan->pengirim_id;
+			$pesan->pengguna_id=$rujukan->orto_id;
 			$pesan->save();
 		}
 
-		$data['array'] = array('content' => $tujuan);	
+		$data['array'] = array('n'=>$n);	
 		$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');		
 		$this->load->view('header-orthodonti', $data['menu']);
-		$this->load->view('reply_message');
+		$this->load->view('reply_message', $data['array']);
 		$this->load->view('footer');
 	}
 
