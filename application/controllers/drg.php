@@ -926,7 +926,7 @@ class DRG extends CI_Controller {
 					$content .= "<tr><td><center>".$row->waktu."</center></a></td>
 									<td><center>FKG UI</center></td>
 									<td><center>Send Patient to FKG UI</center></td>
-									<td><center><a class='btn btn-primary' href='../drg/view_merawat_drg/".$row->pasien_id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
+									<td><center><a class='btn btn-primary' href='../drg/view_merawat_drg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
 				}
 				else if($row->flag_outbox==1 && $row->umum_id==$lala){
 					// $nama_penerima = new pengguna();
@@ -934,7 +934,7 @@ class DRG extends CI_Controller {
 					$content .= "<tr><td><b><center>".$row->waktu."</center></b></a></td>
 									<td><b><center>FKG UI</center></b></td>
 									<td><b><center>Send Patient to FKG UI</center></b></td>
-									<td><b><center><a class='btn btn-primary' href='../drg/view_merawat_drg/".$row->pasien_id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></b></td></tr>";
+									<td><b><center><a class='btn btn-primary' href='../drg/view_merawat_drg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></b></td></tr>";
 				}
 		} 
 		foreach ($pesan->order_by('id', 'desc')->get() as $row) {
@@ -995,10 +995,12 @@ class DRG extends CI_Controller {
 		$pengguna = new pengguna();
 		$pengguna->where('username', $_SESSION['drg'])->get();
 		$merawat = new merawat();
-		$merawat->where('pasien_id', $n)->get();
+		$merawat->where('id', $n)->get();
 		$pasien_id= $merawat->pasien_id;
 		$pasien = new pasien();
 		$pasien->where('id', $pasien_id)->get();
+		$medical_record = new medical_record();
+		$medical_record->where('id', $merawat->medicalrecord_id)->get();
 		// $nama_pusat = new pengguna();
 		// $nama_pusat->where('id', $mengirim->pusat_id)->get();
 		// $nama_admin = new pengguna();
@@ -1024,6 +1026,11 @@ class DRG extends CI_Controller {
 			<tr><td><b>Patient Height</b></td><td>'.$pasien->tinggi.'</td></tr>
 			<tr><td><b>Patient Weight</b></td><td>'.$pasien->berat.'</td></tr>
 			<tr><td><b>Patient Gender</b></td><td>'.$pasien->jenis_kelamin.'</td></tr>
+			<tr><td><b>Medical Record ID</b></td><td>'.$medical_record->id.'</td></tr>
+			<tr><td><b>Date Medical Record</b></td><td>'.$medical_record->tanggal.'</td></tr>
+			<tr><td><b>Time Medical Record</b></td><td>'.$medical_record->jam.'</td></tr>
+			<tr><td><center><img alt="140x140" src="../../../../'.$medical_record->foto.'" style="width:125px; height:125px;" class="img-circle"></center></tr></td>
+			<tr><td><b>Description</b></td><td>'.$medical_record->deskripsi.'</td></tr>
 			');
 
 		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'setting' => '');
