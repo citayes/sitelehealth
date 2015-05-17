@@ -294,21 +294,25 @@ function do_upload(){
 		 		$analisi->validate();
 		 		if($analisi->valid){
 		 			$analisi->save();
-		 			$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
-							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-		  					<strong>Well done!</strong> Diagnose has been sent.
-							</div>", 'content' => '<a href="../read_data_citra">Back to patient list.</a>');
-		 					$this->load->view('header-pusat', $data['menu']);
-		$this->load->view('result-pusat');
-		$this->load->view('footer');
+		//  			$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+		// 					<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+		//   					<strong>Well done!</strong> Diagnose has been sent.
+		// 					</div>");
+		//  			// 'content' => '<a href="../read_data_citra">Back to patient list.</a>');
+		//  					$this->load->view('header-pusat', $data['menu']);
+		// $this->load->view('send_diagnose_to_admin');
+		// $this->load->view('footer');
+		 			redirect("pusat/choose_image_to_admin/$analisi->id");
 		 		}
 		 		else{
 		 					//$data['array']= array('content' => '<a href ="../pasien_read">Back to Patient List.</a>');
 							$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
 									<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 				  					Analisis not been created.".$analisi->error->skor."".$analisi->error->maloklusi_menurut_angka."".$analisi->error->diagnosis_rekomendasi."
-									</div>", 'content' => '<a href="../send_diagnose_to_admin/%n">Back to Diagnosis Form.</a>');
+									</div>");
+									// 'content' => '<a href="../send_diagnose_to_admin/%n">Back to Diagnosis Form.</a>');
 								$data['array'] = array('n' => $n);
+								redirect("pusat/send_diagnose_to_admin/$n");
 		//$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => '', 'setting' => '');
 		$this->load->view('header-pusat', $data['menu']);
 		$this->load->view('send_diagnose_to_admin', $data['array']);
@@ -320,6 +324,76 @@ function do_upload(){
 
 
 		}
+
+		function choose_image_to_admin($n){
+		session_start();
+		
+		if(!isset($_SESSION['pusat']))
+			redirect ("homepage");
+		
+		$data['array']=array('n'=>$n);
+		$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => '', 'setting' => '');
+		$this->load->view('header-pusat', $data['menu']);
+
+		//$this->load->view('header-pusat');
+		$this->load->view('choose_image_to_admin', $data['array']);
+		$this->load->view('footer');
+	}
+
+	function upload_image_to_admin($n){
+		session_start();
+		if(!isset($_SESSION['pusat']))
+			redirect ("homepage");
+
+		$config['upload_path'] = './uploads/citra';
+		$config['allowed_types'] = 'jpeg|jpg|png';
+		$config['max_size']	= '200';
+		$config['max_width']  = '2000';
+		$config['max_height']  = '2000';
+		$config['file_name'] = md5($_SESSION['pusat']);
+		$config['overwrite'] = true;
+
+ 
+		$this->load->library('upload', $config);
+ 
+		if (!$this->upload->do_upload()){
+			echo $this->upload->display_errors();
+			$status['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
+				<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+					<strong>Warning !</strong> Upload failure.
+				</div>");
+			//$status['array']=array('content' => '<a href="edit_profile">Back to profile.</a>');
+			redirect("pusat/choose_image_to_admin/$n");
+			$data['array']=array('n'=>$n);
+			$this->load->view('header-pusat', $status['menu']);
+			$this->load->view('choose_image_to_admin', $data['array']);
+			$this->load->view('footer');		
+		}
+		else{
+			$data = $this->upload->data();
+			$temp ="uploads/images/citra";
+			$temp .= $config['file_name'];
+			$temp .= $data['file_ext'];
+
+			$pengguna = new pengguna();
+			$pengguna->where('username', $_SESSION['pusat'])->get();
+
+			$analisi = new analisi();
+			$analisi->where('id',$n)->update('foto', $temp);
+
+			//$status['array']=array('content' => '<a href="../send_reference/'.$n.'">Send reference.</a>');
+
+			$data['array']=array('n'=>$n);
+					 			$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+		  					<strong>Well done!</strong> Diagnose has been sent.
+							</div>", 'content' => '<a href="../read_data_citra">Back to patient list.</a>');
+		 					$this->load->view('header-pusat', $data['menu']);
+		$this->load->view('result-pusat');
+		$this->load->view('footer');
+			//$this->load->vfprintf(handle, format, args)iew('admin', $data);
+		}
+	}
 	
 		public function listrujukan(){
 		session_start();
@@ -575,7 +649,7 @@ public function save_diagnose($n){
 
 		 	$pengguna->where('username', $_SESSION['pusat'])->get();		
 		 	$mengirim->pusat_id= $pengguna->id;
-		 	$analisi->where('pasien_id', $n);
+		 	$analisi->where('id', $n);
 		 	$analisi->order_by('id', 'desc')->get();
 
 		 	$mengirim->analisis_id=$analisi->id;
