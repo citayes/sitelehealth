@@ -450,14 +450,15 @@ class DRG extends CI_Controller {
 			$medical_record->validate();
 			if($medical_record->valid){
 				$medical_record->save();
-				$data['array']= array('content' => '<a href ="../pasien_read">Back to Patient List.</a>');
-				$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => '', 'setting' => 'active', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
-							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-		  					<strong>Well done!</strong> Patient data has been saved.
-							</div>");
-							$this->load->view('header-drg', $data['menu']);
-							$this->load->view('result-drg', $data['array']);
-							$this->load->view('footer');
+				// $data['array']= array('content' => '<a href ="../pasien_read">Back to Patient List.</a>');
+				// $data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => '', 'setting' => 'active', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+				// 			<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+		  // 					<strong>Well done!</strong> Patient data has been saved.
+				// 			</div>");
+				// 			$this->load->view('header-drg', $data['menu']);
+				// 			$this->load->view('result-drg', $data['array']);
+				// 			$this->load->view('footer');
+				redirect("drg/choose_image_drg/$medical_record->id");
 			}
 			else{
 							//$data['array']= array('content' => '<a href ="../pasien_read">Back to Patient List.</a>');
@@ -468,6 +469,7 @@ class DRG extends CI_Controller {
 				// echo $medical_record->error->tanggal;
 				// echo $medical_record->error->jam;
 				// echo $medical_record->error->deskripsi;
+						redirect("drg/medical_record/$n");
 						$data['array'] = array('n' => $n);
 						//$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => '', 'setting' => 'active');
 						$this->load->view('header-drg', $data['menu']);
@@ -478,6 +480,76 @@ class DRG extends CI_Controller {
 
 		}
 
+	}
+
+	function choose_image_drg($n){
+		session_start();
+		
+		if(!isset($_SESSION['drg']))
+			redirect ("homepage");
+		
+		$data['array']=array('n'=>$n);
+		$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');
+		$this->load->view('header-drg', $data['menu']);
+
+		//$this->load->view('header-pusat');
+		$this->load->view('choose_image_drg', $data['array']);
+		$this->load->view('footer');
+	}
+
+	function upload_image_drg($n){
+		session_start();
+		if(!isset($_SESSION['drg']))
+			redirect ("homepage");
+
+		$config['upload_path'] = './uploads/citra';
+		$config['allowed_types'] = 'jpeg|jpg|png';
+		$config['max_size']	= '200';
+		$config['max_width']  = '2000';
+		$config['max_height']  = '2000';
+		$config['file_name'] = md5($_SESSION['drg']);
+		$config['overwrite'] = true;
+
+ 
+		$this->load->library('upload', $config);
+ 
+		if (!$this->upload->do_upload()){
+			echo $this->upload->display_errors();
+			$status['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
+				<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+					<strong>Warning !</strong> Upload failure.
+				</div>");
+			//$status['array']=array('content' => '<a href="edit_profile">Back to profile.</a>');
+			redirect("drg/choose_image_drg/$n");
+			$data['array']=array('n'=>$n);
+			$this->load->view('header-drg', $status['menu']);
+			$this->load->view('choose_image_drg', $data['array']);
+			$this->load->view('footer');		
+		}
+		else{
+			$data = $this->upload->data();
+			$temp ="uploads/images/citra";
+			$temp .= $config['file_name'];
+			$temp .= $data['file_ext'];
+
+			$pengguna = new pengguna();
+			$pengguna->where('username', $_SESSION['drg'])->get();
+
+			$medical_record = new medical_record();
+			$medical_record->where('id',$n)->update('foto', $temp);
+
+			//$status['array']=array('content' => '<a href="../send_reference/'.$n.'">Send reference.</a>');
+
+			$data['array']=array('n'=>$n);
+					 			$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+		  					<strong>Well done!</strong> medical record has been created.
+							</div>", 'content' => '<a href="../pasien_read">Back to patient list.</a>');
+		 					$this->load->view('header-drg', $data['menu']);
+		$this->load->view('result-drg');
+		$this->load->view('footer');
+			//$this->load->vfprintf(handle, format, args)iew('admin', $data);
+		}
 	}
 
 			public function send_diagnose_to_admin($n){
