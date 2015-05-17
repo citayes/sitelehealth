@@ -335,9 +335,9 @@ function do_upload(){
 			$content .='<table class="table">
 						<tr>
 							<td><center><b>Date</b></center></td>
-			                <td><center><b>Nama Pasien</b></center></td>
-			                <td><center><b>Nama Dokter Umum/Spesialis Lain</b></center></td>
-			                <td><center><b>Nama Dokter Spesialis Orthodontist Selain Pusat</b></center></td>
+			                <td><center><b>Patients Name</b></center></td>
+			                <td><center><b>Doctors Name</b></center></td>
+			                <td><center><b>Orthodontist Name</b></center></td>
 			                <td><center><b>Operation</b></center></td>
 						</tr>';
 			foreach($merawat as $row){
@@ -646,23 +646,23 @@ public function retrievejadwalp(){
 
 		$content.='<table class="table">
 				<tr>
-				<td><center><b>Waktu</center></b></td>
-				<td><center><b>Nama Penerima</center></b></td>
-				<td><center><b>Keterangan</center></b></td>
+				<td><center><b>Time</center></b></td>
+				<td><center><b>Recipient Name</center></b></td>
+				<td><center><b>Information</center></b></td>
 				<td><center><b>Operation</center></b></td>
 			</tr>';
 				$content1.='<table class="table">
 				<tr>
-				<td><center><b>Waktu</center></b></td>
-				<td><center><b>Nama Penerima</center></b></td>
-				<td><center><b>Keterangan</center></b></td>
+				<td><center><b>Time</center></b></td>
+				<td><center><b>Recipient Name</center></b></td>
+				<td><center><b>Information</center></b></td>
 				<td><center><b>Operation</center></b></td>
 			</tr>';
 				$content2.='<table class="table">
 				<tr>
-				<td><center><b>Waktu</center></b></td>
-				<td><center><b>Nama Penerima</center></b></td>
-				<td><center><b>Keterangan</center></b></td>
+				<td><center><b>Time</center></b></td>
+				<td><center><b>Recipient Name</center></b></td>
+				<td><center><b>Information</center></b></td>
 				<td><center><b>Operation</center></b></td>
 			</tr>';
 		foreach($mengirim->order_by('id', 'desc')->get() as $row){
