@@ -770,41 +770,48 @@ function do_upload(){
 		$mengirim->get();
 
 		$rujukan = new rujukan();
-		$rujukan->where('orto_id', $idDokter)->get();	
+		$rujukan->order_by('waktu', 'desc')->get();	
+				
 
 		if($rujukan->result_count()!=0){
+
 			$content = "<table class='table table-hover'>";
 			$content .="<tr>
-							<td><center><b><strong>From</strong></b></center></td>
-							<td><center><b><strong>Patient</strong></b></center></td>
-							<td><center><b><strong>Patient's Address</strong></b></center></td>
 							<td><center><b><strong>Date</strong></b></center></td>
 							<td><center><b><strong>Time</strong></b></center></td>
+							<td><center><b><strong>From</strong></b></center></td>
 							<td><center><b><strong>Action</strong></b></center></td>
 							</tr>";
 
 			foreach($rujukan as $row){
-				if($row->orto_id == $idDokter){
-					$nama_pengirim = new pengguna();
-					$nama_pengirim->where('id', $row->pengirim_id)->get();
+				$nama_pengirim = new pengguna();
+		$nama_pengirim->where('id', $row->pengirim_id)->get();
 					
-					$analisi = new analisi();
-					$analisi->where('id',$row->analisi_id)->get();
-					$waktu=$row->waktu;
-					$splitWaktu = explode(" ", $waktu);
-					$date = $splitWaktu[0];
-					$time = $splitWaktu[1];
+		$analisi = new analisi();
+		$analisi->where('id',$row->analisi_id)->get();
+		$waktu=$row->waktu;
+		$splitWaktu = explode(" ", $waktu);
+		$date = $splitWaktu[0];
+		$time = $splitWaktu[1];
 
-					$pasien = new pasien();
-					$pasien->where('id',$analisi->pasien_id)->get();
+		$pasien = new pasien();
+		$pasien->where('id',$analisi->pasien_id)->get();
+
+				if($row->orto_id == $idDokter && $row->flag_membaca!=1 && $row->orto_id==$idDokter){
 
 						$content .= "<tr>
-									<td><center>".$nama_pengirim->nama."</center></td>
-									<td><center>".$pasien->nama."</center></td>
-									<td><center>".$pasien->alamat_rumah."</center></td>
 									<td><center>".$date."</center></td>
 									<td><center>".$time."</center></td>
+									<td><center>".$nama_pengirim->nama."</center></td>
 									<td><center><a class='btn btn-primary' href='../orthodonti/detail_reference/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a> 
+								</tr>";
+				}
+				if($row->orto_id == $idDokter && $row->flag_membaca==1  && $row->orto_id==$idDokter){
+						$content .= "<tr>
+									<td><center><b>".$date."</b></center></td>
+									<td><center><b>".$time."</b></center></td>
+									<td><center><b>".$nama_pengirim->nama."</b></center></td>
+									<td><center><b><a class='btn btn-primary' href='../orthodonti/detail_reference/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></b></center></a> 
 								</tr>";
 				}
 			}
@@ -832,6 +839,9 @@ function do_upload(){
 
 		$analisi = new analisi();
 		$analisi->where('id', $rujukan->analisi_id)->get();
+
+		$rujukan1 = new rujukan();
+		$rujukan1->where('id', $n)->update('flag_membaca', '2');
 
 		$data['array'] = array('content' => '<tr><td><b>Name</b></td><td>'.$pasien->nama.'</td></tr>
 			<tr><td><b>Birth Date</b></td><td>'.$pasien->tanggal_lahir.'</td></tr>
