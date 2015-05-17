@@ -23,36 +23,36 @@
                     <div class="row mar-bot40">
 		<div class="col-md-offset-3 col-md-6">
 			<div class="section-header">
-				<center><h2 class="section-heading animated" data-animation="bounceInUp">Create Diagnose</h2></center><hr>
+				<center><h2 class="section-heading animated" data-animation="bounceInUp">Choose Image to Upload</h2></center><hr>
 			</div>
 		</div>
 	</div>
 	<div class="row">
 	<div class="col-md-2"></div>
 	<div class="col-md-8">
-		<form  method="post" action="../save_diagnose/<?php echo $n;?>">
-				  <div class="form-group">
-					<label for="name">Par Index's Score</label>
-					<input type="input" name="Skor" class="form-control" id="Skor" placeholder="Patient's Par Index Score"/>
-				  </div>
-				  <div class="form-group">
-					<label for="placeofbirth">Malocclusion</label>
-					<input type="input" name="Maloklusi" class="form-control" id="Maloklusi" placeholder="Patient's Malocclusion"/>
-				  </div>
-				  <div class="form-group">
-					<label for="placeofbirth">Diagnose</label>
-					<input type="input" name="Diagnose" class="form-control" id="Diagnose" placeholder="Your Diagnose"/>
-				  </div>
+		
+				  
 
 <!-- 				  <div class="form-group">
 					<label for="placeofbirth">Foto</label>
 					<input type="input" name="Foto" class="form-control" id="Foto" placeholder="Photo"/>
 				  </div> -->
- 
-				  <button type="submit" class="btn btn-primary">Send</button>
+                    <div class="tab-pane" id="panel-486345">
+                                <!-- <?php echo $error;?>-->
+                               <center> <?php echo form_open_multipart("pusat/upload_image/$n");?>
+                                <img alt='140x140' src='../../<?php $pengguna = new pengguna();
+                                                            $pengguna->where('username', $_SESSION['pusat'])->get(); 
+                                                            echo $pengguna->foto ?>' 
+                                                            style='width:125px; height:125px;' class='img-circle'>
+                                <input type="file" name="userfile"/>
+                                <br /><br />
+                                <input type="submit" class="btn btn-primary" value="upload" />
+
+                                </form></center>
+                            </div>
+				 
 				   <button type="cancel" onclick="javascript:window.location='../homepage';" class="btn btn-warning">Cancel</button>
-				</form>
-	</div>
+		</div>
 	<div class="col-md-2"></div>
 
 	</div>

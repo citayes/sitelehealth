@@ -423,7 +423,7 @@ public function save_diagnose($n){
 			$skor = $_POST['Skor'];
 			$maloklusi= $_POST['Maloklusi'];
 			$diagnose = $_POST['Diagnose'];
-			$foto = $_POST['Foto'];
+			//$foto = $_POST['Foto'];
 
 			$analisi = new analisi();
 			$rujukan = new rujukan();
@@ -438,7 +438,7 @@ public function save_diagnose($n){
 			$analisi->diagnosis_rekomendasi=$diagnose;
 			$pengguna->where('username', $_SESSION['pusat'])->get();
 			$analisi->orto_id=$pengguna->id;
-			$analisi->foto=$foto;
+			//$analisi->foto=$foto;
 
 			$analisi->flag_mengirim='2';
 			$analisi->save();
@@ -448,11 +448,11 @@ public function save_diagnose($n){
 			$mengirim->pusat_id=$merawat->pusat_id;
 
 			$analisi->flag_mengirim='2';
-
+			$a = $analisi->id;
 			$analisi->validate();
 			if($analisi->valid){
 				$analisi->save();
-				redirect("pusat/send_reference/$n");
+				redirect("pusat/choose_image/$a");
 
 			}
 			else{
@@ -469,6 +469,73 @@ public function save_diagnose($n){
 			$this->load->view('footer');
 			}
 	}
+
+	function choose_image($n){
+		session_start();
+		
+		if(!isset($_SESSION['pusat']))
+			redirect ("homepage");
+		
+		$data['array']=array('n'=>$n);
+		$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => '', 'setting' => '');
+		$this->load->view('header-pusat', $data['menu']);
+
+		//$this->load->view('header-pusat');
+		$this->load->view('choose_image', $data['array']);
+		$this->load->view('footer');
+	}
+
+	function upload_image($n){
+		session_start();
+		if(!isset($_SESSION['pusat']))
+			redirect ("homepage");
+
+		$config['upload_path'] = './uploads/citra';
+		$config['allowed_types'] = 'jpeg|jpg|png';
+		$config['max_size']	= '200';
+		$config['max_width']  = '2000';
+		$config['max_height']  = '2000';
+		$config['file_name'] = md5($_SESSION['pusat']);
+		$config['overwrite'] = true;
+
+ 
+		$this->load->library('upload', $config);
+ 
+		if (!$this->upload->do_upload()){
+			echo $this->upload->display_errors();
+			$status['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> '', 'inbox' => '', 'setting' => 'active', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
+				<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+					<strong>Warning !</strong> Upload failure.
+				</div>");
+			$status['array']=array('content' => '<a href="edit_profile">Back to profile.</a>');
+			$this->load->view('header-pusat', $status['menu']);
+			$this->load->view('result-upload_image', $status['array']);
+			$this->load->view('footer');		
+		}
+		else{
+			$data = $this->upload->data();
+			$temp ="uploads/images/citra";
+			$temp .= $config['file_name'];
+			$temp .= $data['file_ext'];
+
+			$pengguna = new pengguna();
+			$pengguna->where('username', $_SESSION['pusat'])->get();
+
+			$analisi = new analisi();
+			$analisi->where('id',$n)->update('foto', $temp);
+
+			$status['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> '', 'inbox' => '', 'setting' => 'active', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+				<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+					<strong>Well done!</strong> Photo profile successfully changed.
+				</div>");
+			$status['array']=array('content' => '<a href="edit_profile">Back to profile.</a>');
+			$this->load->view('header-pusat', $status['menu']);
+			$this->load->view('result-upload_image', $status['array']);
+			$this->load->view('footer');
+			//$this->load->vfprintf(handle, format, args)iew('admin', $data);
+		}
+	}
+
 		public function send_reference($n){
 		session_start();
 			
@@ -864,54 +931,6 @@ public function retrievejadwalp(){
 		$this->load->view('footer');
 	}	
 
-	function upload_image(){
-		session_start();
-		if(!isset($_SESSION['pusat']))
-			redirect ("homepage");
-
-		$config['upload_path'] = './uploads/images/citra';
-		$config['allowed_types'] = 'jpeg|jpg|png';
-		$config['max_size']	= '200';
-		$config['max_width']  = '2000';
-		$config['max_height']  = '2000';
-		$config['file_name'] = md5($_SESSION['pusat']);
-		$config['overwrite'] = true;
-
- 
-		$this->load->library('upload', $config);
- 
-		if (!$this->upload->do_upload()){
-			$status['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> '', 'inbox' => '', 'setting' => 'active', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
-				<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-					<strong>Warning !</strong> Upload failure.
-				</div>");
-			$status['array']=array('content' => '<a href="edit_profile">Back to profile.</a>');
-			$this->load->view('header-pusat', $status['menu']);
-			$this->load->view('result-upload_image', $status['array']);
-			$this->load->view('footer');		
-		}
-		else{
-			$data = $this->upload->data();
-			$temp ="uploads/images/citra";
-			$temp .= $config['file_name'];
-			$temp .= $data['file_ext'];
-
-			$pengguna = new pengguna();
-			$pengguna->where('username', $_SESSION['pusat'])->get();
-
-			$analisi = new analisi();
-		//	$analisi->where('id',)
-
-			$status['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> '', 'inbox' => '', 'setting' => 'active', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
-				<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-					<strong>Well done!</strong> Photo profile successfully changed.
-				</div>");
-			$status['array']=array('content' => '<a href="edit_profile">Back to profile.</a>');
-			$this->load->view('header-pusat', $status['menu']);
-			$this->load->view('result-upload_image', $status['array']);
-			$this->load->view('footer');
-			//$this->load->vfprintf(handle, format, args)iew('admin', $data);
-		}
-	}
+	
 }
 ?>
