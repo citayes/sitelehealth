@@ -245,7 +245,12 @@ function do_upload(){
 		$analisis1 = new analisi();
 		$analisis1->where('id', $n)->update('flag_membaca', '2');
 
-		$data['array'] = array('content' => '<tr><td><b>Date</b></td><td>'.$mengirim->tanggal.'</td></tr>
+		$splitTimeStamp = explode(" ",$mengirim->waktu);
+		$date = $splitTimeStamp[0];
+		$time = $splitTimeStamp[1];
+
+		$data['array'] = array('content' => '<tr><td><b>Date</b></td><td>'.$date.'</td></tr>
+			<tr><td><b>Date</b></td><td>'.$time.'</td></tr>
 			<tr><td><b>Admins name</b></td><td>'.$nama_admin->nama.'</td></tr>
 			<tr><td><b>FKG Doctors name</b></td><td>'.$nama_pusat->nama.'</td></tr>
 			<tr><td><b>Patients id</b></td><td>'.$analisis->pasien_id.'</td></tr>
@@ -258,6 +263,7 @@ function do_upload(){
 			<tr><td><b>Kandidat 3</b></td><td>'.$mengirim->kandidat3.'</td></tr>
 			<tr><td><b>Kandidat 4</b></td><td>'.$mengirim->kandidat4.'</td></tr>
 			<tr><td><b>Kandidat 5</b></td><td>'.$mengirim->kandidat5.'</td></tr>
+			<tr><td colspan="2"><b>Photo</b><br><center><img alt="140x140" src="../../../'.$analisis->foto.'"></center></tr></td>
 			<tr><td><center><a class="btn btn-warning" href="../list_reference_drg">Back<a></center></td>
 			<td><center><a class="btn btn-primary" href="../send_to_referral/'.$n.'">Send Reference<a></center></td></tr>');
 
@@ -565,13 +571,13 @@ function do_upload(){
 		if(!isset($_SESSION['orthodonti']))
 			redirect ("homepage");
 
-		$config['upload_path'] = './uploads/citra';
+		$config['upload_path'] = './uploads/citra/';
 		$config['allowed_types'] = 'jpeg|jpg|png';
 		$config['max_size']	= '200';
 		$config['max_width']  = '2000';
 		$config['max_height']  = '2000';
-		$config['file_name'] = md5($_SESSION['orthodonti']);
-		$config['overwrite'] = true;
+		$config['file_name'] = md5($n);
+		//$config['overwrite'] = true;
 
  
 		$this->load->library('upload', $config);
@@ -591,7 +597,7 @@ function do_upload(){
 		}
 		else{
 			$data = $this->upload->data();
-			$temp ="uploads/images/citra";
+			$temp ="uploads/citra/";
 			$temp .= $config['file_name'];
 			$temp .= $data['file_ext'];
 

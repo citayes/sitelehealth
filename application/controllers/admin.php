@@ -625,7 +625,7 @@ class Admin extends CI_Controller {
 			<tr><td><b>PAR Score</b></td><td>'.$analisi->skor.'</td></tr>
 			<tr><td><b>Malocclusion</b></td><td>'.$analisi->maloklusi_menurut_angka.'</td></tr>
 			<tr><td><b>Recommendation</b></td><td>'.$analisi->diagnosis_rekomendasi.'</td></tr>
-			<tr><td><center><img alt="140x140" src="../../'.$analisi->foto.'" style="width:125px; height:125px;" class="img-circle"></center></tr></td>
+			<tr><td colspan="2"><b>Photo</b><br><center><img alt="140x140" src="../../../'.$analisi->foto.'"></center></tr></td>
 			<tr><td colspan="2"><form method="post" action="../send_rujukan/'.$n.'"><center><button type="submit" class="btn btn-primary ">Send Reference</button></center></form>
 			</td></tr>');
 
@@ -849,7 +849,7 @@ class Admin extends CI_Controller {
 				<tr>
 				<td><center><b>Time</center></b></td>
 				<td><center><b>To</center></b></td>
-				<td><center><bInformation</center></b></td>
+				<td><center><b>Information</center></b></td>
 				<td><center><b>Operation</center></b></td>
 			</tr>';
 		$content1.='<table class="table">
@@ -877,7 +877,7 @@ class Admin extends CI_Controller {
 					$content .= "<tr><td><center>".$row->waktu."</center></a></td>
 									<td><center>".$nama_penerima1->nama."</center></td>
 									<td><center>Reference and Diagnosis</center></td>
-									<td><center><a class='btn btn-primary' href='../drg/view_reference_admin/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
+									<td><center><a class='btn btn-primary' href='../admin/view_reference_admin/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
 				}
 				else if($row->umum_id!=null && $row->admin_id!=null && $row->flag_outbox==1){
 					$nama_penerima = new pengguna();
@@ -894,7 +894,7 @@ class Admin extends CI_Controller {
 					$content .= "<tr><td><b><center>".$row->waktu."</center></b></a></td>
 									<td><b><center>".$nama_penerima1->nama."</center></b></td>
 									<td><<b>center>Reference and Diagnosis</center></b></td>
-									<td><center><b><a class='btn btn-primary' href='../drg/view_reference_admin/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></b></center></td></tr>";
+									<td><center><b><a class='btn btn-primary' href='../admin/view_reference_admin/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></b></center></td></tr>";
 				}
 			
 		} 

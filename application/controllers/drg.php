@@ -416,7 +416,7 @@ class DRG extends CI_Controller {
 		$data['array'] = array('content' => '<tr><td><b>Medical Record ID</b></td><td>'.$medical_record->id.'</td></tr>
 			<tr><td><b>Date</b></td><td>'.$medical_record->tanggal.'</td></tr>
 			<tr><td><b>Time</b></td><td>'.$medical_record->jam.'</td></tr>
-			<tr><td><center><img alt="140x140" src="../../../../'.$medical_record->foto.'" style="width:125px; height:125px;" class="img-circle"></center></tr></td>
+			<tr><td><center><img alt="140x140" src="../../../'.$medical_record->foto.'" style="width:125px; height:125px;" class="img-circle"></center></tr></td>
 			<tr><td><b>Description</b></td><td>'.$medical_record->deskripsi.'</td></tr>
 			<td><form method="post" action="../send_data/'.$n.'"><button type="submit" class="btn btn-primary ">Send to FKG UI</button></form>
 			</td></tr>');
@@ -509,8 +509,8 @@ class DRG extends CI_Controller {
 		$config['max_size']	= '200';
 		$config['max_width']  = '2000';
 		$config['max_height']  = '2000';
-		$config['file_name'] = md5($_SESSION['drg']);
-		$config['overwrite'] = true;
+		$config['file_name'] = md5($n);
+		//$config['overwrite'] = true;
 
  
 		$this->load->library('upload', $config);
@@ -530,7 +530,7 @@ class DRG extends CI_Controller {
 		}
 		else{
 			$data = $this->upload->data();
-			$temp ="uploads/images/citra";
+			$temp ="uploads/citra/";
 			$temp .= $config['file_name'];
 			$temp .= $data['file_ext'];
 
@@ -772,12 +772,12 @@ class DRG extends CI_Controller {
 			<tr><td><b>PAR Scor</b></td><td>'.$analisis->skor.'</td></tr>
 			<tr><td><b>Maloklusi</b></td><td>'.$analisis->maloklusi_menurut_angka.'</td></tr>
 			<tr><td><b>Diagnosis</b></td><td>'.$analisis->diagnosis_rekomendasi.'</td></tr>
-			<tr><td><center><img alt="140x140" src="../../'.$analisis->foto.'" style="width:125px; height:125px;" class="img-circle"></center></tr></td>
 			<tr><td><b>Kandidat 1</b></td><td>'.$mengirim->kandidat1.'</td></tr>
 			<tr><td><b>Kandidat 2</b></td><td>'.$mengirim->kandidat2.'</td></tr>
 			<tr><td><b>Kandidat 3</b></td><td>'.$mengirim->kandidat3.'</td></tr>
 			<tr><td><b>Kandidat 4</b></td><td>'.$mengirim->kandidat4.'</td></tr>
 			<tr><td><b>Kandidat 5</b></td><td>'.$mengirim->kandidat5.'</td></tr>
+			<tr><td colspan="2"><b>Photo</b><br><center><img alt="140x140" src="../../../'.$analisis->foto.'"></center></tr></td>
 			<tr><td><center><a class="btn btn-warning" href="../list_reference_drg">Back<a></center></td>
 			<td><center><a class="btn btn-primary" href="../send_to_referral/'.$n.'">Send Reference<a></center></td></tr>');
 

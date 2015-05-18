@@ -96,10 +96,10 @@ class Pusat extends CI_Controller {
 			<tr><td><b>Medical Record ID</b></td><td>'.$medical_record->id.'</td></tr>
 			<tr><td><b>Date Medical Record</b></td><td>'.$medical_record->tanggal.'</td></tr>
 			<tr><td><b>Time Medical Record</b></td><td>'.$medical_record->jam.'</td></tr>
-			<tr><td><center><img alt="140x140" src="../../../../'.$medical_record->foto.'" style="width:125px; height:125px;" class="img-circle"></center></tr></td>
 			<tr><td><b>Description</b></td><td>'.$medical_record->deskripsi.'</td></tr>
-			<tr><td><form method="post" action="../send_diagnose_to_admin/'.$n.'"><button type="submit" class="btn btn-primary pull-right">Send Diagnose to Admin</button></form></td>
-			<td><form method="post" action="../create_diagnose/'.$n.'"><button type="submit" class="btn btn-primary">Send Reference</button></form>
+			<tr><td colspan="2"><b>Photo</b><br><center><img alt="140x140" src="../../../'.$medical_record->foto.'"></center></tr></td>
+			<tr><td><form method="post" action="../send_diagnose_to_admin/'.$Merawat->pasien_id.'"><button type="submit" class="btn btn-primary pull-right">Send Diagnose to Admin</button></form></td>
+			<td><form method="post" action="../create_diagnose/'.$Merawat->pasien_id.'"><button type="submit" class="btn btn-primary">Send Reference</button></form>
 			<td><form method="post" action="../view_doctor/'.$Pasien->doktergigi_id.'"><button type="submit" class="btn btn-primary">View Doctor</button></form>
 			</td></tr>');
 
@@ -353,13 +353,13 @@ function do_upload(){
 		if(!isset($_SESSION['pusat']))
 			redirect ("homepage");
 
-		$config['upload_path'] = './uploads/citra';
+		$config['upload_path'] = './uploads/citra/';
 		$config['allowed_types'] = 'jpeg|jpg|png';
 		$config['max_size']	= '200';
 		$config['max_width']  = '2000';
 		$config['max_height']  = '2000';
-		$config['file_name'] = md5($_SESSION['pusat']);
-		$config['overwrite'] = true;
+		$config['file_name'] = md5($n);
+		//$config['overwrite'] = true;
 
  
 		$this->load->library('upload', $config);
@@ -379,7 +379,7 @@ function do_upload(){
 		}
 		else{
 			$data = $this->upload->data();
-			$temp ="uploads/images/citra";
+			$temp ="uploads/citra/";
 			$temp .= $config['file_name'];
 			$temp .= $data['file_ext'];
 
@@ -493,8 +493,9 @@ function do_upload(){
 			<tr><td><b>Medical Record ID</b></td><td>'.$medical_record->id.'</td></tr>
 			<tr><td><b>Date Medical Record</b></td><td>'.$medical_record->tanggal.'</td></tr>
 			<tr><td><b>Time Medical Record</b></td><td>'.$medical_record->jam.'</td></tr>
-			<tr><td><center><img alt="140x140" src="../../'.$medical_record->foto.'" style="width:125px; height:125px;" class="img-circle"></center></tr></td>
+			
 			<tr><td><b>Description</b></td><td>'.$medical_record->deskripsi.'</td></tr>
+			<tr><td colspan="2"><b>Photo</b><br><center><img alt="140x140" src="../../../'.$medical_record->foto.'"></center></tr></td>
 			<td><form method="post" action="../view_doctor/'.$pasien->doktergigi_id.'"><button type="submit" class="btn btn-primary">View Doctor</button></form>
 
 
@@ -603,8 +604,8 @@ public function save_diagnose($n){
 		$config['max_size']	= '200';
 		$config['max_width']  = '2000';
 		$config['max_height']  = '2000';
-		$config['file_name'] = md5($_SESSION['pusat']);
-		$config['overwrite'] = true;
+		$config['file_name'] = md5($n);
+		//$config['overwrite'] = true;
 
  
 		$this->load->library('upload', $config);
@@ -623,7 +624,7 @@ public function save_diagnose($n){
 		}
 		else{
 			$data = $this->upload->data();
-			$temp ="uploads/images/citra";
+			$temp ="uploads/citra/";
 			$temp .= $config['file_name'];
 			$temp .= $data['file_ext'];
 
@@ -955,12 +956,13 @@ public function retrievejadwalp(){
 			<tr><td><b>PAR Scor</b></td><td>'.$analisis->skor.'</td></tr>
 			<tr><td><b>Maloklusi</b></td><td>'.$analisis->maloklusi_menurut_angka.'</td></tr>
 			<tr><td><b>Diagnosis</b></td><td>'.$analisis->diagnosis_rekomendasi.'</td></tr>
-			<tr><td><center><img alt="140x140" src="../../../'.$analisis->foto.'" style="width:125px; height:125px;" class="img-circle"></center></tr></td>
+		
 			<tr><td><b>Kandidat 1</b></td><td>'.$mengirim->kandidat1.'</td></tr>
 			<tr><td><b>Kandidat 2</b></td><td>'.$mengirim->kandidat2.'</td></tr>
 			<tr><td><b>Kandidat 3</b></td><td>'.$mengirim->kandidat3.'</td></tr>
 			<tr><td><b>Kandidat 4</b></td><td>'.$mengirim->kandidat4.'</td></tr>
-			<tr><td><b>Kandidat 5</b></td><td>'.$mengirim->kandidat5.'</td></tr>');
+			<tr><td><b>Kandidat 5</b></td><td>'.$mengirim->kandidat5.'</td></tr>
+			<tr><td colspan="2"><b>Photo</b><br><center><img alt="140x140" src="../../../'.$analisis->foto.'"></center></tr></td>');
 
 		$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => 'active', 'setting' => '');
 		$this->load->view('header-pusat', $data['menu']);
@@ -1035,7 +1037,7 @@ public function retrievejadwalp(){
 			<tr><td><b>PAR Scor</b></td><td>'.$analisis->skor.'</td></tr>
 			<tr><td><b>Maloklusi</b></td><td>'.$analisis->maloklusi_menurut_angka.'</td></tr>
 			<tr><td><b>Diagnosis</b></td><td>'.$analisis->diagnosis_rekomendasi.'</td></tr>
-			<tr><td><center><img alt="140x140" src="../../../'.$analisis->foto.'" style="width:125px; height:125px;" class="img-circle"></center></tr></td>');
+			<tr><td colspan="2"><b>Photo</b><br><center><img alt="140x140" src="../../../'.$analisis->foto.'"></center></tr></td>');
 
 		$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => 'active', 'setting' => '');
 		$this->load->view('header-pusat', $data['menu']);
