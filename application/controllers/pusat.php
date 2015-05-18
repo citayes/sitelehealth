@@ -418,7 +418,7 @@ function do_upload(){
 						<tr>
 							<td><center><b>Date</b></center></td>
 			                <td><center><b>Patients Name</b></center></td>
-			                <td><center><b>Doctors Name</b></center></td>
+			                <td><center><b>Dentist Name</b></center></td>
 			                <td><center><b>Orthodontist Name</b></center></td>
 			                <td><center><b>Operation</b></center></td>
 						</tr>';
@@ -428,7 +428,7 @@ function do_upload(){
                                 <td><center>".$pasien->where('id', $row->pasien_id)->get()->nama."</center></td>
                                 <td><center>".$pengguna->where('id', $row->umum_id)->get()->nama."</center></td>
                                 <td><center>".$pengguna->where('id', $row->orto_id)->get()->nama."</center></td>
-                                <td><center><a class='btn btn-primary' href='show_rujukan/".$row->pasien_id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'> Detail</span></a></center></td>
+                                <td><center><a class='btn btn-primary' href='show_rujukan/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'> Detail</span></a></center></td>
                                 </tr>";
                 }
                 if($row->flag_membaca==1){
@@ -459,11 +459,28 @@ function do_upload(){
 		$pasien->where('id', $merawat->pasien_id)->get();
 		$medical_record = new medical_record();
 		$medical_record->where('id', $merawat->medicalrecord_id)->get();
+		
+		
+		$pengguna = new pengguna();
+		$pengguna->where('id', $merawat->umum_id)->get();
+		$pengguna1 = new pengguna();
+		$pengguna1->where('id', $merawat->orto_id)->get();
+
+//		if($merawat->flag_membaca==1){
 		$merawat1 = new merawat();
 		$merawat1->where('id', $n)->update('flag_membaca', '2');
 
-		$data['array'] = array('content' => '<tr><td><b>Id pasien</b></td><td>'.$pasien->id.'</td></tr>
-			<tr><td><b>Nama</b></td><td>'.$pasien->nama.'</td`></tr>
+		$splitTimeStamp = explode(" ",$merawat->waktu);
+		$date = $splitTimeStamp[0];
+		$time = $splitTimeStamp[1];
+
+	
+
+		$data['array'] = array('content' => '<tr><td><b>Date</b></td><td>'.$date.'</td></tr>
+			<tr><td><b>Time</b></td><td>'.$time.'</td></tr>
+			<tr><td><b>From Dentist</b></td><td>'.$pengguna->nama.'</td></tr>
+			<tr><td><b>From Orthodontist</b></td><td>'.$pengguna1->nama.'</td></tr>
+			<tr><td><b>Patient Name</b></td><td>'.$pasien->nama.'</td`></tr>
 			<tr><td><b>Tanggal Lahir</b></td><td>'.$pasien->tanggal_lahir.'</td></tr>
 			<tr><td><b>Tempatlahir</b></td><td>'.$pasien->tempat_lahir.'</td></tr>
 			<tr><td><b>Agama</b></td><td>'.$pasien->agama.'</td></tr>
@@ -478,6 +495,7 @@ function do_upload(){
 			<tr><td><b>Time Medical Record</b></td><td>'.$medical_record->jam.'</td></tr>
 			<tr><td><center><img alt="140x140" src="../../'.$medical_record->foto.'" style="width:125px; height:125px;" class="img-circle"></center></tr></td>
 			<tr><td><b>Description</b></td><td>'.$medical_record->deskripsi.'</td></tr>
+			<td><form method="post" action="../view_doctor/'.$pasien->doktergigi_id.'"><button type="submit" class="btn btn-primary">View Doctor</button></form>
 
 
 			</td></tr>');
@@ -710,31 +728,18 @@ public function save_diagnose($n){
 	}
 
 	public function view_doctor($m){
-	
-	session_start();
-	if(!isset($_SESSION['pusat']))
-		redirect ("homepage");
-	
-	$pengguna = new Pengguna();
-	$dokter_gigi = new dokter_gigi();
-	$drg_ortodonti = new drg_ortodonti();
-	$pengguna->where('id', $m)->get();
-	$dokter_gigi->where('pengguna_id', $m)->get();
+		session_start();
+		if(!isset($_SESSION['pusat']))
+			redirect ("homepage");
 
+		$pengguna = new pengguna();
+		$pengguna->where('id', $m)->get();
+		$dokter_gigi = new dokter_gigi();
+		$dokter_gigi->where('pengguna_id', $m)->get();
 
-	$data['array']= array('content' => '<tr><td>Nama</td><td>' .$pengguna->nama.'</td><tr>
-		<tr><td>Email</td><td>'.$pengguna->email.'</td></tr>
-		<tr><td>Tanggal_Lahir</td><td>'.$pengguna->tanggal_lahir.'</td></tr>
-		<tr><td>Tempat_Lahir</td><td>'.$pengguna->tempat_lahir.'</td></tr>
-		<tr><td>Warga_Negara</td><td>'.$pengguna->warga_negara.'</td></tr>
-		<tr><td>Jenis_kelamin</td><td>'.$pengguna->jenis_kelamin.'</td></tr>
-		<tr><td>Agama</td><td>'.$pengguna->agama.'</td></tr>
-		<tr><td>Foto</td><td>'.$pengguna->foto.'</td></tr>
-		<tr><td>Kursus</td><td>'.$dokter_gigi->kursus.'</td></tr>
-		<tr><td>Pendidikan_Dokter</td><td>'.$dokter_gigi->pendidikan_dokter.'</td></tr>
-		<tr><td>Alamat_Praktik</td><td>'.$dokter_gigi->alamat_praktik.'</td></tr>
-		<tr><td colspan="2"><a class="btn btn-primary" href="../verifyAcc/'.$m.'">Verify</a></td>'
-		);
+		$data['array'] = array('nama' => $pengguna->nama, 'email' =>  $pengguna->email, 'tanggallahir' => $pengguna->tanggal_lahir,
+			'tempatlahir' => $pengguna->tempat_lahir, 'warganegara' => $pengguna->warga_negara, 'foto'=>$pengguna->foto, 'jeniskelamin' => $pengguna->jenis_kelamin,
+			'agama' => $pengguna->agama, 'kursus' => $dokter_gigi->kursus, 'pendidikan' => $dokter_gigi->pendidikan_dokter, 'alamat' => $dokter_gigi->alamat_praktik);
 	
 $data['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> 'active', 'inbox' => '', 'setting' => '');
 	$this->load->view('header-pusat', $data['menu']);

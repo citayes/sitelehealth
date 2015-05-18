@@ -339,7 +339,7 @@ function do_upload(){
 			<tr><td><b>Address</b></td><td>'.$Pasien->alamat_rumah.'</td></tr>
 			<tr><td><b>Nationality</b></td><td>'.$Pasien->warga_negara.'</td></tr>
 			<tr><td><form method="post" action="../medical_record1/'.$n.'"><button type="submit" class="btn btn-primary pull-right">Create Medical Record</button></form></td>
-			<tr><td><form method="post" action="../list_medical_record_ortho/'.$n.'"><button type="submit" class="btn btn-primary pull-right">View Medical Record</button></form></td>			
+			<td><form method="post" action="../list_medical_record_ortho/'.$n.'"><button type="submit" class="btn btn-primary pull-right">View Medical Record</button></form></td>			
 			</td></tr>');
 
 		//$this->load->view('header-orthodonti');
@@ -428,7 +428,7 @@ function do_upload(){
 		//echo $n;
 		$medical_record = new medical_record();
 		$pasien = new pasien();
-		$medical_record->where('pasien_id', $n)->get();
+		$medical_record->order_by('tanggal', 'desc')->get();
 
 		$pengguna = new pengguna();
 		$pengguna->where('username', $_SESSION['orthodonti'])->get();
@@ -443,7 +443,7 @@ function do_upload(){
 							<td><center><b><strong>Operation</strong></b></center></td>
 							</tr>";
 			foreach($medical_record as $row){
-				if($row->dokter_gigi_id == $idDokter){
+				if($row->dokter_gigi_id == $idDokter && $row->pasien_id==$n){
 					//echo $row->doktergigi_id;
 					//echo $idDokter;
 					$content .= "<tr>

@@ -367,7 +367,7 @@ class DRG extends CI_Controller {
 		//echo $n;
 		$medical_record = new medical_record();
 		$pasien = new pasien();
-		$medical_record->where('pasien_id', $n)->get();
+		$medical_record->order_by('tanggal', 'desc')->get();
 
 		$pengguna = new pengguna();
 		$pengguna->where('username', $_SESSION['drg'])->get();
@@ -382,7 +382,7 @@ class DRG extends CI_Controller {
 							<td><center><b><strong>Operation</strong></b></center></td>
 							</tr>";
 			foreach($medical_record as $row){
-				if($row->dokter_gigi_id == $idDokter){
+				if($row->dokter_gigi_id == $idDokter && $row->pasien_id==$n){
 					//echo $row->doktergigi_id;
 					//echo $idDokter;
 					$content .= "<tr>
