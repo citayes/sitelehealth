@@ -450,7 +450,7 @@ function do_upload(){
 
 								<td><center>".$row->id."</center></td>
 								<td><center>".$row->tanggal."</center></td>
-								<td><center><a class='btn btn-primary' href='../view_medical_record/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a> 
+								<td><center><a class='btn btn-primary' href='../view_medical_record_ortho/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a> 
 								</center></td></tr>";
 				}
 			}
@@ -479,7 +479,7 @@ function do_upload(){
 			<tr><td><b>Time</b></td><td>'.$medical_record->jam.'</td></tr>
 			<tr><td><center><img alt="140x140" src="../../../../'.$medical_record->foto.'" style="width:125px; height:125px;" class="img-circle"></center></tr></td>
 			<tr><td><b>Description</b></td><td>'.$medical_record->deskripsi.'</td></tr>
-			<td><form method="post" action="../send_data_/'.$n.'"><button type="submit" class="btn btn-primary ">Send to FKG UI</button></form>
+			<td><form method="post" action="../send_data/'.$n.'"><button type="submit" class="btn btn-primary ">Send to FKG UI</button></form>
 			</td></tr>');
 
 
@@ -562,7 +562,7 @@ function do_upload(){
 
 	function upload_image_orthodonti($n){
 		session_start();
-		if(!isset($_SESSION['drg']))
+		if(!isset($_SESSION['orthodonti']))
 			redirect ("homepage");
 
 		$config['upload_path'] = './uploads/citra';
@@ -585,7 +585,7 @@ function do_upload(){
 			//$status['array']=array('content' => '<a href="edit_profile">Back to profile.</a>');
 			redirect("orthodonti/choose_image_orthodonti/$n");
 			$data['array']=array('n'=>$n);
-			$this->load->view('header-drg', $status['menu']);
+			$this->load->view('header-orthodonti', $status['menu']);
 			$this->load->view('choose_image_orthodonti', $data['array']);
 			$this->load->view('footer');		
 		}
@@ -607,7 +607,7 @@ function do_upload(){
 					 			$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
 							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 		  					<strong>Well done!</strong> medical record has been created.
-							</div>", 'content' => '<a href="../pasien_read">Back to patient list.</a>');
+							</div>", 'content' => '<a href="../pasien_read_ortho">Back to patient list.</a>');
 		 					$this->load->view('header-orthodonti', $data['menu']);
 		$this->load->view('result-orthodonti');
 		$this->load->view('footer');
@@ -675,10 +675,18 @@ function do_upload(){
 					 	$pengguna = new pengguna();
 		 	$merawat = new merawat();
 
-		 		$pengguna->where('username', $_SESSION['orthodonti'])->get();
+		 		// $pengguna->where('username', $_SESSION['orthodonti'])->get();
+		 		// $id = $pengguna->id;
+		 		// $merawat->pasien_id=$n;
+		 		// $merawat->orto_id= $id;
+		 		// $merawat->save();
+		 	$pengguna->where('username', $_SESSION['orthodonti'])->get();
 		 		$id = $pengguna->id;
-		 		$merawat->pasien_id=$n;
+		 		$merawat->medicalrecord_id=$n;
 		 		$merawat->orto_id= $id;
+		 		$medical_record = new medical_record();
+		 		$medical_record->where('id', $n)->get();
+		 		$merawat->pasien_id=$medical_record->pasien_id;
 		 		$merawat->save();
 
 			}

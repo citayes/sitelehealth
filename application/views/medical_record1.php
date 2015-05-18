@@ -30,7 +30,7 @@
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
 			<div class="cform" id="contact-form">
-				<form  method="post" action="../simpan_medical_record1/<?php echo $n;?>">
+				<form  method="post" action="../simpan_medical_record_ortho/<?php echo $n;?>">
 				  <div class="form-group">
 					<label for="tanggal">Date</label>
 						<div class="input-group date form_date col-md-12" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
