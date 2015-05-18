@@ -612,9 +612,16 @@ class Admin extends CI_Controller {
 		$analisi->where('id', $n)->get();
 		$analisi1 = new analisi();
 		$analisi1->where('id', $n)->update('flag_membaca', '2');
+		$splitTimeStamp = explode(" ",$analisi->waktu);
+		$date = $splitTimeStamp[0];
+		$time = $splitTimeStamp[1];
+		$pengguna = new pengguna();
+		$pengguna->where('id', $analisi->orto_id)->get();
 
-		$data['array'] = array('content' => '<tr><td><b>Id pasien</b></td><td>'.$analisi->pasien_id.'</td></tr>
-			<tr><td><b>Id Orthodontist</b></td><td>'.$analisi->orto_id.'</td`></tr>
+		$data['array'] = array('content' => '<tr><td><b>Date</b></td><td>'.$date.'</td></tr>
+			<tr><td><b>Time</b></td><td>'.$time.'</td></tr>
+			<tr><td><b>From FKG UI</b></td><td>'.$pengguna->nama.'</td`></tr>
+			<tr><td><b>Id pasien</b></td><td>'.$analisi->pasien_id.'</td></tr>
 			<tr><td><b>PAR Score</b></td><td>'.$analisi->skor.'</td></tr>
 			<tr><td><b>Malocclusion</b></td><td>'.$analisi->maloklusi_menurut_angka.'</td></tr>
 			<tr><td><b>Recommendation</b></td><td>'.$analisi->diagnosis_rekomendasi.'</td></tr>
@@ -942,10 +949,14 @@ class Admin extends CI_Controller {
 		$nama_pasien->where('id', $analisis->pasien_id)->get();
 		$mengirim1 = new mengirim();
 		$mengirim1->where('id', $n)->update('flag_outbox', '2');
+		$splitTimeStamp = explode(" ",$mengirim->waktu);
+		$date = $splitTimeStamp[0];
+		$time = $splitTimeStamp[1];
 
-		$data['array'] = array('content' => '<tr><td><b>Recipient ID</b></td><td>'.$mengirim->umum_id.'</td></tr>
+		$data['array'] = array('content' => '<tr><td><b>Date</b></td><td>'.$date.'</td></tr>
+			<tr><td><b>Time</b></td><td>'.$time.'</td></tr>
+			<tr><td><b>Recipient ID</b></td><td>'.$mengirim->umum_id.'</td></tr>
 			<tr><td><b>Recipient Name</b></td><td>'.$nama_penerima->nama.'</td></tr>
-			<tr><td><b>Date</b></td><td>'.$mengirim->tanggal.'</td></tr>
 			<tr><td><b>Admins Name</b></td><td>'.$nama_admin->nama.'</td></tr>
 			<tr><td><b>Doctors Name</b></td><td>'.$nama_pusat->nama.'</td></tr>
 			<tr><td><b>Patients ID</b></td><td>'.$analisis->pasien_id.'</td></tr>
@@ -1133,8 +1144,14 @@ class Admin extends CI_Controller {
 		$pesan1 = new pesan();
 		$pesan1->where('id', $n)->update('flag_outbox', '2');
 
+		$splitTimeStamp = explode(" ",$pesan->waktu);
+		$date = $splitTimeStamp[0];
+		$time = $splitTimeStamp[1];
 
-		$data['array'] = array('content' => '<tr><td><b>Recipient ID</b></td><td>'.$pesan->penerima_id.'</td></tr>
+
+		$data['array'] = array('content' => '<tr><td><b>Date</b></td><td>'.$date.'</td></tr>
+			<tr><td><b>Time</b></td><td>'.$time.'</td></tr>
+			<tr><td><b>Recipient ID</b></td><td>'.$pesan->penerima_id.'</td></tr>
 
 			<tr><td><b>Recipient Name</b></td><td>'.$nama_penerima->nama.'</td></tr>
 			<tr><td><b>Subject</b></td><td>'.$pesan->subject.'</td></tr>

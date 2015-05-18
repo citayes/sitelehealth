@@ -939,9 +939,16 @@ public function retrievejadwalp(){
 		$mengirim1 = new mengirim();
 		$mengirim1->where('id', $n)->update('flag_outbox', '2');
 
-		$data['array'] = array('content' => '<tr><td><b>Recipient id</b></td><td>'.$mengirim->umum_id.'</td></tr>
+		$splitTimeStamp = explode(" ",$mengirim->waktu);
+		$date = $splitTimeStamp[0];
+		$time = $splitTimeStamp[1];
+
+		$data['array'] = array('content' => '<tr><td><b>Date</b></td><td>'.$date.'</td></tr>
+			<tr><td><b>Time</b></td><td>'.$time.'</td></tr>
+
+			<tr><td><b>Recipient id</b></td><td>'.$mengirim->umum_id.'</td></tr>
 			<tr><td><b>Recipient name</b></td><td>'.$nama_penerima->nama.'</td></tr>
-			<tr><td><b>Date</b></td><td>'.$mengirim->tanggal.'</td></tr>
+
 			<tr><td><b>FKG Doctors name</b></td><td>'.$nama_pusat->nama.'</td></tr>
 			<tr><td><b>Patients id</b></td><td>'.$analisis->pasien_id.'</td></tr>
 			<tr><td><b>Patients name</b></td><td>'.$nama_pasien->nama.'</td></tr>
@@ -976,7 +983,13 @@ public function retrievejadwalp(){
 		$pesan1 = new pesan();
 		$pesan1->where('id', $n)->update('flag_outbox', '2');
 
-		$data['array'] = array('content' => '<tr><td><b>Recipient id</b></td><td>'.$pesan->penerima_id.'</td></tr>
+		$splitTimeStamp = explode(" ",$pesan->waktu);
+		$date = $splitTimeStamp[0];
+		$time = $splitTimeStamp[1];
+
+		$data['array'] = array('content' => '<tr><td><b>Date</b></td><td>'.$date.'</td></tr>
+			<tr><td><b>Time</b></td><td>'.$time.'</td></tr>
+			<tr><td><b>Recipient id</b></td><td>'.$pesan->penerima_id.'</td></tr>
 			<tr><td><b>Recipient Name</b></td><td>'.$nama_penerima->nama.'</td></tr>
 			<tr><td><b>Subject</b></td><td>'.$pesan->subject.'</td></tr>
 			<tr><td><b>Sender</b></td><td>'.$pengguna->nama.'</td></tr>
@@ -1010,7 +1023,12 @@ public function retrievejadwalp(){
 		$analisis1 = new analisi();
 		$analisis1->where('id', $n)->update('flag_outbox', '2');
 
-		$data['array'] = array('content' => '
+		$splitTimeStamp = explode(" ",$analisis->waktu);
+		$date = $splitTimeStamp[0];
+		$time = $splitTimeStamp[1];
+
+		$data['array'] = array('content' => '<tr><td><b>Date</b></td><td>'.$date.'</td></tr>
+			<tr><td><b>Time</b></td><td>'.$time.'</td></tr>
 			<tr><td><b>Recipient name</b></td><td>Admin</td></tr>
 			<tr><td><b>Patients id</b></td><td>'.$analisis->pasien_id.'</td></tr>
 			<tr><td><b>Patients name</b></td><td>'.$nama_pasien->nama.'</td></tr>
