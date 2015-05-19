@@ -52,7 +52,7 @@
                                     <a href="<?php echo base_url(); ?>index.php/drg/pasien">Create Pasien</a>
                                 </li>
                                 <li>
-                                    <a href="<?php echo base_url(); ?>index.php/drg/pasien_read">View Patient</a>
+                                    <a href="<?php echo base_url(); ?>index.php/drg/pasien_read/1">View Patient</a>
                                 </li>
                             </ul>
                         </li>

@@ -187,42 +187,9 @@ class DRG extends CI_Controller {
 		$idDokter = $pengguna->id;
 		$pasien = new pasien();
 		$pasien->order_by('id', 'desc');
-		$pasien->get_paged($page, 10);
-		//echo $idDokter;
+		$pasien->where('doktergigi_id', $idDokter)->get_paged($page, 10);
 		
-		
-		if($pasien->result_count()!=0){
-			$content = "<table class='table table-hover'>";
-			$content .="<tr>
-							<td><center><b><strong>Name</strong></b></center></td>
-							<td><center><b><strong>Age</strong></b></center></td>
-							<td><center><b><strong>Height</strong></b></center></td>
-							<td><center><b><strong>Weight</strong></b></center></td>
-							<td><center><b><strong>Gender</strong></b></center></td>
-							<td><center><b><strong>Action</strong></b></center></td>
-							</tr>";
-			foreach($pasien as $row){
-				if($row->doktergigi_id == $idDokter){
-					//echo $row->doktergigi_id;
-					//echo $idDokter;
-					$content .= "<tr>
-									<td><center>".$row->nama."</center></td>
-									<td><center>".$row->umur."</center></td>
-									<td><center>".$row->tinggi."</center></td>
-									<td><center>".$row->berat."</center></td>
-									<td><center>".$row->jenis_kelamin."</center></td>
-									<td><center><a class='btn btn-primary' href='../drg/read/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a> 
-										<a class='btn btn-warning' href='../drg/pasien_update2/".$row->id."'><span class='glyphicon glyphicon-pencil' aria-hidden='false'></span></a>
-										<a class='btn btn-danger' href='../drg/delete1/".$row->id."'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></a>
-										</center>
-									</td>
-								</tr>";
-				}
-			}
-			$content .= "</table>";
-			$data['array']=array('content'=> $content, 'pasien' => $pasien);
-		}
-
+		$data['array']=array('pasien'=>$pasien, 'doktergigi_id'=>$idDokter);
 		$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');
 		$this->load->view('header-drg', $data['menu']);
 		$this->load->view('pasien_read', $data['array']);
