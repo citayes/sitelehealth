@@ -31,6 +31,16 @@
 					</div>
 					<div class="col-md-10">
                         <?php if(isset($content)) echo $content;?>
+                        <nav>
+                          <ul class="pager">
+                            <?php if($medical_record->paged->has_previous): ?>
+                            <li class="previous"><a href="<?= site_url('drg/list_medical_record/'.$medical_record->paged->previous_page) ?>"><span aria-hidden="true">&larr;</span> Newer</a></li>
+                            
+                            <?php elseif($medical_record->paged->has_next): ?>
+                            <li class="next"><a href="<?= site_url('drg/list_medical_record/'.$medical_record->paged->next_page) ?>">Older <span aria-hidden="true">&rarr;</span></a></li>
+                            <?php endif; ?>
+                          </ul>
+                        </nav>
 					</div>
 					<div class="col-md-1">
 					</div>

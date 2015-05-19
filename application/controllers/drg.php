@@ -177,7 +177,7 @@ class DRG extends CI_Controller {
 		$this->load->view('footer');
 	}
 
-	public function pasien_read(){
+	public function pasien_read($page = 1){
 		  session_start();
 		  if(!isset($_SESSION['drg']))
 		  	redirect ("homepage");
@@ -185,9 +185,12 @@ class DRG extends CI_Controller {
 		$pengguna = new pengguna();
 		$pengguna->where('username', $_SESSION['drg'])->get();
 		$idDokter = $pengguna->id;
-		//echo $idDokter;
 		$pasien = new pasien();
-		$pasien->get();
+		$pasien->order_by('id', 'desc');
+		$pasien->get_paged($page, 10);
+		//echo $idDokter;
+		
+		
 		if($pasien->result_count()!=0){
 			$content = "<table class='table table-hover'>";
 			$content .="<tr>
@@ -217,7 +220,7 @@ class DRG extends CI_Controller {
 				}
 			}
 			$content .= "</table>";
-			$data['array']=array('content'=> $content);
+			$data['array']=array('content'=> $content, 'pasien' => $pasien);
 		}
 
 		$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');
@@ -359,7 +362,7 @@ class DRG extends CI_Controller {
 		$this->load->view('footer');
 	}	
 
-	public function list_medical_record($n){
+	public function list_medical_record($n, $page = 1){
 		  session_start();
 		  if(!isset($_SESSION['drg']))
 		  	redirect ("homepage");
@@ -367,11 +370,14 @@ class DRG extends CI_Controller {
 		//echo $n;
 		$medical_record = new medical_record();
 		$pasien = new pasien();
-		$medical_record->order_by('tanggal', 'desc')->get();
+		//$medical_record->order_by('tanggal', 'desc')->get();
 
 		$pengguna = new pengguna();
 		$pengguna->where('username', $_SESSION['drg'])->get();
 		$idDokter = $pengguna->id;
+
+		$medical_record->order_by('tanggal', 'desc');
+		$medical_record->get_paged($page, 10);
 		//echo $medical_record;
 
 		//if($medical_record->result_count()!=0){
@@ -394,7 +400,7 @@ class DRG extends CI_Controller {
 				}
 			}
 			$content .= "</table>";
-			$data['array']=array('content'=> $content);
+			$data['array']=array('content'=> $content, 'medical_record' => $medical_record);
 			$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');
 			$this->load->view('header-drg', $data['menu']);
 			$this->load->view('list_medical_record', $data['array']);
@@ -885,7 +891,7 @@ class DRG extends CI_Controller {
 	}
 
 
-	public function list_outbox_drg(){
+	public function list_outbox_drg($page = 1){
 		session_start();
 		if(!isset($_SESSION['drg']))
 			redirect ("homepage");
@@ -894,14 +900,21 @@ class DRG extends CI_Controller {
 		$content1="";
 		$content2="";
 		$merawat = new merawat();
-		$merawat->get();
+		//$merawat->get();
 		$pengguna = new pengguna;
 		$pengguna->where('username', $_SESSION['drg'])->get();		
 		$lala = $pengguna->id;
 		$pesan = new pesan();
-		$pesan->get();
+		//$pesan->get();
 		$rujukan = new rujukan();
-		$rujukan->get();
+		//$rujukan->get();
+
+		$merawat->order_by('waktu', 'desc');
+		$merawat->get_paged($page, 10);
+		$pesan->order_by('waktu', 'desc');
+		$pesan->get_paged($page, 10);
+		$rujukan->order_by('waktu', 'desc');
+		$rujukan->get_paged($page, 10);
 
 		$content.='<table class="table">
 				<tr>
@@ -924,7 +937,7 @@ class DRG extends CI_Controller {
 				<td><center><b>Information</center></b></td>
 				<td><center><b>Operation</center></b></td>
 			</tr>';
-		foreach($merawat->order_by('id', 'desc')->get() as $row){
+		foreach($merawat as $row){
 
 
 			//foreach ($pesan as $row1) {
@@ -945,7 +958,7 @@ class DRG extends CI_Controller {
 									<td><b><center><a class='btn btn-primary' href='../drg/view_merawat_drg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></b></td></tr>";
 				}
 		} 
-		foreach ($pesan->order_by('id', 'desc')->get() as $row) {
+		foreach ($pesan as $row) {
 			if($row->pengguna_id==$lala && $row->flag_outbox!=1){
 				$nama_penerima = new pengguna();
 					$nama_penerima->where('id', $row->penerima_id)->get();
@@ -964,7 +977,7 @@ class DRG extends CI_Controller {
 			}
 		}
 
-		foreach($rujukan->order_by('id', 'desc')->get() as $row){
+		foreach($rujukan as $row){
 			//foreach ($pesan as $row1) {
 				if($row->pengirim_id==$lala && $row->flag_outbox!=1){
 					$nama_penerima = new pengguna();
@@ -988,10 +1001,13 @@ class DRG extends CI_Controller {
 		$content1.='</table>';
 		$content2.='</table>';
 
+
+		$data['array']=array('merawat' => $merawat, 'pesan' => $pesan, 'rujukan' => $rujukan);
+
 		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'setting' => '', 'content'=>$content, 'content1'=>$content1, 'content2'=>$content2);
 		//$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'setting' => '');
 		$this->load->view('header-drg', $data['menu']);
-		$this->load->view('list_outbox_drg');
+		$this->load->view('list_outbox_drg', $data['array']);
 		$this->load->view('footer');
 	}
 

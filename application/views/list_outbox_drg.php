@@ -46,7 +46,7 @@
                                         <div class="row mar-bot40">
                                             <div class="col-md-offset-3 col-md-6">
                                                 <div class="section-header">
-                                                    <center><h2 class="section-heading animated" data-animation="bounceInUp">Outbox</h2></center><hr>
+                                                    <center><h2 class="section-heading animated" data-animation="bounceInUp">Send Patient to FKG</h2></center><hr>
                                                 </div>
                                             </div>
                                         </div>
@@ -55,7 +55,18 @@
                                                 <?php
                                                 echo $content;
 
+
                                                 ?>
+                                                <nav>
+                                                  <ul class="pager">
+                                                    <?php if($merawat->paged->has_previous): ?>
+                                                    <li class="previous"><a href="<?= site_url('drg/list_outbox_drg/'.$merawat->paged->previous_page) ?>"><span aria-hidden="true">&larr;</span> Newer</a></li>
+                                                    
+                                                    <?php elseif($merawat->paged->has_next): ?>
+                                                    <li class="next"><a href="<?= site_url('drg/list_outbox_drg/'.$merawat->paged->next_page) ?>">Older <span aria-hidden="true">&rarr;</span></a></li>
+                                                    <?php endif; ?>
+                                                  </ul>
+                                                </nav>
                                             </div>
                                         </div>
                                     </div>
@@ -74,7 +85,7 @@
                                     <div class="row mar-bot40">
                                         <div class="col-md-offset-3 col-md-6">
                                             <div class="section-header">
-                                                <center><h2 class="section-heading animated" data-animation="bounceInUp"></h2></center><hr>
+                                                <center><h2 class="section-heading animated" data-animation="bounceInUp">Messages</h2></center><hr>
                                             </div>
                                         </div>
                                     </div>
@@ -84,6 +95,17 @@
                                             echo $content1;
 
                                             ?>
+
+                                            <nav>
+                                                  <ul class="pager">
+                                                    <?php if($pesan->paged->has_previous): ?>
+                                                    <li class="previous"><a href="<?= site_url('drg/list_outbox_drg/'.$pesan->paged->previous_page) ?>"><span aria-hidden="true">&larr;</span> Newer</a></li>
+                                                    
+                                                    <?php elseif($pesan->paged->has_next): ?>
+                                                    <li class="next"><a href="<?= site_url('drg/list_outbox_drg/'.$pesan->paged->next_page) ?>">Older <span aria-hidden="true">&rarr;</span></a></li>
+                                                    <?php endif; ?>
+                                                  </ul>
+                                                </nav>
                                         </div>
                                     </div>
                                 </div>
@@ -112,6 +134,16 @@
                                             echo $content2;
 
                                             ?>
+                                            <nav>
+                                                  <ul class="pager">
+                                                    <?php if($rujukan->paged->has_previous): ?>
+                                                    <li class="previous"><a href="<?= site_url('drg/list_outbox_drg/'.$rujukan->paged->previous_page) ?>"><span aria-hidden="true">&larr;</span> Newer</a></li>
+                                                    
+                                                    <?php elseif($rujukan->paged->has_next): ?>
+                                                    <li class="next"><a href="<?= site_url('drg/list_outbox_drg/'.$rujukan->paged->next_page) ?>">Older <span aria-hidden="true">&rarr;</span></a></li>
+                                                    <?php endif; ?>
+                                                  </ul>
+                                                </nav>
                                         </div>
                                     </div>
                                 </div>
