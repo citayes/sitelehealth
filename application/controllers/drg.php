@@ -593,14 +593,19 @@ class DRG extends CI_Controller {
 
 		}
 
-	public function list_reference_drg(){
+	public function list_reference_drg($page = 1){
 		session_start();
 		if(!isset($_SESSION['drg']))
 			redirect ("homepage");
 		
 		$content="";
+
+
+    // send to view
+//    $this->load->view('posts/archive', array('posts' => $posts));
 		$mengirim = new mengirim();
-		$mengirim->order_by('waktu', 'desc')->get();
+		$mengirim->order_by('waktu', 'desc');
+		$mengirim->get_paged($page, 10);
 		$pengguna = new pengguna;
 		$pengguna->where('username', $_SESSION['drg'])->get();		
 		$lala = $pengguna->id;
@@ -618,7 +623,7 @@ class DRG extends CI_Controller {
 				$content .= "<tr><td><center>".$row->waktu."</center></a></td>
 								<td><center>".$row->umum_id."</center></td>
 								<td><center>".$nama_pusat->nama."</center></td>
-								<td><center><a class='btn btn-primary' href='../drg/reference_drg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
+							  	<td><center><a class='btn btn-primary' href='../drg/reference_drg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
 			}
 			else if($row->umum_id==$lala && $row->pusat_id!=null && $row->flag_membaca==1){
 				$nama_pusat = new pengguna();
@@ -629,12 +634,15 @@ class DRG extends CI_Controller {
 								<td><b><center><a class='btn btn-primary' href='../drg/reference_drg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></b></td></tr>";
 			}
 		} 
+
 				
 		$content.='</table>';
 
+
+
 		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'setting' => '', 'content'=>$content);
 		$this->load->view('header-drg', $data['menu']);
-		$this->load->view('list_reference_drg');
+		$this->load->view('list_reference_drg', array('mengirim' => $mengirim));
 		$this->load->view('footer');
 	}
 

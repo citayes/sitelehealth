@@ -29,7 +29,19 @@
 	</div>
 	<div class="row">
 		<?php echo $content;?>
+        <nav>
+  <ul class="pager">
+    <?php if($mengirim->paged->has_previous): ?>
+    <li class="previous"><a href="<?= site_url('drg/list_reference_drg/'.$mengirim->paged->previous_page) ?>"><span aria-hidden="true">&larr;</span> Newer</a></li>
+    
+    <?php elseif($mengirim->paged->has_next): ?>
+    <li class="next"><a href="<?= site_url('drg/list_reference_drg/'.$mengirim->paged->next_page) ?>">Older <span aria-hidden="true">&rarr;</span></a></li>
+    <?php endif; ?>
+  </ul>
+</nav>
+
 	</div>
+    
                     
                 </div>
             </div>

@@ -16,10 +16,18 @@
     <link href="<?php echo base_url(); ?>asset/css/main.css" rel="stylesheet">
     <link href="<?php echo base_url(); ?>asset/css/responsive.css" rel="stylesheet">
     <link href="<?php echo base_url(); ?>asset/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
-
+    <link rel="stylesheet" href="<?php echo base_url(); ?>asset/css/jquery.dataTables.css">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>asset/css/jquery.gritter.css" />
-    <script
-    src="http://maps.googleapis.com/maps/api/js">
+    
+    <script src="http://maps.googleapis.com/maps/api/js"></script>
+    <script src="<?php echo base_url(); ?>asset/js/jquery.js"></script>
+    <script src="<?php echo base_url(); ?>asset/js/jquery.dataTables.js"></script>
+    <script src="<?php echo base_url(); ?>asset/js/shCore.js"></script>
+    <script src="<?php echo base_url(); ?>asset/js/demo.js"></script>
+    <script class="init">
+        $(document).ready(function() {
+            $('#151294').DataTable();
+        } );
     </script>
      
     <!--[if lt IE 9]>
