@@ -1115,7 +1115,26 @@ class DRG extends CI_Controller {
 		$this->load->view('footer');
 	}
 
+	public function search_patient($page = 1){
+	  session_start();
+	  if(!isset($_SESSION['drg']))
+	  	redirect ("homepage");
+
+		if($_SERVER['REQUEST_METHOD'] == 'POST'){		
+		$pengguna = new pengguna();
+		$pengguna->where('username', $_SESSION['drg'])->get();
+		$idDokter = $pengguna->id;
+		$pasien = new pasien();
+		$pasien->order_by('id', 'desc');
+		$pasien->where('doktergigi_id', $idDokter)->like('nama', $_POST['nama'])->get_paged($page, 10);
+		
+		$data['array']=array('pasien'=>$pasien, 'doktergigi_id'=>$idDokter, 'nama'=>$_POST['nama']);
+		$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');
+		$this->load->view('header-drg', $data['menu']);
+		$this->load->view('search_patient', $data['array']);
+		$this->load->view('footer');
+	}
+
+	}
 }
 ?>
-
-

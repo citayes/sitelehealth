@@ -34,11 +34,13 @@
                         <nav>
                           <ul class="pager">
                             <?php
-                                if($pasien->where('doktergigi_id', $doktergigi_id)->count()!=0){
-                                 $content ='<form method="post" action="../search_patient/1"><div class="col-md-9"></div><div class="col-md-3"><div class="input-group"><input type="text" name="nama" size="35" class="form-control" placeholder="Search for...">
+                                if($pasien->where('doktergigi_id', $doktergigi_id)->like('nama', $nama)->count()!=0){
+                                 $content = '<div class="col-md-4"><a href="../pasien_read/1"><p>back to list patient</p></a></div>';
+                                 $content .='<div class="col-md-4">found '.$pasien->where('doktergigi_id', $doktergigi_id)->like('nama', $nama)->count().' patients</div>'; 
+                                 $content .='<div class="col-md-4"><form method="post" action="../search_patient/1"><div class="input-group"><input type="text" name="nama" size="35" class="form-control" placeholder="Search for...">
                                             <span class="input-group-btn">
                                             <button class="btn btn-success" type="submit">Go!</button>
-                                            </span></div></div></form>'; 
+                                            </span></form></div></div>';
                                  $content .= "<table class='table table-hover'>";
                                  $content .="<tr>
                                                  <td><center><b><strong>Name</strong></b></center></td>
@@ -67,8 +69,9 @@
                                 }else{
                                     $content = "<div class='alert alert-danger alert-dismissible' role='alert'>
                                      <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-                                     You dont have patient.
-                                     </div>";
+                                     You dont have patient ".$nama. ".
+                                     </div>
+                                     <a href='../pasien_read/1'><p>back to list patient</p></a>";
                                      echo $content; 
                                 }
                             if($pasien->paged->has_previous)
