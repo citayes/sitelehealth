@@ -366,6 +366,7 @@ class DRG extends CI_Controller {
 		  session_start();
 		  if(!isset($_SESSION['drg']))
 		  	redirect ("homepage");
+		  
 		
 		//echo $n;
 		$medical_record = new medical_record();
