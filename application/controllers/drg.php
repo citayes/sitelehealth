@@ -573,50 +573,21 @@ class DRG extends CI_Controller {
 			redirect ("homepage");
 		
 		$content="";
-
-
     // send to view
 //    $this->load->view('posts/archive', array('posts' => $posts));
 		$mengirim = new mengirim();
 		$mengirim->order_by('waktu', 'desc');
-		$mengirim->get_paged($page, 10);
+		//$mengirim->get_paged($page, 10);
 		$pengguna = new pengguna;
 		$pengguna->where('username', $_SESSION['drg'])->get();		
 		$lala = $pengguna->id;
-		$content.='<table class="table">
-				<tr>
-				<td><center><b>Date</center></b></td>
-				<td><center><b>Doctors ID</center></b></td>
-				<td><center><b>Doctors Name</center></b></td>
-				<td><center><b>Operation</center></b></td>
-			</tr>';
-		foreach($mengirim as $row){
-			if($row->umum_id==$lala && $row->pusat_id!=null && $row->flag_membaca!=1){
-				$nama_pusat = new pengguna();
-				$nama_pusat->where('id', $row->pusat_id)->get();
-				$content .= "<tr><td><center>".$row->waktu."</center></a></td>
-								<td><center>".$row->umum_id."</center></td>
-								<td><center>".$nama_pusat->nama."</center></td>
-							  	<td><center><a class='btn btn-primary' href='../drg/reference_drg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
-			}
-			else if($row->umum_id==$lala && $row->pusat_id!=null && $row->flag_membaca==1){
-				$nama_pusat = new pengguna();
-				$nama_pusat->where('id', $row->pusat_id)->get();
-				$content .= "<tr><td><b><center>".$row->waktu."</center></b></a></td>
-								<td><b><center>".$row->umum_id."</center></b></td>
-								<td><b><center>".$nama_pusat->nama."</center></b></td>
-								<td><b><center><a class='btn btn-primary' href='../drg/reference_drg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></b></td></tr>";
-			}
-		} 
 
-				
-		$content.='</table>';
+		$mengirim->where('umum_id', $lala)->get_paged($page, 10);
 
-
-
-		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'setting' => '', 'content'=>$content);
+		$data['array']=array('mengirim'=>$mengirim, 'umum_id'=>$lala);
+		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'setting' => '');
 		$this->load->view('header-drg', $data['menu']);
-		$this->load->view('list_reference_drg', array('mengirim' => $mengirim));
+		$this->load->view('list_reference_drg', $data['array']);
 		$this->load->view('footer');
 	}
 
@@ -878,99 +849,14 @@ class DRG extends CI_Controller {
 		//$rujukan->get();
 
 		$merawat->order_by('waktu', 'desc');
-		$merawat->get_paged($page, 10);
+		$merawat->where('umum_id', $lala)->get_paged($page, 10);
 		$pesan->order_by('waktu', 'desc');
-		$pesan->get_paged($page, 10);
+		$pesan->where('pengguna_id', $lala)->get_paged($page, 10);
 		$rujukan->order_by('waktu', 'desc');
-		$rujukan->get_paged($page, 10);
-
-		$content.='<table class="table">
-				<tr>
-				<td><center><b>Recipient ID</center></b></td>
-				<td><center><b>Recipient Name</center></b></td>
-				<td><center><b>Information</center></b></td>
-				<td><center><b>Operation</center></b></td>
-			</tr>';
-			$content1.='<table class="table">
-				<tr>
-				<td><center><b>Recipient ID</center></b></td>
-				<td><center><b>Recipient Name</center></b></td>
-				<td><center><b>Information</center></b></td>
-				<td><center><b>Operation</center></b></td>
-			</tr>';
-			$content2.='<table class="table">
-				<tr>
-				<td><center><b>Recipient ID</center></b></td>
-				<td><center><b>Recipient Name</center></b></td>
-				<td><center><b>Information</center></b></td>
-				<td><center><b>Operation</center></b></td>
-			</tr>';
-		foreach($merawat as $row){
+		$rujukan->where('pengirim_id', $lala)->get_paged($page, 10);
 
 
-			//foreach ($pesan as $row1) {
-				if($row->flag_outbox!=1 && $row->umum_id==$lala){
-					// $nama_penerima = new pengguna();
-					// $nama_penerima->where('id', $row->pusat_id)->get();
-					$content .= "<tr><td><center>".$row->waktu."</center></a></td>
-									<td><center>FKG UI</center></td>
-									<td><center>Send Patient to FKG UI</center></td>
-									<td><center><a class='btn btn-primary' href='../drg/view_merawat_drg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
-				}
-				else if($row->flag_outbox==1 && $row->umum_id==$lala){
-					// $nama_penerima = new pengguna();
-					// $nama_penerima->where('id', $row->pusat_id)->get();
-					$content .= "<tr><td><b><center>".$row->waktu."</center></b></a></td>
-									<td><b><center>FKG UI</center></b></td>
-									<td><b><center>Send Patient to FKG UI</center></b></td>
-									<td><b><center><a class='btn btn-primary' href='../drg/view_merawat_drg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></b></td></tr>";
-				}
-		} 
-		foreach ($pesan as $row) {
-			if($row->pengguna_id==$lala && $row->flag_outbox!=1){
-				$nama_penerima = new pengguna();
-					$nama_penerima->where('id', $row->penerima_id)->get();
-					$content1 .= "<tr><td><center>".$row->waktu."</center></a></td>
-									<td><center>".$nama_penerima->nama."</center></td>
-									<td><center>Message</center></td>
-									<td><center><a class='btn btn-primary' href='../drg/outbox_message_drg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
-			}
-			else if($row->pengguna_id==$lala && $row->flag_outbox==1){
-				$nama_penerima = new pengguna();
-					$nama_penerima->where('id', $row->penerima_id)->get();
-					$content1 .= "<tr><td><b><center>".$row->waktu."</center></b></a></td>
-									<td><b><center>".$nama_penerima->nama."</center></b></td>
-									<td><b><center>Message</center></b></td>
-									<td><center><b><a class='btn btn-primary' href='../drg/outbox_message_drg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a><b></center></td></tr>";
-			}
-		}
-
-		foreach($rujukan as $row){
-			//foreach ($pesan as $row1) {
-				if($row->pengirim_id==$lala && $row->flag_outbox!=1){
-					$nama_penerima = new pengguna();
-					$nama_penerima->where('id', $row->orto_id )->get();
-					$content2 .= "<tr><td><center>".$row->waktu."</center></a></td>
-									<td><center>".$nama_penerima->nama."</center></td>
-									<td><center>Send Reference</center></td>
-									<td><center><a class='btn btn-primary' href='../drg/view_rujukan_drg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
-			}
-			if($row->pengirim_id==$lala && $row->flag_outbox==1){
-					$nama_penerima = new pengguna();
-					$nama_penerima->where('id', $row->orto_id )->get();
-					$content2 .= "<tr><td><b><center>".$row->waktu."</center></b></a></td>
-									<td><b><center>".$nama_penerima->nama."</center></b></td>
-									<td><b><center>Send Reference</center></b></td>
-									<td><b><center><a class='btn btn-primary' href='../drg/view_rujukan_drg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></b></td></tr>";
-			}
-		}
-				
-		$content.='</table>';
-		$content1.='</table>';
-		$content2.='</table>';
-
-
-		$data['array']=array('merawat' => $merawat, 'pesan' => $pesan, 'rujukan' => $rujukan);
+		$data['array']=array('merawat' => $merawat, 'pesan' => $pesan, 'rujukan' => $rujukan, 'umum_id' => $lala, 'pengguna_id' => $lala, 'pengirim_id' => $lala);
 
 		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'setting' => '', 'content'=>$content, 'content1'=>$content1, 'content2'=>$content2);
 		//$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'setting' => '');

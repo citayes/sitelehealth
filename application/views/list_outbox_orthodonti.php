@@ -52,10 +52,47 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <?php
-                                                echo $content;
+                                                <nav>
+                                                  <ul class="pager">
+                                                    <?php
+                                                        $content.='<table class="table">
+                                                            <tr>
+                                                            <td><center><b>Recipient ID</center></b></td>
+                                                            <td><center><b>Recipient Name</center></b></td>
+                                                            <td><center><b>Information</center></b></td>
+                                                            <td><center><b>Operation</center></b></td>
+                                                        </tr>';
+                                                        foreach($merawat as $row){
 
-                                                ?>
+
+                                                        //foreach ($pesan as $row1) {
+                                                            if($row->flag_outbox!=1 && $row->orto_id==$orto_id){
+                                                                // $nama_penerima = new pengguna();
+                                                                // $nama_penerima->where('id', $row->pusat_id)->get();
+                                                                $content .= "<tr><td><center>".$row->waktu."</center></a></td>
+                                                                                <td><center>FKG UI</center></td>
+                                                                                <td><center>Send Patient to FKG UI</center></td>
+                                                                                <td><center><a class='btn btn-primary' href='../orthodonti/view_merawat_orthodonti/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
+                                                            }
+                                                            else if($row->flag_outbox==1 && $row->orto_id==$orto_id){
+                                                                // $nama_penerima = new pengguna();
+                                                                // $nama_penerima->where('id', $row->pusat_id)->get();
+                                                                $content .= "<tr><td><b><center>".$row->waktu."</center></b></a></td>
+                                                                                <td><b><center>FKG UI</center></b></td>
+                                                                                <td><b><center>Send Patient to FKG UI</center></b></td>
+                                                                                <td><b><center><a class='btn btn-primary' href='../orthodonti/view_merawat_orthodonti/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></b></td></tr>";
+                                                            }
+                                                    }
+                                                        $content .= "</table>";
+                                                        echo $content;
+                                                    if($merawat->paged->has_previous): ?>
+                                                    <li class="previous"><a href="<?= site_url('orthodonti/list_outbox_orthodonti/'.$merawat->paged->previous_page) ?>"><span aria-hidden="true">&larr;</span> Newer</a></li>
+                                                    
+                                                    <?php elseif($merawat->paged->has_next): ?>
+                                                    <li class="next"><a href="<?= site_url('orthodonti/list_outbox_orthodonti/'.$merawat->paged->next_page) ?>">Older <span aria-hidden="true">&rarr;</span></a></li>
+                                                    <?php endif; ?>
+                                                  </ul>
+                                                </nav>
                                             </div>
                                         </div>
                                     </div>
@@ -80,10 +117,45 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <?php
-                                            echo $content1;
+                                            <nav>
+                                                  <ul class="pager">
+                                                    <?php
+                                                        $content1.='<table class="table">
+                                                            <tr>
+                                                            <td><center><b>Recipient ID</center></b></td>
+                                                            <td><center><b>Recipient Name</center></b></td>
+                                                            <td><center><b>Information</center></b></td>
+                                                            <td><center><b>Operation</center></b></td>
+                                                        </tr>';
+                                                        foreach ($pesan as $row) {
+                                                            if($row->pengguna_id==$pengguna_id && $row->flag_outbox!=1){
+                                                                $nama_penerima = new pengguna();
+                                                                    $nama_penerima->where('id', $row->penerima_id)->get();
+                                                                    $content1 .= "<tr><td><center>".$row->waktu."</center></a></td>
+                                                                                    <td><center>".$nama_penerima->nama."</center></td>
+                                                                                    <td><center>Message</center></td>
+                                                                                    <td><center><a class='btn btn-primary' href='../orthodonti/outbox_message_orthodonti/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
+                                                            }
+                                                            else if($row->pengguna_id==$pengguna_id && $row->flag_outbox==1){
+                                                                $nama_penerima = new pengguna();
+                                                                    $nama_penerima->where('id', $row->penerima_id)->get();
+                                                                    $content1 .= "<tr><td><b><center>".$row->waktu."</center></b></a></td>
+                                                                                    <td><b><center>".$nama_penerima->nama."</center></b></td>
+                                                                                    <td><b><center>Message</center></b></td>
+                                                                                    <td><center><b><a class='btn btn-primary' href='../orthodonti/outbox_message_orthodonti/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a><b></center></td></tr>";
+                                                            }
+                                                        }
+                                                            $content1 .= "</table>";
+                                                            echo $content1;
 
-                                            ?>
+                                                    if($pesan->paged->has_previous): ?>
+                                                    <li class="previous"><a href="<?= site_url('orthodonti/list_outbox_orthodonti/'.$pesan->paged->previous_page) ?>"><span aria-hidden="true">&larr;</span> Newer</a></li>
+                                                    
+                                                    <?php elseif($pesan->paged->has_next): ?>
+                                                    <li class="next"><a href="<?= site_url('orthodonti/list_outbox_orthodonti/'.$pesan->paged->next_page) ?>">Older <span aria-hidden="true">&rarr;</span></a></li>
+                                                    <?php endif; ?>
+                                                  </ul>
+                                                </nav>
                                         </div>
                                     </div>
                                 </div>
@@ -108,10 +180,49 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <?php
-                                            echo $content2;
+                                            <nav>
+                                                  <ul class="pager">
+                                                    <?php
+                                                        $content2.='<table class="table">
+                                                            <tr>
+                                                            <td><center><b>Recipient ID</center></b></td>
+                                                            <td><center><b>Recipient Name</center></b></td>
+                                                            <td><center><b>Information</center></b></td>
+                                                            <td><center><b>Operation</center></b></td>
+                                                        </tr>';
+                                                     
+                                                    
 
-                                            ?>
+                                                    foreach($rujukan as $row){
+                                                        //foreach ($pesan as $row1) {
+                                                            if($row->pengirim_id==$pengirim_id && $row->flag_outbox!=1){
+                                                                $nama_penerima = new pengguna();
+                                                                $nama_penerima->where('id', $row->orto_id )->get();
+                                                                $content2 .= "<tr><td><center>".$row->waktu."</center></a></td>
+                                                                                <td><center>".$nama_penerima->nama."</center></td>
+                                                                                <td><center>Send Reference</center></td>
+                                                                                <td><center><a class='btn btn-primary' href='../orthodonti/view_rujukan_orthodonti/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
+                                                        }
+                                                        if($row->pengirim_id==$pengirim_id && $row->flag_outbox==1){
+                                                                $nama_penerima = new pengguna();
+                                                                $nama_penerima->where('id', $row->orto_id )->get();
+                                                                $content2 .= "<tr><td><b><center>".$row->waktu."</center></b></a></td>
+                                                                                <td><b><center>".$nama_penerima->nama."</center></b></td>
+                                                                                <td><b><center>Send Reference</center></b></td>
+                                                                                <td><b><center><a class='btn btn-primary' href='../orthodonti/view_rujukan_orthodonti/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></b></td></tr>";
+                                                        }
+                                                    }
+                                                    $content2.='</table>';
+                                                    echo $content2;
+
+                                                    if($rujukan->paged->has_previous): ?>
+                                                    <li class="previous"><a href="<?= site_url('orthodonti/list_outbox_orthodonti/'.$rujukan->paged->previous_page) ?>"><span aria-hidden="true">&larr;</span> Newer</a></li>
+                                                    
+                                                    <?php elseif($rujukan->paged->has_next): ?>
+                                                    <li class="next"><a href="<?= site_url('orthodonti/list_outbox_orthodonti/'.$rujukan->paged->next_page) ?>">Older <span aria-hidden="true">&rarr;</span></a></li>
+                                                    <?php endif; ?>
+                                                  </ul>
+                                                </nav>
                                         </div>
                                     </div>
                                 </div>
