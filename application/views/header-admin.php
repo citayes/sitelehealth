@@ -102,7 +102,7 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="<?php echo base_url(); ?>index.php/admin/logout">Sign Out</a>
+                            <a href="<?php echo base_url(); ?>index.php/user/logout">Sign Out</a>
                         </li>                        
                     </ul>
                 </div>                  

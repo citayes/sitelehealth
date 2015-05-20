@@ -1,23 +1,28 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class DRG extends CI_Controller {
+	var $profile_construct;
+	public function __construct(){
+        parent::__construct();
+        session_start();
+		if(!isset($_SESSION['id'])) redirect('homepage');
+		$url = base_url();
+		$pengguna = new pengguna();
+        $pengguna->where('id', $_SESSION['id'])->get();
+		$this->profile_construct ="";
+        $this->profile_construct .="<br><center><img alt='140x140' src='".$url."".$pengguna->foto."' style='width:125px; height:125px;' class='img-circle'>
+        <p><b>".$pengguna->nama."</b><br>
+        <p>".$pengguna->username."<br>
+        <p>".$pengguna->email."<br>
+        <p>".$pengguna->role."</p></center>";
+    }
 	public function index(){
-		//session_start();
-		session_start();
-		if(!isset($_SESSION['drg']))
-			redirect ("homepage");
-
-		$data['menu'] = array('home' => 'active', 'pasien' => '', 'inbox' => '', 'setting' => '');
+		$data['menu'] = array('home' => 'active', 'profile_construct'=>$this->profile_construct, 'pasien' => '', 'inbox' => '', 'setting' => '');
 		$this->load->view('header-drg', $data['menu']);
 		$this->load->view('drg');
 		$this->load->view('footer');
 	}
 	public function pasien(){
-		//session_start();
-		session_start();
-		if(!isset($_SESSION['drg']))
-			redirect ("../homepage");		
-
 		if($_SERVER['REQUEST_METHOD'] == 'POST'){
 			$Nama = $_POST['Name'];
 			$Tempat_Lahir = $_POST['PlaceofBirth'];
@@ -52,14 +57,14 @@ class DRG extends CI_Controller {
 			$Pasien->validate();
 			if($Pasien->valid){
 				$Pasien->save();
-							$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+							$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
 									<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 				  					<strong>Well done!</strong> Patient has been created.
 									</div>");
 
 			}
 			else{
-			$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
+			$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
 									<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 				  					Patient has not been created. ".$Pasien->error->nama." ".$Pasien->error->tempat_lahir." ".$Pasien->error->tanggal_lahir." ".$Pasien->error->umur." ".$Pasien->error->alamat_rumah." ".$Pasien->error->tinggi." ".$Pasien->error->berat." ".$Pasien->error->jenis_kelamin."".$Pasien->error->warga_negara."".$Pasien->error->agama."
 									</div>");	
@@ -70,7 +75,7 @@ class DRG extends CI_Controller {
 			$this->load->view('pasien');
 			$this->load->view('footer');
 		}else{
-		$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');
+		$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'inbox' => '', 'setting' => '');
 		$this->load->view('header-drg', $data['menu']);
 		$this->load->view('pasien');
 		$this->load->view('footer');
@@ -78,10 +83,6 @@ class DRG extends CI_Controller {
 	}
 	
 	public function read($n){
-		 session_start();
-		 if(!isset($_SESSION['drg']))
-			redirect ("homepage");
-
 		$pasien = new pasien();
 		//$pasien->get();
 		$pasien->where('id', $n)->get();
@@ -102,17 +103,13 @@ class DRG extends CI_Controller {
 			</td></tr>');
 
 
-		$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');
+		$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'inbox' => '', 'setting' => '');
 		$this->load->view('header-drg', $data['menu']);
 		$this->load->view('read', $data['array']); 
 		$this->load->view('footer');
 	}
 
 	public function pasien_read($page = 1){
-		  session_start();
-		  if(!isset($_SESSION['drg']))
-		  	redirect ("homepage");
-		
 		$pengguna = new pengguna();
 		$pengguna->where('username', $_SESSION['drg'])->get();
 		$idDokter = $pengguna->id;
@@ -121,7 +118,7 @@ class DRG extends CI_Controller {
 		$pasien->where('doktergigi_id', $idDokter)->get_paged($page, 10);
 		
 		$data['array']=array('pasien'=>$pasien, 'doktergigi_id'=>$idDokter);
-		$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');
+		$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'inbox' => '', 'setting' => '');
 		$this->load->view('header-drg', $data['menu']);
 		$this->load->view('pasien_read', $data['array']);
 		$this->load->view('footer');
@@ -129,30 +126,13 @@ class DRG extends CI_Controller {
 
 
 	public function pasien_delete(){
-		session_start();
-		 if(!isset($_SESSION['drg']))
-		 	redirect ("homepage");
-
-		$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');
+		$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'inbox' => '', 'setting' => '');
 		$this->load->view('header-drg', $data['menu']);
 		$this->load->view('pasien_delete');
 		$this->load->view('footer');
 	}
 
-	
-	public function logout(){
-			session_start();
-			//hapus session
-			session_destroy();
-			//alihkan kehalaman login (index.php)
-			redirect('homepage');
-		}
-	
 		function do_upload(){
-		session_start();
-		if(!isset($_SESSION['drg']))
-			redirect ("homepage");
-
 		$config['upload_path'] = './uploads/images';
 		$config['allowed_types'] = 'jpeg|jpg|png';
 		$config['max_size']	= '2000';
@@ -165,7 +145,7 @@ class DRG extends CI_Controller {
 		$this->load->library('upload', $config);
  
 		if (!$this->upload->do_upload()){
-			$status['menu'] = array('home' => '', 'pasien' => '', 'inbox' => '', 'setting' => 'active', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
+			$status['menu'] = array('home' => '', 'pasien' => '', 'inbox' => '', 'setting' => 'active', 'profile_construct'=>$this->profile_construct, 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
 				<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 					<strong>Warning !</strong> Upload failure.
 				</div>");
@@ -182,7 +162,7 @@ class DRG extends CI_Controller {
 			$pengguna = new pengguna();
 			$pengguna->where('username', $_SESSION['drg'])->update('foto', $temp);
 
-			$status['menu'] = array('home' => '', 'pasien' => '', 'inbox' => '', 'setting' => 'active', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+			$status['menu'] = array('home' => '', 'pasien' => '', 'inbox' => '', 'setting' => 'active', 'profile_construct'=>$this->profile_construct, 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
 				<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 					<strong>Well done!</strong> Photo profile successfully changed.
 				</div>");
@@ -195,26 +175,15 @@ class DRG extends CI_Controller {
 	}
 
 	public function medical_record($n){
-		//session_start();
-		session_start();
-		if(!isset($_SESSION['drg']))
-			redirect ("../homepage");
-
 		$data['array'] = array('n' => $n);
 		
-		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => '', 'setting' => 'active');
+		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => '', 'setting' => 'active', 'profile_construct'=>$this->profile_construct);
 		$this->load->view('header-drg', $data['menu']);
 		$this->load->view('medical_record', $data['array']);
 		$this->load->view('footer');
 	}	
 
 	public function list_medical_record($n, $page = 1){
-		  session_start();
-		  if(!isset($_SESSION['drg']))
-		  	redirect ("homepage");
-		  
-		
-		//echo $n;
 		$medical_record = new medical_record();
 		$pasien = new pasien();
 		//$medical_record->order_by('tanggal', 'desc')->get();
@@ -248,7 +217,7 @@ class DRG extends CI_Controller {
 			}
 			$content .= "</table>";
 			$data['array']=array('content'=> $content, 'medical_record' => $medical_record);
-			$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');
+			$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'inbox' => '', 'setting' => '');
 			$this->load->view('header-drg', $data['menu']);
 			$this->load->view('list_medical_record', $data['array']);
 			$this->load->view('footer');
@@ -258,10 +227,6 @@ class DRG extends CI_Controller {
 
 
 	public function view_medical_record($n){
-		 session_start();
-		 if(!isset($_SESSION['drg']))
-			redirect ("homepage");
-
 		echo $n;
 		$medical_record = new medical_record();
 		$medical_record->where('id', $n)->get();
@@ -275,18 +240,13 @@ class DRG extends CI_Controller {
 			</td></tr>');
 
 
-		$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');
+		$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'inbox' => '', 'setting' => '');
 		$this->load->view('header-drg', $data['menu']);
 		$this->load->view('view_medical_record', $data['array']); 
 		$this->load->view('footer');
 	}
 
 	public function simpan_medical_record($n){
-		//session_start();
-		session_start();
-		if(!isset($_SESSION['drg']))
-			redirect ("../homepage");
-
 		if($_SERVER['REQUEST_METHOD'] == 'POST'){
 			$tanggal = $_POST['tanggal'];
 			$jam = $_POST['jam'];
@@ -306,7 +266,7 @@ class DRG extends CI_Controller {
 			if($medical_record->valid){
 				$medical_record->save();
 				// $data['array']= array('content' => '<a href ="../pasien_read">Back to Patient List.</a>');
-				// $data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => '', 'setting' => 'active', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+				// $data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => '', 'setting' => 'active', 'profile_construct'=>$this->profile_construct, 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
 				// 			<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 		  // 					<strong>Well done!</strong> Patient data has been saved.
 				// 			</div>");
@@ -317,7 +277,7 @@ class DRG extends CI_Controller {
 			}
 			else{
 							//$data['array']= array('content' => '<a href ="../pasien_read">Back to Patient List.</a>');
-							$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
+							$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
 									<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 				  					Patient data not been created.".$medical_record->error->tanggal."".$medical_record->error->jam."".$medical_record->error->deskripsi."
 									</div>");
@@ -326,7 +286,7 @@ class DRG extends CI_Controller {
 				// echo $medical_record->error->deskripsi;
 						//redirect("drg/medical_record/$n");
 						$data['array'] = array('n' => $n);
-						//$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => '', 'setting' => 'active');
+						//$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => '', 'setting' => 'active', 'profile_construct'=>$this->profile_construct);
 						$this->load->view('header-drg', $data['menu']);
 						$this->load->view('medical_record', $data['array']);
 						$this->load->view('footer');
@@ -338,13 +298,8 @@ class DRG extends CI_Controller {
 	}
 
 	function choose_image_drg($n){
-		session_start();
-		
-		if(!isset($_SESSION['drg']))
-			redirect ("homepage");
-		
 		$data['array']=array('n'=>$n);
-		$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');
+		$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'inbox' => '', 'setting' => '');
 		$this->load->view('header-drg', $data['menu']);
 
 		//$this->load->view('header-pusat');
@@ -353,10 +308,6 @@ class DRG extends CI_Controller {
 	}
 
 	function upload_image_drg($n){
-		session_start();
-		if(!isset($_SESSION['drg']))
-			redirect ("homepage");
-
 		$config['upload_path'] = './uploads/citra';
 		$config['allowed_types'] = 'jpeg|jpg|png';
 		$config['max_size']	= '200';
@@ -370,7 +321,7 @@ class DRG extends CI_Controller {
  
 		if (!$this->upload->do_upload()){
 			echo $this->upload->display_errors();
-			$status['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
+			$status['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal'=> '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
 				<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 					<strong>Warning !</strong> Upload failure.
 				</div>");
@@ -396,7 +347,7 @@ class DRG extends CI_Controller {
 			//$status['array']=array('content' => '<a href="../send_reference/'.$n.'">Send reference.</a>');
 
 			$data['array']=array('n'=>$n);
-					 			$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+					 			$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal'=> '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
 							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 		  					<strong>Well done!</strong> medical record has been created.
 							</div>", 'content' => '<a href="../pasien_read">Back to patient list.</a>');
@@ -407,13 +358,7 @@ class DRG extends CI_Controller {
 		}
 	}
 
-			public function send_diagnose_to_admin($n){
-		//session_start();
-		session_start();
-		if(!isset($_SESSION['drg']))
-		redirect ("homepage");
-		
-
+	public function send_diagnose_to_admin($n){
 		 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 		 	$skor = $_POST['skor'];
 		 	$maloklusi_menurut_angka = $_POST['maloklusi_menurut_angka'];
@@ -439,7 +384,7 @@ class DRG extends CI_Controller {
 			}
 			$data['array'] = array('n' => $n);
 		
-		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => '', 'setting' => 'active');
+		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => '', 'setting' => 'active', 'profile_construct'=>$this->profile_construct);
 		$this->load->view('header-drg', $data['menu']);
 		$this->load->view('send_diagnose_to_admin', $data['array']);
 		$this->load->view('footer');
@@ -447,10 +392,6 @@ class DRG extends CI_Controller {
 		}
 
 	public function list_reference_drg($page = 1){
-		session_start();
-		if(!isset($_SESSION['drg']))
-			redirect ("homepage");
-		
 		$content="";
     // send to view
 //    $this->load->view('posts/archive', array('posts' => $posts));
@@ -464,18 +405,13 @@ class DRG extends CI_Controller {
 		$mengirim->where('umum_id', $lala)->get_paged($page, 10);
 
 		$data['array']=array('mengirim'=>$mengirim, 'umum_id'=>$lala);
-		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'setting' => '');
+		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct, 'setting' => '');
 		$this->load->view('header-drg', $data['menu']);
 		$this->load->view('list_reference_drg', $data['array']);
 		$this->load->view('footer');
 	}
 
-			public function send_data($n){
-		//session_start();
-		session_start();
-		if(!isset($_SESSION['drg']))
-		redirect ("homepage");
-		
+	public function send_data($n){
 		 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 		 	$pengguna = new pengguna();
 		 	$merawat = new merawat();
@@ -492,7 +428,7 @@ class DRG extends CI_Controller {
 					//redirect('admin/send_diagnose_to_admin');							
 			}
 		$data['array']= array('content' => '<a href ="../pasien_read">Back to Patient List.</a>');
-		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => '', 'setting' => 'active', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => '', 'setting' => 'active', 'profile_construct'=>$this->profile_construct, 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
 							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 		  					<strong>Well done!</strong> Patient data has been sent.
 							</div>");
@@ -502,10 +438,6 @@ class DRG extends CI_Controller {
 		}
 
 		public function pasien_update2($n){
-		session_start();
-		if(!isset($_SESSION['drg']))
-			redirect ("homepage");
-
 		$pasien = new pasien();
 		$pasien->where('id', $n)->get();
 		if($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -534,7 +466,7 @@ class DRG extends CI_Controller {
 			$pasien->where('id', $n)->get();
 			$data['array'] = array('nama' => $pasien->nama, 'tempat_lahir' => $pasien->tempat_lahir, 'tanggal_lahir' => $pasien->tanggal_lahir, 'umur'=>$pasien->umur,
 			'alamat_rumah'=>$pasien->alamat_rumah, 'tinggi'=>$pasien->tinggi, 'berat'=>$pasien->berat, 'warga_negara' => $pasien->warga_negara, 'agama' => $pasien->agama);
-			$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal' => '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+			$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal' => '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
 							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 		  					<strong>Well done!</strong> Patient data has been updated.
 							</div>");	
@@ -544,7 +476,7 @@ class DRG extends CI_Controller {
 		}else{
 		$data['array'] = array('nama' => $pasien->nama, 'tempat_lahir' => $pasien->tempat_lahir, 'tanggal_lahir' => $pasien->tanggal_lahir, 'umur'=>$pasien->umur,
 			'alamat_rumah'=>$pasien->alamat_rumah, 'tinggi'=>$pasien->tinggi, 'berat'=>$pasien->berat, 'warga_negara' => $pasien->warga_negara, 'agama' => $pasien->agama);
-		$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal' => '', 'inbox' => '', 'setting' => '');	
+		$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal' => '', 'inbox' => '', 'setting' => '');	
 		$this->load->view('header-drg', $data['menu']);
 		$this->load->view('pasien_update2', $data['array']);
 		$this->load->view('footer');
@@ -552,19 +484,12 @@ class DRG extends CI_Controller {
 	}
 	
 	public function pasien_update(){
-		// session_start();
-		//  if(!isset($_session['Username']))
-		//  	redirect ("homepage");
 		$this->load->view('header-drg');
 		$this->load->view('pasien_update');
 		$this->load->view('footer');
 	}
 
 	public function delete1($id){
-		session_start();
-		if(!isset($_SESSION['drg']))
-			redirect ("homepage");
-
 		$this->load->model('penggunas');
 		$status = $this->penggunas->deletePasien($id);
 		if($status)
@@ -573,10 +498,6 @@ class DRG extends CI_Controller {
 
 
 	public function reference_drg($n){
-		  session_start();
-		  if(!isset($_SESSION['drg']))
-		  	redirect ("homepage");
-		
 		$pengguna = new pengguna();
 		$pengguna->where('username', $_SESSION['drg'])->get();
 		$mengirim = new mengirim();
@@ -613,17 +534,13 @@ class DRG extends CI_Controller {
 			<tr><td><center><a class="btn btn-warning" href="../list_reference_drg">Back<a></center></td>
 			<td><center><a class="btn btn-primary" href="../send_to_referral/'.$n.'">Send Reference<a></center></td></tr>');
 
-		$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');
+		$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'inbox' => '', 'setting' => '');
 		$this->load->view('header-drg', $data['menu']);
 		$this->load->view('reference_drg', $data['array']);
 		$this->load->view('footer');
 	}
 
 	public function send_to_referral($n){
-		session_start();
-		  if(!isset($_SESSION['drg']))
-		  	redirect ("homepage");
-		
 		$option="";
 		$mengirim = new mengirim();
 		$mengirim->where('id', $n)->get();
@@ -675,7 +592,7 @@ class DRG extends CI_Controller {
 		 			$pesan->save();	
 		 			//echo 'lala';
 					$data['array'] = array ('option' => $option, 'n'=>$n);
-					$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '','status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+					$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'inbox' => '', 'setting' => '','status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
 											<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 						  					<strong>Well done!</strong> Reference has been sent.
 											</div>");
@@ -685,7 +602,7 @@ class DRG extends CI_Controller {
 		 		}
 		 		else{
 		 			$data['array'] = array ('option' => $option, 'n'=>$n);
-					$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '','status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
+					$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'inbox' => '', 'setting' => '','status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
 											<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 						  					<strong>Reference has not been sent.".$pesan->error->subject."".$pesan->error->isi."".$pesan->error->penerima_id."
 											</div>");
@@ -695,13 +612,13 @@ class DRG extends CI_Controller {
 
 		 		}
 						$data['array'] = array ('option' => $option, 'n'=>$n);
-				//$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');
+				//$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'inbox' => '', 'setting' => '');
 				$this->load->view('header-drg', $data['menu']);
 				$this->load->view('send_to_referral', $data['array']);
 				$this->load->view('footer');	
 			}else{
 		$data['array'] = array ('option' => $option, 'n'=>$n);
-		$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');
+		$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'inbox' => '', 'setting' => '');
 		$this->load->view('header-drg', $data['menu']);
 		$this->load->view('send_to_referral', $data['array']);
 		$this->load->view('footer');
@@ -710,10 +627,6 @@ class DRG extends CI_Controller {
 
 
 	public function list_outbox_drg($page = 1){
-		session_start();
-		if(!isset($_SESSION['drg']))
-			redirect ("homepage");
-		
 		$content="";
 		$content1="";
 		$content2="";
@@ -737,18 +650,14 @@ class DRG extends CI_Controller {
 
 		$data['array']=array('merawat' => $merawat, 'pesan' => $pesan, 'rujukan' => $rujukan, 'umum_id' => $lala, 'pengguna_id' => $lala, 'pengirim_id' => $lala);
 
-		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'setting' => '', 'content'=>$content, 'content1'=>$content1, 'content2'=>$content2);
-		//$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'setting' => '');
+		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct, 'setting' => '', 'content'=>$content, 'content1'=>$content1, 'content2'=>$content2);
+		//$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct, 'setting' => '');
 		$this->load->view('header-drg', $data['menu']);
 		$this->load->view('list_outbox_drg', $data['array']);
 		$this->load->view('footer');
 	}
 
 		public function view_merawat_drg($n){
-		  session_start();
-		  if(!isset($_SESSION['drg']))
-		  	redirect ("homepage");
-		
 		$pengguna = new pengguna();
 		$pengguna->where('username', $_SESSION['drg'])->get();
 		$merawat = new merawat();
@@ -790,17 +699,13 @@ class DRG extends CI_Controller {
 			<tr><td><b>Description</b></td><td>'.$medical_record->deskripsi.'</td></tr>
 			');
 
-		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'setting' => '');
+		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct, 'setting' => '');
 		$this->load->view('header-drg', $data['menu']);
 		$this->load->view('view_merawat_drg', $data['array']);
 		$this->load->view('footer');
 	}
 
-			public function outbox_message_drg($n){
-		 session_start();
-		 if(!isset($_SESSION['drg']))
-			redirect ("homepage");
-
+	public function outbox_message_drg($n){
 		$pesan = new pesan();
 		$pesan->where('id', $n)->get();
 		$pengguna = new pengguna();
@@ -826,17 +731,13 @@ class DRG extends CI_Controller {
 			</td></tr>');
 
 
-		$data['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> '', 'inbox' => 'active', 'setting' => '');
+		$data['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct, 'setting' => '');
 		$this->load->view('header-drg', $data['menu']);
 		$this->load->view('outbox_message_drg', $data['array']); 
 		$this->load->view('footer');
 	}
 
 	public function view_rujukan_drg($n){
-		  session_start();
-		  if(!isset($_SESSION['drg']))
-		  	redirect ("homepage");
-		
 		$pengguna = new pengguna();
 		$pengguna->where('username', $_SESSION['drg'])->get();
 		$rujukan = new rujukan();
@@ -874,17 +775,13 @@ class DRG extends CI_Controller {
 			<tr><td><b>Patient Diagnosis</b></td><td>'.$analisi->diagnosis_rekomendasi.'</td></tr>
 			');
 
-		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'setting' => '');
+		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct, 'setting' => '');
 		$this->load->view('header-drg', $data['menu']);
 		$this->load->view('view_rujukan_drg', $data['array']);
 		$this->load->view('footer');
 	}
 
 	public function search_patient($page = 1){
-	  session_start();
-	  if(!isset($_SESSION['drg']))
-	  	redirect ("homepage");
-
 		if($_SERVER['REQUEST_METHOD'] == 'POST'){		
 			$pengguna = new pengguna();
 			$pengguna->where('username', $_SESSION['drg'])->get();
@@ -894,7 +791,7 @@ class DRG extends CI_Controller {
 			$pasien->where('doktergigi_id', $idDokter)->like('nama', $_POST['nama'])->get_paged($page, 10);
 			
 			$data['array']=array('pasien'=>$pasien, 'doktergigi_id'=>$idDokter, 'nama'=>$_POST['nama']);
-			$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');
+			$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'inbox' => '', 'setting' => '');
 			$this->load->view('header-drg', $data['menu']);
 			$this->load->view('search_patient', $data['array']);
 			$this->load->view('footer');
@@ -903,10 +800,6 @@ class DRG extends CI_Controller {
 	}
 
 	public function send_message(){
-		session_start();
-		if(!isset($_SESSION['drg']))
-			redirect ("homepage");
-
 			$pengguna = new pengguna();
 			$pengguna->get();
 			$tujuan="";
@@ -930,13 +823,13 @@ class DRG extends CI_Controller {
 			$pesan->validate();
 			if($pesan->valid){
 				$pesan->save();	
-					$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'jadwal'=>'', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+					$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal'=>'', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
 							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 		  					<strong>Well done!</strong> Message has been sent.
 							</div>");
 			}
 			else{
-					$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'jadwal'=>'','setting' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
+					$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal'=>'','setting' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
 							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 		  					<strong>Message has been not sent</strong>".$pesan->error->subject."".$pesan->error->isi."".$pesan->error->penerima_id."
 							</div>");
@@ -945,7 +838,7 @@ class DRG extends CI_Controller {
 									// </div>");
 			}
 			$data['array'] = array('content' => $tujuan);	
-			//$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');		
+			//$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'inbox' => '', 'setting' => '');		
 			$this->load->view('header-drg', $data['menu']);
 			$this->load->view('send_message_drg', $data['array']);
 			$this->load->view('footer');
@@ -953,7 +846,7 @@ class DRG extends CI_Controller {
 		}else{
 
 			$data['array'] = array('content' => $tujuan);	
-			$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'jadwal'=>'', 'setting' => '');
+			$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal'=>'', 'setting' => '');
 			$this->load->view('header-drg', $data['menu']);
 			$this->load->view('send_message_drg', $data['array']);
 			$this->load->view('footer');
@@ -962,10 +855,6 @@ class DRG extends CI_Controller {
 	}
 
 		public function view_message($page = 1){
-		session_start();
-		if(!isset($_SESSION['drg']))
-			redirect ("homepage");
-		
 		$pesan = new pesan();
 		$pesan->order_by('waktu', 'desc')->get();
 
@@ -974,17 +863,13 @@ class DRG extends CI_Controller {
  		$idPengguna = $pengguna->id;
 						
 		$data['array']=array('mail'=>$pesan->where('pengguna_id', $idPengguna)->get_paged($page, 10), 'pengguna_id'=>$idPengguna);
-		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active','jadwal'=>'', 'setting' => '');
+		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct,'jadwal'=>'', 'setting' => '');
 		$this->load->view('header-drg', $data['menu']);
 		$this->load->view('view_message_drg', $data['array']);
 		$this->load->view('footer');
 	}
 	
 		public function detail_message($n){
-		 session_start();
-		 if(!isset($_SESSION['drg']))
-			redirect ("homepage");
-
 		$pesan = new pesan();
 		$pesan->where('id', $n)->get();
 		$pengguna = new pengguna();
@@ -996,7 +881,7 @@ class DRG extends CI_Controller {
 			<tr><td><b>Message</b></td><td>'.$pesan->isi.'</td></tr>
 			</td></tr>');
 
-		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'jadwal'=>'', 'setting' => '');
+		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal'=>'', 'setting' => '');
 
 		$this->load->view('header-drg', $data['menu']);
 		$this->load->view('detail_message_drg', $data['array']); 

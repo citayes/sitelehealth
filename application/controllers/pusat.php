@@ -1,24 +1,29 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Pusat extends CI_Controller {
+	var $profile_construct;
+	public function __construct(){
+        parent::__construct();
+        session_start();
+		if(!isset($_SESSION['id'])) redirect('homepage');
+		$url = base_url();
+		$pengguna = new pengguna();
+        $pengguna->where('id', $_SESSION['id'])->get();
+		$this->profile_construct ="";
+        $this->profile_construct .="<br><center><img alt='140x140' src='".$url."".$pengguna->foto."' style='width:125px; height:125px;' class='img-circle'>
+        <p><b>".$pengguna->nama."</b><br>
+        <p>".$pengguna->username."<br>
+        <p>".$pengguna->email."<br>
+        <p>".$pengguna->role."</p></center>";
+    }
 	public function index(){
-		//session_start();
-		session_start();
-		if(!isset($_SESSION['pusat']))
-		redirect ("homepage");
-
-
-		$data['menu'] = array('home' => 'active', 'pasien' => '', 'jadwal'=> '', 'inbox' => '', 'setting' => '');
+		$data['menu'] = array('home' => 'active', 'profile_construct'=>$this->profile_construct, 'pasien' => '', 'jadwal'=> '', 'inbox' => '', 'setting' => '');
 		$this->load->view('header-pusat', $data['menu']);
 		$this->load->view('pusat');
 		$this->load->view('footer');
 	}
 	
 	public function read2($n){
-		session_start();
-		if(!isset($_session['Username']))
-			//redirect ("homepage");
-		
 		$Pasien = new pasien();
 		$Merawat = new merawat();
 		$Merawat->where('id', $n)->get();
@@ -46,18 +51,14 @@ class Pusat extends CI_Controller {
 			<td><form method="post" action="../view_doctor/'.$Pasien->doktergigi_id.'"><button type="submit" class="btn btn-primary">View Doctor</button></form>
 			</td></tr>');
 
-		$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => '', 'setting' => '');
+		$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal'=> '', 'inbox' => '', 'setting' => '');
 		$this->load->view('header-pusat', $data['menu']);
 		$this->load->view('read2', $data['array']); 
 		$this->load->view('footer');
 	}
 
 
-	public function read_data_citra($page = 1){
-		 session_start();
-		 if(!isset($_SESSION['pusat']))
-		 	redirect ("homepage");
-			
+	public function read_data_citra($page = 1){		
 		$pasien = new pasien();
 		$pasien->get();
 
@@ -65,31 +66,15 @@ class Pusat extends CI_Controller {
 		//$merawat->get();
 		$merawat->order_by('waktu', 'desc');
 		$merawat->get_paged($page, 10);
-
-		
-
-		
 		$data['array']=array('merawat' => $merawat);
 				//$this->load->view('header-orthodonti');
-		$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => '', 'setting' => '');
+		$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal'=> '', 'inbox' => '', 'setting' => '');
 		$this->load->view('header-pusat', $data['menu']);
 		$this->load->view('read_data_citra', $data['array']);
 		$this->load->view('footer');
 	}
 
-	public function logout(){
-			session_start();
-			//hapus session
-			session_destroy();
-			//alihkan kehalaman login (index.php)
-			redirect('homepage');
-		}
-
 function do_upload(){
-		session_start();
-		if(!isset($_SESSION['pusat']))
-			redirect ("homepage");
-
 		$config['upload_path'] = './uploads/images';
 		$config['allowed_types'] = 'jpeg|jpg|png';
 		$config['max_size']	= '200';
@@ -102,7 +87,7 @@ function do_upload(){
 		$this->load->library('upload', $config);
  
 		if (!$this->upload->do_upload()){
-			$status['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> '', 'inbox' => '', 'setting' => 'active', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
+			$status['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> '', 'inbox' => '', 'setting' => 'active', 'profile_construct'=>$this->profile_construct, 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
 				<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 					<strong>Warning !</strong> Upload failure.
 				</div>");
@@ -119,7 +104,7 @@ function do_upload(){
 			$pengguna = new pengguna();
 			$pengguna->where('username', $_SESSION['pusat'])->update('foto', $temp);
 
-			$status['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> '', 'inbox' => '', 'setting' => 'active', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+			$status['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> '', 'inbox' => '', 'setting' => 'active', 'profile_construct'=>$this->profile_construct, 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
 				<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 					<strong>Well done!</strong> Photo profile successfully changed.
 				</div>");
@@ -132,13 +117,8 @@ function do_upload(){
 	}
 
 	public function send_diagnose_to_admin($n){
-		//session_start();
-		session_start();
-		if(!isset($_SESSION['pusat']))
-		redirect ("homepage");
-		
-			$data['array'] = array('n' => $n);
-		$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => '', 'setting' => '');
+		$data['array'] = array('n' => $n);
+		$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal'=> '', 'inbox' => '', 'setting' => '');
 		$this->load->view('header-pusat', $data['menu']);
 		$this->load->view('send_diagnose_to_admin', $data['array']);
 		$this->load->view('footer');
@@ -147,11 +127,6 @@ function do_upload(){
 
 
 		public function send_diagnose_to_admin_lagi($n){
-		//session_start();
-		session_start();
-		if(!isset($_SESSION['pusat']))
-		redirect ("homepage");
-		
 		 	$skor = $_POST['skor'];
 		 	$maloklusi_menurut_angka = $_POST['maloklusi_menurut_angka'];
 		 	$diagnosis_rekomendasi = $_POST['diagnosis_rekomendasi'];
@@ -173,7 +148,7 @@ function do_upload(){
 		 		$analisi->validate();
 		 		if($analisi->valid){
 		 			$analisi->save();
-		//  			$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+		//  			$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal'=> '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
 		// 					<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 		//   					<strong>Well done!</strong> Diagnose has been sent.
 		// 					</div>");
@@ -185,14 +160,14 @@ function do_upload(){
 		 		}
 		 		else{
 		 					//$data['array']= array('content' => '<a href ="../pasien_read">Back to Patient List.</a>');
-							$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
+							$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal'=> '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
 									<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 				  					Analisis not been created.".$analisi->error->skor."".$analisi->error->maloklusi_menurut_angka."".$analisi->error->diagnosis_rekomendasi."
 									</div>");
 									// 'content' => '<a href="../send_diagnose_to_admin/%n">Back to Diagnosis Form.</a>');
 								$data['array'] = array('n' => $n);
 								redirect("pusat/send_diagnose_to_admin/$n");
-		//$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => '', 'setting' => '');
+		//$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal'=> '', 'inbox' => '', 'setting' => '');
 		$this->load->view('header-pusat', $data['menu']);
 		$this->load->view('send_diagnose_to_admin', $data['array']);
 		$this->load->view('footer');
@@ -204,14 +179,9 @@ function do_upload(){
 
 		}
 
-		function choose_image_to_admin($n){
-		session_start();
-		
-		if(!isset($_SESSION['pusat']))
-			redirect ("homepage");
-		
+	function choose_image_to_admin($n){
 		$data['array']=array('n'=>$n);
-		$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => '', 'setting' => '');
+		$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal'=> '', 'inbox' => '', 'setting' => '');
 		$this->load->view('header-pusat', $data['menu']);
 
 		//$this->load->view('header-pusat');
@@ -220,10 +190,6 @@ function do_upload(){
 	}
 
 	function upload_image_to_admin($n){
-		session_start();
-		if(!isset($_SESSION['pusat']))
-			redirect ("homepage");
-
 		$config['upload_path'] = './uploads/citra/';
 		$config['allowed_types'] = 'jpeg|jpg|png';
 		$config['max_size']	= '200';
@@ -237,7 +203,7 @@ function do_upload(){
  
 		if (!$this->upload->do_upload()){
 			echo $this->upload->display_errors();
-			$status['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
+			$status['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal'=> '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
 				<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 					<strong>Warning !</strong> Upload failure.
 				</div>");
@@ -263,7 +229,7 @@ function do_upload(){
 			//$status['array']=array('content' => '<a href="../send_reference/'.$n.'">Send reference.</a>');
 
 			$data['array']=array('n'=>$n);
-					 			$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+					 			$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal'=> '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
 							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 		  					<strong>Well done!</strong> Diagnose has been sent.
 							</div>", 'content' => '<a href="../read_data_citra">Back to patient list.</a>');
@@ -274,11 +240,8 @@ function do_upload(){
 		}
 	}
 	
-		public function listrujukan($page = 1){
-		session_start();
-		if(!isset($_SESSION['pusat']))
-			redirect ("homepage");
-		
+	public function listrujukan($page = 1){
+
 		$content ="";
 		$merawat = new merawat();
 		$merawat->order_by('id', 'desc');
@@ -288,16 +251,13 @@ function do_upload(){
 		
 		
 		$data['array']=array('merawat' => $merawat);
-		$data['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> '', 'inbox' => 'active', 'setting' => '', 'content'=>$content);
+		$data['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct, 'setting' => '', 'content'=>$content);
 		$this->load->view('header-pusat', $data['menu']);
 		$this->load->view('listrujukan', $data['array']);
 		$this->load->view('footer');
 	}	
 	public function show_rujukan($n){
-		session_start();
-		if(!isset($_session['pusat']))
-			//redirect ("homepage");
-		
+
 		$merawat = new merawat();
 		$merawat->where('id', $n)->get();
 		$pasien = new pasien();
@@ -346,20 +306,15 @@ function do_upload(){
 
 			</td></tr>');
 
-		$data['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> '', 'inbox' => 'active', 'setting' => '');
+		$data['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct, 'setting' => '');
 		$this->load->view('header-pusat', $data['menu']);
 		$this->load->view('show_rujukan', $data['array']); 
 		$this->load->view('footer');
 	}
 
 	public function create_diagnose($n){
-		session_start();
-		
-		if(!isset($_SESSION['pusat']))
-			redirect ("homepage");
-		
 		$data['array']=array('n'=>$n);
-		$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => '', 'setting' => '');
+		$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal'=> '', 'inbox' => '', 'setting' => '');
 		$this->load->view('header-pusat', $data['menu']);
 
 		//$this->load->view('header-pusat');
@@ -368,12 +323,7 @@ function do_upload(){
 		
 	}
 
-public function save_diagnose($n){
-		session_start();
-				
-		if(!isset($_SESSION['pusat']))
-			redirect ("homepage");		
-
+	public function save_diagnose($n){
 			$skor = $_POST['Skor'];
 			$maloklusi= $_POST['Maloklusi'];
 			$diagnose = $_POST['Diagnose'];
@@ -410,7 +360,7 @@ public function save_diagnose($n){
 
 			}
 			else{
-			$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal' => '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
+			$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal' => '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
 									<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 				  					Analisi has not been created.".$analisi->error->skor."".$analisi->error->maloklusi_menurut_angka."".$analisi->error->diagnosis_rekomendasi."
 									</div>");	
@@ -425,13 +375,8 @@ public function save_diagnose($n){
 	}
 
 	function choose_image($n){
-		session_start();
-		
-		if(!isset($_SESSION['pusat']))
-			redirect ("homepage");
-		
 		$data['array']=array('n'=>$n);
-		$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => '', 'setting' => '');
+		$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal'=> '', 'inbox' => '', 'setting' => '');
 		$this->load->view('header-pusat', $data['menu']);
 
 		//$this->load->view('header-pusat');
@@ -440,10 +385,6 @@ public function save_diagnose($n){
 	}
 
 	function upload_image($n){
-		session_start();
-		if(!isset($_SESSION['pusat']))
-			redirect ("homepage");
-
 		$config['upload_path'] = './uploads/citra';
 		$config['allowed_types'] = 'jpeg|jpg|png';
 		$config['max_size']	= '200';
@@ -457,7 +398,7 @@ public function save_diagnose($n){
  
 		if (!$this->upload->do_upload()){
 			echo $this->upload->display_errors();
-			$status['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> '', 'inbox' => '', 'setting' => 'active', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
+			$status['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> '', 'inbox' => '', 'setting' => 'active', 'profile_construct'=>$this->profile_construct, 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
 				<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 					<strong>Warning !</strong> Upload failure.
 				</div>");
@@ -488,11 +429,6 @@ public function save_diagnose($n){
 	}
 
 		public function send_reference($n){
-		session_start();
-			
-		if(!isset($_SESSION['pusat']))
-			redirect ("homepage");
-							
 		$option="";
 		
 		$pengguna = new pengguna();
@@ -504,18 +440,13 @@ public function save_diagnose($n){
 
 		//$data['array'] = array('n' => $n);
 		$data['array'] = array('content' => $option, 'n'=> $n);	
-		$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => '', 'setting' => '');				
+		$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal'=> '', 'inbox' => '', 'setting' => '');				
 		$this->load->view('header-pusat', $data['menu']);
 		$this->load->view('send_reference', $data['array']);
 		$this->load->view('footer');
 	}
 
 	public function save_reference($n){
-		session_start();
-			
-		if(!isset($_SESSION['pusat']))
-			redirect ("homepage");
-
 		if($_SERVER['REQUEST_METHOD'] == 'POST'){
 		 	$kandidat1 = $_POST['nama'];
 
@@ -543,7 +474,7 @@ public function save_diagnose($n){
 		 	$mengirim->validate();
 		 	if($mengirim->valid){
 		 		$mengirim->save();
-		 		$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+		 		$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal'=> '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
 							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 		 	 				<strong>Well done!</strong> Diagnose has been sent.
 							</div>", 'content' => '<a href="../read_data_citra">Back to patient list.</a>');
@@ -553,7 +484,7 @@ public function save_diagnose($n){
 		 	}
 
 		 	else{
-		 		$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
+		 		$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal'=> '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
 							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 		 	 				Diagnose has not been sent.".$mengirim->error->tanggal."".$mengirim->error->kandidat1."".$mengirim->error->kandidat2."".$mengirim->error->kandidat3."".$mengirim->error->kandidat4."".$mengirim->error->kandidat5."
 							</div>", 'content' => '<a href="../send_reference/$n">Back to reference form.</a>');
@@ -574,10 +505,6 @@ public function save_diagnose($n){
 	}
 
 	public function view_doctor($m){
-		session_start();
-		if(!isset($_SESSION['pusat']))
-			redirect ("homepage");
-
 		$pengguna = new pengguna();
 		$pengguna->where('id', $m)->get();
 		$dokter_gigi = new dokter_gigi();
@@ -594,10 +521,6 @@ $data['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> 'active', 'inbox'
 	}	
 
 public function retrievejadwalp(){
-		session_start();
-		if(!isset($_SESSION['pusat']))
-			redirect ("homepage");
-
 		$jadwaljaga = new jadwal_jaga();
 		$jadwaljaga-> get();
 		$content="";
@@ -627,17 +550,13 @@ public function retrievejadwalp(){
 			$data['array']=array();
 		}
 		
-		$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => '', 'setting' => '');
+		$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal'=> '', 'inbox' => '', 'setting' => '');
 		$this->load->view('header-pusat', $data['menu']);
 		$this->load->view('retrievejadwalp', $data['array']);
 		$this->load->view('footer');
 	}
 
 	public function list_outbox_fkg($page = 1){
-		session_start();
-		if(!isset($_SESSION['pusat']))
-			redirect ("homepage");
-		
 		$content="";
 		$content1="";
 		$content2="";
@@ -663,18 +582,14 @@ public function retrievejadwalp(){
 
 //data
 		$data['array']=array('mengirim' => $mengirim, 'pesan' => $pesan, 'analisi' => $analisi, 'pusat_id' => $lala, 'pengguna_id' => $lala,'orto_id' => $lala);
-		$data['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> '', 'inbox' => 'active', 'setting' => '', 'content'=>$content, 'content1'=>$content1, 'content2'=>$content2);
-		//$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'setting' => '');
+		$data['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct, 'setting' => '', 'content'=>$content, 'content1'=>$content1, 'content2'=>$content2);
+		//$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct, 'setting' => '');
 		$this->load->view('header-pusat', $data['menu']);
 		$this->load->view('list_outbox_fkg', $data['array']);
 		$this->load->view('footer');
 	}
 
 	public function view_reference_fkg($n){
-		  session_start();
-		  if(!isset($_SESSION['pusat']))
-		  	redirect ("homepage");
-		
 		$pengguna = new pengguna();
 		$pengguna->where('username', $_SESSION['pusat'])->get();
 		$mengirim = new mengirim();
@@ -718,17 +633,13 @@ public function retrievejadwalp(){
 			<tr><td><b>Kandidat 5</b></td><td>'.$mengirim->kandidat5.'</td></tr>
 			<tr><td colspan="2"><b>Photo</b><br><center><img alt="140x140" src="../../../'.$analisis->foto.'"></center></tr></td>');
 
-		$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => 'active', 'setting' => '');
+		$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal'=> '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct, 'setting' => '');
 		$this->load->view('header-pusat', $data['menu']);
 		$this->load->view('view_reference_fkg', $data['array']);
 		$this->load->view('footer');
 	}
 
 		public function outbox_message_fkg($n){
-		 session_start();
-		 if(!isset($_SESSION['pusat']))
-			redirect ("homepage");
-
 		$pesan = new pesan();
 		$pesan->where('id', $n)->get();
 		$pengguna = new pengguna();
@@ -753,7 +664,7 @@ public function retrievejadwalp(){
 			</td></tr>');
 
 
-		$data['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> '', 'inbox' => 'active', 'setting' => '');
+		$data['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct, 'setting' => '');
 		$this->load->view('header-pusat', $data['menu']);
 		$this->load->view('outbox_message_fkg', $data['array']); 
 		$this->load->view('footer');
@@ -761,10 +672,6 @@ public function retrievejadwalp(){
 
 	
 	public function view_diagnosis_fkg($n){
-		  session_start();
-		  if(!isset($_SESSION['pusat']))
-		  	redirect ("homepage");
-		
 		$pengguna = new pengguna();
 
 		$pengguna->where('username', $_SESSION['pusat'])->get();
@@ -793,17 +700,13 @@ public function retrievejadwalp(){
 			<tr><td><b>Diagnosis</b></td><td>'.$analisis->diagnosis_rekomendasi.'</td></tr>
 			<tr><td colspan="2"><b>Photo</b><br><center><img alt="140x140" src="../../../'.$analisis->foto.'"></center></tr></td>');
 
-		$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => 'active', 'setting' => '');
+		$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal'=> '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct, 'setting' => '');
 		$this->load->view('header-pusat', $data['menu']);
 		$this->load->view('view_diagnosis_fkg', $data['array']);
 		$this->load->view('footer');
 	}	
 
-public function send_message(){
-		session_start();
-		if(!isset($_SESSION['pusat']))
-			redirect ("homepage");
-
+	public function send_message(){
 			$pengguna = new pengguna();
 			$pengguna->get();
 			$tujuan="";
@@ -827,13 +730,13 @@ public function send_message(){
 			$pesan->validate();
 			if($pesan->valid){
 				$pesan->save();	
-					$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'jadwal'=>'', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+					$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal'=>'', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
 							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 		  					<strong>Well done!</strong> Message has been sent.
 							</div>");
 			}
 			else{
-					$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'jadwal'=>'','setting' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
+					$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal'=>'','setting' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
 							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 		  					<strong>Message has been not sent</strong>".$pesan->error->subject."".$pesan->error->isi."".$pesan->error->penerima_id."
 							</div>");
@@ -842,7 +745,7 @@ public function send_message(){
 									// </div>");
 			}
 			$data['array'] = array('content' => $tujuan);	
-			//$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');		
+			//$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'inbox' => '', 'setting' => '');		
 			$this->load->view('header-pusat', $data['menu']);
 			$this->load->view('send_message_pusat', $data['array']);
 			$this->load->view('footer');
@@ -850,7 +753,7 @@ public function send_message(){
 		}else{
 
 			$data['array'] = array('content' => $tujuan);	
-			$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'jadwal'=>'', 'setting' => '');
+			$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal'=>'', 'setting' => '');
 			$this->load->view('header-pusat', $data['menu']);
 			$this->load->view('send_message_pusat', $data['array']);
 			$this->load->view('footer');
@@ -859,9 +762,6 @@ public function send_message(){
 	}
 
 		public function view_message(){
-		session_start();
-		if(!isset($_SESSION['pusat']))
-			redirect ("homepage");
 		$content="";
 		$pesan = new pesan();
 		$pesan->order_by('waktu', 'desc')->get();
@@ -898,17 +798,13 @@ public function send_message(){
 		}
 		$content.='</table>';
 		
-		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active','jadwal'=>'', 'setting' => '', 'content'=>$content);
+		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct,'jadwal'=>'', 'setting' => '', 'content'=>$content);
 		$this->load->view('header-pusat', $data['menu']);
 		$this->load->view('view_message_pusat');
 		$this->load->view('footer');
 	} 
 	
 		public function detail_message($n){
-		 session_start();
-		 if(!isset($_SESSION['pusat']))
-			redirect ("homepage");
-
 		$pesan = new pesan();
 		$pesan->where('id', $n)->get();
 		$pengguna = new pengguna();
@@ -920,7 +816,7 @@ public function send_message(){
 			<tr><td><b>Message</b></td><td>'.$pesan->isi.'</td></tr>
 			</td></tr>');
 
-		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'jadwal'=>'', 'setting' => '');
+		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal'=>'', 'setting' => '');
 
 		$this->load->view('header-pusat', $data['menu']);
 		$this->load->view('detail_message_pusat', $data['array']); 
