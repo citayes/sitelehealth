@@ -216,7 +216,7 @@
                                                                     $nama_penerima->where('id', '123142')->get();
                                                                     $content2 .= "<tr><td><center>".$row->waktu."</center></a></td>
                                                                                     <td><center>".$nama_penerima->nama."</center></td>
-                                                                                    <td><center>Diagnosis To Admin</center></td>
+                                                                                    <td><center>Diagnosis send To Admin</center></td>
                                                                                     <td><center><a class='btn btn-primary' href='../pusat/view_diagnosis_fkg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
                                                             }
                                                             else if($row->flag_mengirim==1 && $row->orto_id==$orto_id && $row->flag_outbox==1){

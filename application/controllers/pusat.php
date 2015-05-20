@@ -770,7 +770,7 @@ public function retrievejadwalp(){
 		
 				
 
-
+//data
 		$data['array']=array('mengirim' => $mengirim, 'pesan' => $pesan, 'analisi' => $analisi, 'pusat_id' => $lala, 'pengguna_id' => $lala,'orto_id' => $lala);
 		$data['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> '', 'inbox' => 'active', 'setting' => '', 'content'=>$content, 'content1'=>$content1, 'content2'=>$content2);
 		//$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'setting' => '');
