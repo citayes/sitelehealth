@@ -396,11 +396,11 @@ function do_upload(){
 
 		//if($medical_record->result_count()!=0){
 			$content = "<table class='table table-hover'>";
-			$content .="<tr>
+			$content .="<thead><tr>
 							<td><center><b><strong>ID Medical Record</strong></b></center></td>
 							<td><center><b><strong>Date</strong></b></center></td>
 							<td><center><b><strong>Operation</strong></b></center></td>
-							</tr>";
+							</tr></thead>";
 			foreach($medical_record as $row){
 				if($row->dokter_gigi_id == $idDokter && $row->pasien_id==$n){
 					//echo $row->doktergigi_id;
@@ -729,7 +729,7 @@ function do_upload(){
 			$pengguna->get();
 			$tujuan="";
 			foreach($pengguna as $row){
-				$tujuan .= "<option value='".$row->id."'>".$row->nama."</option>";
+				$tujuan .= "<option value='".$row->id."'>".$row->nama." (".$row->email.")</option>";
 			}
 
 		if($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -788,11 +788,11 @@ function do_upload(){
 		$pengguna->get();
 		if($pengguna->result_count()!=0){
 			$content = "<table class='table table-hover'>";
-			$content .="<tr>
+			$content .="<thead><tr>
 							<td><center><b><strong>Position</strong></b></center></td>
 							<td><center><b><strong>Name</strong></b></center></td>
 							<td><center><b><strong>Action</strong></b></center></td>
-							</tr>";
+							</tr></thead>";
 			foreach($pengguna as $row){
 
 					$content .= "<tr>
@@ -909,6 +909,9 @@ function do_upload(){
 		$rujukan1 = new rujukan();
 		$rujukan1->where('id', $n)->update('flag_membaca', '2');
 
+		$profile="";
+        $profile .="<br><img alt='140x140' src='../".$analisi->foto."' style='width:125px; height:125px;'>";
+
 		$data['array'] = array('content' => '<tr><td><b>Name</b></td><td>'.$pasien->nama.'</td></tr>
 			<tr><td><b>Birth Date</b></td><td>'.$pasien->tanggal_lahir.'</td></tr>
 			<tr><td><b>Place of Birth</b></td><td>'.$pasien->tempat_lahir.'</td></tr>
@@ -920,7 +923,7 @@ function do_upload(){
 			<tr><td><b>Address</b></td><td>'.$pasien->alamat_rumah.'</td></tr>
 			<tr><td><b>Nationality</b></td><td>'.$pasien->warga_negara.'</td></tr>
 			<tr><td><center><b>Diagnose</b></center></td></tr>
-			<tr><td><b>Image</b></td><td>'.$analisi->foto.'</td></tr>			
+			<tr><td><b>Image</b></td><td>'.$profile.'</td></tr>			
 			<tr><td><b>Score</b></td><td>'.$analisi->skor.'</td></tr>	
 			<tr><td><b>Malocclusion</b></td><td>'.$analisi->maloklusi_menurut_angka.'</td></tr>	
 			<tr><td><b>Diagnose</b></td><td>'.$analisi->diagnosis_rekomendasi.'</td></tr>

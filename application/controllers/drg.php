@@ -350,11 +350,11 @@ class DRG extends CI_Controller {
 
 		//if($medical_record->result_count()!=0){
 			$content = "<table class='table table-hover'>";
-			$content .="<tr>
+			$content .="<thead><tr>
 							<td><center><b><strong>ID Medical Record</strong></b></center></td>
 							<td><center><b><strong>Date</strong></b></center></td>
 							<td><center><b><strong>Operation</strong></b></center></td>
-							</tr>";
+							</tr></thead>";
 			foreach($medical_record as $row){
 				if($row->dokter_gigi_id == $idDokter && $row->pasien_id==$n){
 					//echo $row->doktergigi_id;
@@ -1007,20 +1007,148 @@ class DRG extends CI_Controller {
 	  	redirect ("homepage");
 
 		if($_SERVER['REQUEST_METHOD'] == 'POST'){		
-		$pengguna = new pengguna();
-		$pengguna->where('username', $_SESSION['drg'])->get();
-		$idDokter = $pengguna->id;
-		$pasien = new pasien();
-		$pasien->order_by('id', 'desc');
-		$pasien->where('doktergigi_id', $idDokter)->like('nama', $_POST['nama'])->get_paged($page, 10);
-		
-		$data['array']=array('pasien'=>$pasien, 'doktergigi_id'=>$idDokter, 'nama'=>$_POST['nama']);
-		$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');
-		$this->load->view('header-drg', $data['menu']);
-		$this->load->view('search_patient', $data['array']);
-		$this->load->view('footer');
+			$pengguna = new pengguna();
+			$pengguna->where('username', $_SESSION['drg'])->get();
+			$idDokter = $pengguna->id;
+			$pasien = new pasien();
+			$pasien->order_by('id', 'desc');
+			$pasien->where('doktergigi_id', $idDokter)->like('nama', $_POST['nama'])->get_paged($page, 10);
+			
+			$data['array']=array('pasien'=>$pasien, 'doktergigi_id'=>$idDokter, 'nama'=>$_POST['nama']);
+			$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');
+			$this->load->view('header-drg', $data['menu']);
+			$this->load->view('search_patient', $data['array']);
+			$this->load->view('footer');
+		}
+
 	}
 
+	public function send_message(){
+		session_start();
+		if(!isset($_SESSION['drg']))
+			redirect ("homepage");
+
+			$pengguna = new pengguna();
+			$pengguna->get();
+			$tujuan="";
+			foreach($pengguna as $row){
+				$tujuan .= "<option value='".$row->id."'>".$row->nama." (".$row->email.")</option>";
+			}
+
+		if($_SERVER['REQUEST_METHOD'] == 'POST'){
+			$subject = $_POST['subject'];
+			$isi = $_POST['isi'];
+
+			$pesan = new pesan();
+			$pengguna = new pengguna();
+
+			$pengguna->where('username', $_SESSION['drg'])->get();
+			$pesan->pengguna_id=$pengguna->id;
+			$pesan->penerima_id=$_POST['tujuan'];
+			$pesan->subject=$subject;
+			$pesan->isi=$isi;
+
+			$pesan->validate();
+			if($pesan->valid){
+				$pesan->save();	
+					$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'jadwal'=>'', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+		  					<strong>Well done!</strong> Message has been sent.
+							</div>");
+			}
+			else{
+					$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'jadwal'=>'','setting' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
+							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+		  					<strong>Message has been not sent</strong>".$pesan->error->subject."".$pesan->error->isi."".$pesan->error->penerima_id."
+							</div>");
+				  					
+				  			// 		
+									// </div>");
+			}
+			$data['array'] = array('content' => $tujuan);	
+			//$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');		
+			$this->load->view('header-drg', $data['menu']);
+			$this->load->view('send_message_drg', $data['array']);
+			$this->load->view('footer');
+			
+		}else{
+
+			$data['array'] = array('content' => $tujuan);	
+			$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'jadwal'=>'', 'setting' => '');
+			$this->load->view('header-drg', $data['menu']);
+			$this->load->view('send_message_drg', $data['array']);
+			$this->load->view('footer');
+		}
+
+	}
+
+		public function view_message(){
+		session_start();
+		if(!isset($_SESSION['drg']))
+			redirect ("homepage");
+		$content="";
+		$pesan = new pesan();
+		$pesan->order_by('waktu', 'desc')->get();
+
+		$pengguna = new pengguna;
+		$pengguna->where('username', $_SESSION['drg'])->get();		
+ 		$idPengguna = $pengguna->id;
+		$content .= '<table class="table">
+				<tr>
+					<td><center><b>Date</center></b></td>
+					<td><center><b>From</center></b></td>
+					<td><center><b>Subject</center></b></td>
+					<td><center><b>Action</center></b></td>
+				</tr>';				
+		foreach($pesan as $row){
+			if($row->penerima_id==$idPengguna && $row->flag_membaca!=1){
+				$nama_pengirim = new pengguna();
+				$nama_pengirim->where('id', $row->pengguna_id)->get();
+				$content .= "<tr><td><center>".$row->waktu."</center></a></td>
+								<td><center>".$nama_pengirim->nama."</center></a></td>
+								<td><center>".$row->subject."</center></td>
+								<td><center><a class='btn btn-primary' href='../drg/detail_message/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a></center></td>
+							</tr>";
+			}
+			else if($row->penerima_id==$idPengguna && $row->flag_membaca==1){
+				$nama_pengirim = new pengguna();
+				$nama_pengirim->where('id', $row->pengguna_id)->get();
+				$content .= "<tr><td><b><center>".$row->waktu."</center></b></a></td>
+								<td><b><center>".$nama_pengirim->nama."</center></b></a></td>
+								<td><b><center>".$row->subject."</center></b></td>
+								<td><center><b><a class='btn btn-primary' href='../drg/detail_message/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a></b></center></td>
+							</tr>";
+			}
+		}
+		$content.='</table>';
+		
+		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active','jadwal'=>'', 'setting' => '', 'content'=>$content);
+		$this->load->view('header-drg', $data['menu']);
+		$this->load->view('view_message_drg');
+		$this->load->view('footer');
+	}
+	
+		public function detail_message($n){
+		 session_start();
+		 if(!isset($_SESSION['drg']))
+			redirect ("homepage");
+
+		$pesan = new pesan();
+		$pesan->where('id', $n)->get();
+		$pengguna = new pengguna();
+		$pengguna->where('id',$pesan->pengguna_id)->get();
+		$pesan1 = new pesan();
+		$pesan1->where('id', $n)->update('flag_membaca', '2');
+		$data['array'] = array('content' => '<tr><td><b>Subject</b></td><td>'.$pesan->subject.'</td></tr>
+			<tr><td><b>Sender</b></td><td>'.$pengguna->nama.'</td></tr>
+			<tr><td><b>Message</b></td><td>'.$pesan->isi.'</td></tr>
+			</td></tr>');
+
+		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'jadwal'=>'', 'setting' => '');
+
+		$this->load->view('header-drg', $data['menu']);
+		$this->load->view('detail_message_drg', $data['array']); 
+		$this->load->view('footer');
 	}
 }
 ?>

@@ -60,13 +60,13 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Message<strong class="caret"></strong></a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="<?php echo base_url(); ?>index.php/drg/change">Create Message</a>
+                                    <a href="<?php echo base_url(); ?>index.php/drg/send_message">Create Message</a>
                                 </li>
                                 <li>
                                     <a href="<?php echo base_url(); ?>index.php/drg/list_reference_drg">Inbox-Reference</a>
                                 </li>
                                 <li>
-                                    <a href="<?php echo base_url(); ?>index.php/drg/change">Inbox-Message</a>
+                                    <a href="<?php echo base_url(); ?>index.php/drg/view_message">Inbox-Message</a>
                                 </li>
                                 <li>
                                     <a href="<?php echo base_url(); ?>index.php/drg/list_outbox_drg">Outbox</a>
