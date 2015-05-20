@@ -445,7 +445,7 @@ class DRG extends CI_Controller {
 				// echo $medical_record->error->tanggal;
 				// echo $medical_record->error->jam;
 				// echo $medical_record->error->deskripsi;
-						redirect("drg/medical_record/$n");
+						//redirect("drg/medical_record/$n");
 						$data['array'] = array('n' => $n);
 						//$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => '', 'setting' => 'active');
 						$this->load->view('header-drg', $data['menu']);
@@ -1082,49 +1082,22 @@ class DRG extends CI_Controller {
 
 	}
 
-		public function view_message(){
+		public function view_message($page = 1){
 		session_start();
 		if(!isset($_SESSION['drg']))
 			redirect ("homepage");
-		$content="";
+		
 		$pesan = new pesan();
 		$pesan->order_by('waktu', 'desc')->get();
 
 		$pengguna = new pengguna;
 		$pengguna->where('username', $_SESSION['drg'])->get();		
  		$idPengguna = $pengguna->id;
-		$content .= '<table class="table">
-				<tr>
-					<td><center><b>Date</center></b></td>
-					<td><center><b>From</center></b></td>
-					<td><center><b>Subject</center></b></td>
-					<td><center><b>Action</center></b></td>
-				</tr>';				
-		foreach($pesan as $row){
-			if($row->penerima_id==$idPengguna && $row->flag_membaca!=1){
-				$nama_pengirim = new pengguna();
-				$nama_pengirim->where('id', $row->pengguna_id)->get();
-				$content .= "<tr><td><center>".$row->waktu."</center></a></td>
-								<td><center>".$nama_pengirim->nama."</center></a></td>
-								<td><center>".$row->subject."</center></td>
-								<td><center><a class='btn btn-primary' href='../drg/detail_message/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a></center></td>
-							</tr>";
-			}
-			else if($row->penerima_id==$idPengguna && $row->flag_membaca==1){
-				$nama_pengirim = new pengguna();
-				$nama_pengirim->where('id', $row->pengguna_id)->get();
-				$content .= "<tr><td><b><center>".$row->waktu."</center></b></a></td>
-								<td><b><center>".$nama_pengirim->nama."</center></b></a></td>
-								<td><b><center>".$row->subject."</center></b></td>
-								<td><center><b><a class='btn btn-primary' href='../drg/detail_message/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a></b></center></td>
-							</tr>";
-			}
-		}
-		$content.='</table>';
-		
-		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active','jadwal'=>'', 'setting' => '', 'content'=>$content);
+						
+		$data['array']=array('mail'=>$pesan->where('pengguna_id', $idPengguna)->get_paged($page, 10), 'pengguna_id'=>$idPengguna);
+		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active','jadwal'=>'', 'setting' => '');
 		$this->load->view('header-drg', $data['menu']);
-		$this->load->view('view_message_drg');
+		$this->load->view('view_message_drg', $data['array']);
 		$this->load->view('footer');
 	}
 	

@@ -51,7 +51,7 @@
                              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Patient<strong class="caret"></strong></a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="<?php echo base_url(); ?>index.php/pusat/read_data_citra">View Patient</a>
+                                    <a href="<?php echo base_url(); ?>index.php/pusat/read_data_citra/1">View Patient</a>
                                 </li>
                             </ul>
                         </li>
