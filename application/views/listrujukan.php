@@ -30,7 +30,50 @@
 	<div class="row">
 		<div class="col-md-1"></div>
         <div class="col-md-10">
-            <?php echo $content; ?>
+            <nav>
+                                                  <ul class="pager">
+                                                    <?php
+                                                        if($merawat->result_count!==0){
+                                                                    $content .='<table class="table">
+                                                                                <tr>
+                                                                                    <td><center><b>Date</b></center></td>
+                                                                                    <td><center><b>Patients Name</b></center></td>
+                                                                                    <td><center><b>Dentist Name</b></center></td>
+                                                                                    <td><center><b>Orthodontist Name</b></center></td>
+                                                                                    <td><center><b>Operation</b></center></td>
+                                                                                </tr>';
+                                                                    foreach($merawat as $row){
+                                                                        $pasien = new pasien();
+                                                                        $pasien->where('id', $row->pasien_id)->get();
+                                                                        if($row->flag_membaca!=1){
+                                                                        $content .= "<tr><td><center>".$row->waktu."</center></td>
+                                                                                        <td><center>".$pasien->nama."</center></td>
+                                                                                        <td><center>".$pasien->nama."</center></td>
+                                                                                        <td><center>".$pasien->nama."</center></td>
+                                                                                        <td><center><a class='btn btn-primary' href='../show_rujukan/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'> Detail</span></a></center></td>
+                                                                                        </tr>";
+                                                                        }
+                                                                        if($row->flag_membaca==1){
+                                                                        $content .= "<tr><td><b><center>".$row->waktu."</center></b></td>
+                                                                                        <td><b><center>".$pasien->nama."</center></b<</td>
+                                                                                        <td><b><center>".$pasien->nama."</center></b></td>
+                                                                                        <td><b><center>".$pasien->nama."</center></b></td>
+                                                                                        <td><b><center><a class='btn btn-primary' href='../show_rujukan/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'> Detail</span></a></center></b></td>
+                                                                                        </tr>";
+                                                                        }
+                                                                    }
+                                                                    $content .= '</table>';
+                                                                    echo $content;
+                                                                }
+
+                                                    if($merawat->paged->has_previous): ?>
+                                                    <li class="previous"><a href="<?= site_url('pusat/listujukan/'.$merawat->paged->previous_page) ?>"><span aria-hidden="true">&larr;</span> Newer</a></li>
+                                                    
+                                                    <?php elseif($merawat->paged->has_next): ?>
+                                                    <li class="next"><a href="<?= site_url('pusat/listrujukan/'.$merawat->paged->next_page) ?>">Older <span aria-hidden="true">&rarr;</span></a></li>
+                                                    <?php endif; ?>
+                                                  </ul>
+                                                </nav>
         </div>
         <div class="col-md-1"></div>
 	</div>

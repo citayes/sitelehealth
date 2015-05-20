@@ -110,7 +110,7 @@ class Pusat extends CI_Controller {
 	}
 
 
-	public function read_data_citra(){
+	public function read_data_citra($page = 1){
 		 session_start();
 		 if(!isset($_SESSION['pusat']))
 		 	redirect ("homepage");
@@ -120,33 +120,15 @@ class Pusat extends CI_Controller {
 
 
 		$merawat = new merawat();
-		$merawat->get();
-		if($pasien->result_count()!=0){
-			$content = "<table class='table table-hover'>";
-			$content .="<tr>
-							<td><center><b><strong>Name</strong></b></center></td>
-							<td><center><b><strong>Age</strong></b></center></td>
-							<td><center><b><strong>Height</strong></b></center></td>
-							<td><center><b><strong>Weight</strong></b></center></td>
-							<td><center><b><strong>Gender</strong></b></center></td>
-							<td><center><b><strong>Action</strong></b></center></td>
-							</tr>";
-			foreach($merawat as $row){
-			$content .= "<tr>
-							<td><center>".$pasien->where('id',$row->pasien_id)->get()->nama."</center></td>
-							<td><center>".$pasien->where('id',$row->pasien_id)->get()->umur."</center></td>
-							<td><center>".$pasien->where('id',$row->pasien_id)->get()->tinggi."</center></td>
-							<td><center>".$pasien->where('id',$row->pasien_id)->get()->berat."</center></td>
-							<td><center>".$pasien->where('id',$row->pasien_id)->get()->jenis_kelamin."</center></td>
-							<td><center><a class='btn btn-primary' href='../pusat/read2/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'> Detail</span></a> 
-								
-							</center></td></tr>";
-			}
-			$content .= "</table>";
-			$data['array']=array('content'=> $content);
-		}
+		//$merawat->get();
+		$merawat->order_by('waktu', 'desc');
+		$merawat->get_paged($page, 10);
 
-		//$this->load->view('header-orthodonti');
+		
+
+		
+		$data['array']=array('merawat' => $merawat);
+				//$this->load->view('header-orthodonti');
 		$data['menu'] = array('home' => '', 'pasien' => 'active', 'jadwal'=> '', 'inbox' => '', 'setting' => '');
 		$this->load->view('header-pusat', $data['menu']);
 		$this->load->view('read_data_citra', $data['array']);
@@ -403,49 +385,22 @@ function do_upload(){
 		}
 	}
 	
-		public function listrujukan(){
+		public function listrujukan($page = 1){
 		session_start();
 		if(!isset($_SESSION['pusat']))
 			redirect ("homepage");
 		
 		$content ="";
 		$merawat = new merawat();
-		$merawat->order_by('id', 'desc')->get();
+		$merawat->order_by('id', 'desc');
+		$merawat->get_paged($page, 10);
 		$pasien= new pasien();
         $pengguna = new pengguna();
-		if($merawat->result_count!==0){
-			$content .='<table class="table">
-						<tr>
-							<td><center><b>Date</b></center></td>
-			                <td><center><b>Patients Name</b></center></td>
-			                <td><center><b>Dentist Name</b></center></td>
-			                <td><center><b>Orthodontist Name</b></center></td>
-			                <td><center><b>Operation</b></center></td>
-						</tr>';
-			foreach($merawat as $row){
-				if($row->flag_membaca!=1){
-				$content .= "<tr><td><center>".$row->waktu."</center></td>
-                                <td><center>".$pasien->where('id', $row->pasien_id)->get()->nama."</center></td>
-                                <td><center>".$pengguna->where('id', $row->umum_id)->get()->nama."</center></td>
-                                <td><center>".$pengguna->where('id', $row->orto_id)->get()->nama."</center></td>
-                                <td><center><a class='btn btn-primary' href='show_rujukan/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'> Detail</span></a></center></td>
-                                </tr>";
-                }
-                if($row->flag_membaca==1){
-				$content .= "<tr><td><b><center>".$row->waktu."</center></b></td>
-                                <td><b><center>".$pasien->where('id', $row->pasien_id)->get()->nama."</center></b<</td>
-                                <td><b><center>".$pengguna->where('id', $row->umum_id)->get()->nama."</center></b></td>
-                                <td><b><center>".$pengguna->where('id', $row->orto_id)->get()->nama."</center></b></td>
-                                <td><b><center><a class='btn btn-primary' href='show_rujukan/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'> Detail</span></a></center></b></td>
-                                </tr>";
-                }
-            }
-			$content .= '</table>';
-		}
 		
+		$data['array']=array('merawat' => $merawat);
 		$data['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> '', 'inbox' => 'active', 'setting' => '', 'content'=>$content);
 		$this->load->view('header-pusat', $data['menu']);
-		$this->load->view('listrujukan');
+		$this->load->view('listrujukan', $data['array']);
 		$this->load->view('footer');
 	}	
 	public function show_rujukan($n){
