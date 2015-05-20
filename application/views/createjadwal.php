@@ -35,12 +35,43 @@
 				  </div>
 				  <div class="form-group">
 					<label for="Start">Start hour</label>
-					<input type="input" name="Start" class="form-control" id="Start" placeholder="Start" value="<?php echo $jam_mulai;?>"/ required maxlength='2'>
-				  </div>
+					<select id="Start" name="Start" class="btn btn-default dropdown-toggle" data-toggle="dropdown" required>
+                        <option value="">--Choose One--</option>
+                        <option value="08.00">08.00</option>
+                        <option value="09.00">09.00</option>
+                        <option value="10.00">10.00</option>
+                        <option value="11.00">11.00</option>
+                        <option value="12.00">12.00</option>
+                        <option value="13.00">13.00</option>
+                        <option value="14.00">14.00</option>
+                        <option value="15.00">15.00</option>
+                        <option value="16.00">16.00</option>
+                        <option value="17.00">17.00</option>
+                        <option value="18.00">18.00</option>
+                        <option value="19.00">19.00</option>
+                        <option value="20.00">20.00</option>
+                        <option value="21.00">21.00</option>
+                    </select>
 				  <div class="form-group">
 					<label for="End">End hour</label>
-					<input type="input" name="End" class="form-control" id="End" placeholder="End" value="<?php echo $jam_selesai;?>"/ required maxlength='2'>
-				  </div>
+                    <select id="End" name="End" class="btn btn-default dropdown-toggle" data-toggle="dropdown" required>
+                        <option value="">--Choose One--</option>
+                        <option value="08.00">08.00</option>
+                        <option value="09.00">09.00</option>
+                        <option value="10.00">10.00</option>
+                        <option value="11.00">11.00</option>
+                        <option value="12.00">12.00</option>
+                        <option value="13.00">13.00</option>
+                        <option value="14.00">14.00</option>
+                        <option value="15.00">15.00</option>
+                        <option value="16.00">16.00</option>
+                        <option value="17.00">17.00</option>
+                        <option value="18.00">18.00</option>
+                        <option value="19.00">19.00</option>
+                        <option value="20.00">20.00</option>
+                        <option value="21.00">21.00</option>
+                    </select>
+                  </div
 
 				  <div class="form-group">
 					<label for="Doctor">Doctor</label><br>

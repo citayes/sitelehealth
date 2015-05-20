@@ -23,37 +23,19 @@ class Admin extends CI_Controller {
 	}
 
 	//lancar
-	public function verify(){
+	public function verify($page = 1){
 		session_start();
 		if(!isset($_SESSION['admin']))
 			redirect ("homepage");
 		
 		$pengguna = new pengguna();
-		$pengguna->where('fverifikasi', 'n')->get();
-		$temp = "";
-		foreach($pengguna as $row){
-							$temp .= "
-							<div class='col-md-4'>
-								<div class='thumbnail'>
-									<center><img alt='140x140' src='../../".$row->foto."' style='width:125px; height:125px;' class='img-circle'></center>
-									<div class='caption'>
-										<h4><center>".$row->username."</center></h4>
-										<center>
-										<p>".$row->nama."</p>
-										<p>".$row->email."</p>
-										<p>".$row->role."</p>
-										<p>
-											<a class='btn btn-primary' href='../admin/view_data_dokter/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'> Details</span></a> 
-											<a class='btn btn-danger' href='../admin/decline/".$row->id."'><span class='glyphicon glyphicon-trash' aria-hidden='true'> Decline</span></a>
-										</p>
-										</center>
-									</div>
-								</div>
-							</div>";
-					$data['array']= array('content' => $temp);
-		
-		}
-		$data['array']= array('content' => $temp);
+		$pengguna->order_by('id', 'desc')->get();
+		$pengguna->where('fverifikasi', 'n')->get_paged($page, 12);
+		//s$temp = "";
+
+
+		$data['array']= array('content' => $pengguna->where('fverifikasi', 'n')->get_paged($page, 9));
+		//$data['array']= array('content' => $temp);
 		$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => 'active', 'setting' => '');	
 		$this->load->view('header-admin', $data['menu']);
 		$this->load->view('verify', $data['array']);
@@ -344,7 +326,7 @@ class Admin extends CI_Controller {
 	}
 
 		//lancar
-	public function retrieve(){
+	public function retrieve($page = 1 ){
 		session_start();
 		if(!isset($_SESSION['admin']))
 			redirect ("homepage");
@@ -352,29 +334,12 @@ class Admin extends CI_Controller {
 		$pengguna = new pengguna();
 			$pengguna->get();
 			$temp = "";
-			foreach($pengguna as $row){
-				if($row->role != "admin" && $row->fverifikasi == "y"){
-						$temp .= "
-						<div class='col-md-4'>
-							<div class='thumbnail'>
-								<center><img alt='140x140' src='../../".$row->foto."' style='width:125px; height:125px;' class='img-circle'></center>
-								<div class='caption'>
-									<h4><center>".$row->username."</center></h4>
-									<center>
-									<p>".$row->nama."</p>
-									<p>".$row->email."</p>
-									<p>".$row->role."</p>
-									<p>
-										<a class='btn btn-primary' href='../admin/view/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'> Details</span></a>
-										<a class='btn btn-danger' href='../admin/delete1/".$row->id."'><span class='glyphicon glyphicon-trash' aria-hidden='true'> Delete </span></a> 
-									</p>
-									</center>
-								</div>
-							</div>
-						</div>";
-				$data['array']= array('content' => $temp);		
-			}
-			}
+			$pengguna->order_by('id', 'desc');
+			$pengguna->where('fverifikasi', 'y')->get_paged($page, 10);
+
+			
+		$data['array']= array('content' => $pengguna->where('fverifikasi', 'y')->get_paged($page, 10));	
+			
 		$data['menu'] = array('home' => '', 'manage' => 'active', 'jadwal' => '', 'inbox' => '', 'setting' => '');	
 		$this->load->view('header-admin', $data['menu']);
 		$this->load->view('retrieve', $data['array']);
@@ -566,14 +531,17 @@ class Admin extends CI_Controller {
 
 		
 
-	public function diagnosa(){
+		public function diagnosa($page = 1){
 		session_start();
 		if(!isset($_SESSION['admin']))
 			redirect ("homepage");
 
 		$analisi = new analisi();
-		$analisi->order_by('id', 'desc')->get();
+		$analisi->order_by('waktu', 'desc');
+		$analisi->where('flag_mengirim', '1')->get_paged($page, 10);
+		//$analisi->order_by('id', 'desc')->get();
 		$content="";
+<<<<<<< Updated upstream
 		if($analisi->result_count() != 0){
 			$content = "<table class='table table-hover'>
 						<thead>
@@ -608,7 +576,10 @@ class Admin extends CI_Controller {
 		else{
 			$data['array']=array();
 		}
+=======
+>>>>>>> Stashed changes
 		
+		$data['array']=array('analisi'=>$analisi);
 		$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => 'active', 'setting' => '');	
 		$this->load->view('header-admin', $data['menu']);
 		$this->load->view('diagnosa', $data['array']);
@@ -845,7 +816,7 @@ class Admin extends CI_Controller {
 		$this->load->view('footer');
 	}
 
-	public function list_outbox(){
+	public function list_outbox($page = 1){
 		session_start();
 		if(!isset($_SESSION['admin']))
 			redirect ("homepage");
@@ -859,6 +830,7 @@ class Admin extends CI_Controller {
 		$lala = $pengguna->id;
 		$pesan = new pesan();
 		$pesan->get();
+<<<<<<< Updated upstream
 		$content.='<table class="table table-hover">
 				<thead>
 				<tr>
@@ -937,11 +909,21 @@ class Admin extends CI_Controller {
 				
 		$content.='</table>';
 		$content1.='</table>';
+=======
+		
+		$mengirim->order_by('waktu', 'desc');
+		$mengirim->where('admin_id', '123142')->get_paged($page, 10);
+		$pesan->order_by('waktu', 'desc');
+		$pesan->where('pengguna_id', $lala)->get_paged($page, 10);
+					
+>>>>>>> Stashed changes
 
+		$data['array'] = array('mengirim' => $mengirim, 'pesan' => $pesan, '$pengguna_id_lala' => $pengguna->id );
 		$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => 'active', 'setting' => '', 'content'=>$content, 'content1'=>$content1);
 		//$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'setting' => '');
 		$this->load->view('header-admin', $data['menu']);
-		$this->load->view('list_outbox');
+		//$this->load->view('list_outbox');
+		$this->load->view('list_outbox', $data['array']);
 		$this->load->view('footer');
 	}
 
