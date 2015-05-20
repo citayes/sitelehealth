@@ -541,43 +541,6 @@ class Admin extends CI_Controller {
 		$analisi->where('flag_mengirim', '1')->get_paged($page, 10);
 		//$analisi->order_by('id', 'desc')->get();
 		$content="";
-<<<<<<< Updated upstream
-		if($analisi->result_count() != 0){
-			$content = "<table class='table table-hover'>
-						<thead>
-						<tr>
-							<td><center><b>Date</b><center></td>
-							<td><center><b>Patient's name</center></b></td>
-							<td><center><b>FKG UI's Id</center></b></td>
-							<td><center><b>Operation</center></b></td>
-						</tr>
-						</thead>";
-			foreach($analisi as $row){
-				if($row->flag_mengirim=='1' && $row->flag_membaca!=1){
-					$pasien = new pasien();
-					$pasien->where('id', $row->pasien_id)->get();
-					$content .= "<tr><td><center>".$row->waktu."</center></a></td>
-								 <td><center>".$pasien->nama."</center></td>
-								 <td><center>".$row->orto_id."</center></td>
-								 <td><center><a class='btn btn-primary' href='../admin/read_diagnosa/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'> Detail</span></a></center></td></tr>";
-				}
-				else if($row->flag_mengirim=='1' && $row->flag_membaca==1){
-					$pasien = new pasien();
-					$pasien->where('id', $row->pasien_id)->get();
-					$content .= "<tr><td><b><center>".$row->waktu."</center></a></b></td>
-								 <td><b><center>".$pasien->nama."</center></b></td>
-								 <td><b><center>".$row->orto_id."</center></b></td>
-								 <td><b><center><a class='btn btn-primary' href='../admin/read_diagnosa/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'> Detail</span></a></center></b></td></tr>";
-				}
-			}
-			$content .=  "</table>";
-			$data['array']=array('content'=>$content);
-		}
-		else{
-			$data['array']=array();
-		}
-=======
->>>>>>> Stashed changes
 		
 		$data['array']=array('analisi'=>$analisi);
 		$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => 'active', 'setting' => '');	
@@ -830,93 +793,13 @@ class Admin extends CI_Controller {
 		$lala = $pengguna->id;
 		$pesan = new pesan();
 		$pesan->get();
-<<<<<<< Updated upstream
-		$content.='<table class="table table-hover">
-				<thead>
-				<tr>
-				<td><center><b>Time</center></b></td>
-				<td><center><b>To</center></b></td>
-				<td><center><b>Information</center></b></td>
-				<td><center><b>Operation</center></b></td>
-				</tr>
-				</thead>';
-		$content1.='<table class="table table-hover">
-				<thead>
-				<tr>
-				<td><center><b>Time</center></b></td>
-				<td><center><b>To</center></b></td>
-				<td><center><b>Information</center></b></td>
-				<td><center><b>Operation</center></b></td>
-				</tr>
-				</thead>';
-		foreach($mengirim->order_by('id', 'desc')->get() as $row){
-			//foreach ($pesan as $row1) {
-
-				if($row->umum_id!=null && $row->admin_id!=null && $row->flag_outbox!=1){
-					$nama_penerima = new pengguna();
-					$nama_penerima->where('id', $row->umum_id)->get();
-					$content .= "<tr><td><center>".$row->waktu."</center></a></td>
-									<td><center>".$nama_penerima->nama."</center></td>
-									<td><center>Reference and Diagnosis</center></td>
-									<td><center><a class='btn btn-primary' href='../admin/view_reference_admin/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
-				}
-				else if($row->orto_id!=null && $row->admin_id!=null && $row->flag_outbox!=1){
-					echo 'lala';
-					$nama_penerima1 = new pengguna();
-					$nama_penerima1->where('id', $row->orto_id)->get();
-					$content .= "<tr><td><center>".$row->waktu."</center></a></td>
-									<td><center>".$nama_penerima1->nama."</center></td>
-									<td><center>Reference and Diagnosis</center></td>
-									<td><center><a class='btn btn-primary' href='../admin/view_reference_admin/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
-				}
-				else if($row->umum_id!=null && $row->admin_id!=null && $row->flag_outbox==1){
-					$nama_penerima = new pengguna();
-					$nama_penerima->where('id', $row->umum_id)->get();
-					$content .= "<tr><td><b><center>".$row->waktu."</center></b></a></td>
-									<td><center><b>".$nama_penerima->nama."</b></center></td>
-									<td><center><b>Reference and Diagnosis</b></center></td>
-									<td><center><b><a class='btn btn-primary' href='../admin/view_reference_admin/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></b></center></td></tr>";					
-				}
-				else if($row->orto_id!=null && $row->admin_id!=null && $row->flag_outbox==1){
-					echo 'lala';
-					$nama_penerima1 = new pengguna();
-					$nama_penerima1->where('id', $row->orto_id)->get();
-					$content .= "<tr><td><b><center>".$row->waktu."</center></b></a></td>
-									<td><b><center>".$nama_penerima1->nama."</center></b></td>
-									<td><<b>center>Reference and Diagnosis</center></b></td>
-									<td><center><b><a class='btn btn-primary' href='../admin/view_reference_admin/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></b></center></td></tr>";
-				}
-			
-		} 
-		foreach ($pesan->order_by('id', 'desc')->get() as $row) {
-			if($row->pengguna_id==$lala && $row->flag_outbox!=1){
-				$nama_penerima = new pengguna();
-					$nama_penerima->where('id', $row->penerima_id)->get();
-					$content1 .= "<tr><td><center>".$row->waktu."</center></a></td>
-									<td><center>".$nama_penerima->nama."</center></td>
-									<td><center>Message</center></td>
-									<td><center><a class='btn btn-primary' href='../admin/outbox_message_admin/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
-			}
-			if($row->pengguna_id==$lala && $row->flag_outbox==1){
-				$nama_penerima = new pengguna();
-					$nama_penerima->where('id', $row->penerima_id)->get();
-					$content1 .= "<tr><td><b><center>".$row->waktu."</center></b></a></td>
-									<td><b><center>".$nama_penerima->nama."</center></b></td>
-									<td><b><center>Message</center></b></td>
-									<td><center><b><a class='btn btn-primary' href='../admin/outbox_message_admin/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></b></center></td></tr>";
-			}
-		}
-				
-		$content.='</table>';
-		$content1.='</table>';
-=======
 		
 		$mengirim->order_by('waktu', 'desc');
 		$mengirim->where('admin_id', '123142')->get_paged($page, 10);
 		$pesan->order_by('waktu', 'desc');
 		$pesan->where('pengguna_id', $lala)->get_paged($page, 10);
 					
->>>>>>> Stashed changes
+
 
 		$data['array'] = array('mengirim' => $mengirim, 'pesan' => $pesan, '$pengguna_id_lala' => $pengguna->id );
 		$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => 'active', 'setting' => '', 'content'=>$content, 'content1'=>$content1);
