@@ -742,7 +742,7 @@ public function retrievejadwalp(){
 		$this->load->view('footer');
 	}
 
-	public function list_outbox_fkg(){
+	public function list_outbox_fkg($page = 1){
 		session_start();
 		if(!isset($_SESSION['pusat']))
 			redirect ("homepage");
@@ -760,115 +760,22 @@ public function retrievejadwalp(){
 		$analisi = new analisi();
 		$analisi->get();
 
-		$content.='<table class="table">
-				<tr>
-				<td><center><b>Time</center></b></td>
-				<td><center><b>Recipient Name</center></b></td>
-				<td><center><b>Information</center></b></td>
-				<td><center><b>Operation</center></b></td>
-			</tr>';
-				$content1.='<table class="table">
-				<tr>
-				<td><center><b>Time</center></b></td>
-				<td><center><b>Recipient Name</center></b></td>
-				<td><center><b>Information</center></b></td>
-				<td><center><b>Operation</center></b></td>
-			</tr>';
-				$content2.='<table class="table">
-				<tr>
-				<td><center><b>Time</center></b></td>
-				<td><center><b>Recipient Name</center></b></td>
-				<td><center><b>Information</center></b></td>
-				<td><center><b>Operation</center></b></td>
-			</tr>';
-		foreach($mengirim->order_by('id', 'desc')->get() as $row){
-			//foreach ($pesan as $row1) {
-				if($row->admin_id==null && $row->pusat_id==$lala && $row->umum_id!=null && $row->flag_outbox!=1){
-					$nama_penerima = new pengguna();
+		$mengirim->order_by('waktu', 'desc');
+		$mengirim->where('pusat_id', $lala)->get_paged($page, 10);
+		$pesan->order_by('waktu', 'desc');
+		$pesan->where('pengguna_id', $lala)->get_paged($page, 10);
+		$analisi->order_by('waktu', 'desc');
+		$analisi->where('orto_id', $lala)->get_paged($page, 10);
 
-					$nama_penerima->where('id', $row->umum_id)->get();
-					$content .= "<tr><td><center>".$row->waktu."</center></a></td>
-									<td><center>".$nama_penerima->nama."</center></td>
-									<td><center>Reference and Diagnosis</center></td>
-									<td><center><a class='btn btn-primary' href='../pusat/view_reference_fkg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
-				}
-				else if($row->admin_id==null && $row->pusat_id==$lala && $row->orto_id!=null && $row->flag_outbox!=1){
-					//echo 'lala';
-					$nama_penerima1 = new pengguna();
-					$nama_penerima1->where('id', $row->orto_id)->get();
-					$content .= "<tr><td><center>".$row->waktu."</center></a></td>
-									<td><center>".$nama_penerima1->nama."</center></td>
-									<td><center>Reference and Diagnosis</center></td>
-									<td><center><a class='btn btn-primary' href='../pusat/view_reference_fkg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
-				}
-				else if($row->admin_id==null && $row->pusat_id==$lala && $row->umum_id!=null && $row->flag_outbox==1){
-					$nama_penerima = new pengguna();
-
-					$nama_penerima->where('id', $row->umum_id)->get();
-					$content .= "<tr><td><b><center>".$row->waktu."</center></a></b></td>
-									<td><b><center>".$nama_penerima->nama."</center></b></td>
-									<td><b><center>Reference and Diagnosis</center></b></td>
-									<td><b><center><a class='btn btn-primary' href='../pusat/view_reference_fkg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></b></td></tr>";
-				}
-				else if($row->admin_id==null && $row->pusat_id==$lala && $row->orto_id!=null  && $row->flag_outbox==1){
-					//echo 'lala';
-					$nama_penerima1 = new pengguna();
-					$nama_penerima1->where('id', $row->orto_id)->get();
-					$content .= "<tr><td><b><center>".$row->waktu."</center></a></b></td>
-									<td><b><center>".$nama_penerima1->nama."</center></b></td>
-									<td><b><center>Reference and Diagnosis</center></b></td>
-									<td><b><center><a class='btn btn-primary' href='../pusat/view_reference_fkg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></b></td></tr>";
-				}
-
-			//}
-		} 
-		foreach ($pesan->order_by('id', 'desc')->get() as $row) {
-			if($row->pengguna_id==$lala && $row->flag_outbox!=1){
-				$nama_penerima = new pengguna();
-					$nama_penerima->where('id', $row->penerima_id)->get();
-					$content1 .= "<tr><td><center>".$row->waktu."</center></a></td>
-									<td><center>".$nama_penerima->nama."</center></td>
-									<td><center>Message</center></td>
-									<td><center><a class='btn btn-primary' href='../pusat/outbox_message_fkg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
-			}
-			else if($row->pengguna_id==$lala && $row->flag_outbox==1){
-				$nama_penerima = new pengguna();
-					$nama_penerima->where('id', $row->penerima_id)->get();
-					$content1 .= "<tr><td><b><center>".$row->waktu."</center><b></a></td>
-									<td><b><center>".$nama_penerima->nama."</center><b></td>
-									<td><b><center>Message</center><b></td>
-									<td><b><center><a class='btn btn-primary' href='../pusat/outbox_message_fkg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></b></td></tr>";
-			}
-		}
-
-		foreach($analisi->order_by('id', 'desc')->get() as $row){
-			//foreach ($pesan as $row1) {
-				if($row->flag_mengirim==1 && $row->orto_id==$lala && $row->flag_outbox!=1){
-					$nama_penerima = new pengguna();
-					$nama_penerima->where('id', '123142')->get();
-					$content2 .= "<tr><td><center>".$row->waktu."</center></a></td>
-									<td><center>".$nama_penerima->nama."</center></td>
-									<td><center>Diagnosis To Admin</center></td>
-									<td><center><a class='btn btn-primary' href='../pusat/view_diagnosis_fkg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
-			}
-			else if($row->flag_mengirim==1 && $row->orto_id==$lala && $row->flag_outbox==1){
-					$nama_penerima = new pengguna();
-					$nama_penerima->where('id', '123142')->get();
-					$content2 .= "<tr><td><b><center>".$row->waktu."</center></b></a></td>
-									<td><b><center>".$nama_penerima->nama."</center></b></td>
-									<td><b><center>Diagnosis To Admin</center></b></td>
-									<td><b><center><a class='btn btn-primary' href='../pusat/view_diagnosis_fkg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></b></td></tr>";
-			}
-		}
+		
 				
-		$content.='</table>';
-		$content1.='</table>';
-		$content2.='</table>';
 
+
+		$data['array']=array('mengirim' => $mengirim, 'pesan' => $pesan, 'analisi' => $analisi, 'pusat_id' => $lala, 'pengguna_id' => $lala,'orto_id' => $lala);
 		$data['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> '', 'inbox' => 'active', 'setting' => '', 'content'=>$content, 'content1'=>$content1, 'content2'=>$content2);
 		//$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'setting' => '');
 		$this->load->view('header-pusat', $data['menu']);
-		$this->load->view('list_outbox_fkg');
+		$this->load->view('list_outbox_fkg', $data['array']);
 		$this->load->view('footer');
 	}
 
