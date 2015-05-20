@@ -799,7 +799,7 @@ class Admin extends CI_Controller {
 		$pesan->order_by('waktu', 'desc');
 		$pesan->where('pengguna_id', $lala)->get_paged($page, 10);
 					
-
+//lala
 
 		$data['array'] = array('mengirim' => $mengirim, 'pesan' => $pesan, '$pengguna_id_lala' => $pengguna->id );
 		$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => 'active', 'setting' => '', 'content'=>$content, 'content1'=>$content1);
