@@ -84,20 +84,20 @@ class Pusat extends CI_Controller {
 		$Pasien->where('id', $Merawat->pasien_id)->get();
 
 		$data['array'] = array('content' => '<tr><td><b>Name</b></td><td>'.$Pasien->nama.'</td></tr>
-			<tr><td><b>Tanggal_Lahir</b></td><td>'.$Pasien->tanggal_lahir.'</td`></tr>
-			<tr><td><b>Tempat_Lahir</b></td><td>'.$Pasien->tempat_lahir.'</td></tr>
-			<tr><td><b>Agama</b></td><td>'.$Pasien->agama.'</td></tr>
-			<tr><td><b>Umur</b></td><td>'.$Pasien->umur.'</td></tr>
-			<tr><td><b>Tinggi</b></td><td>'.$Pasien->tinggi.'</td></tr>
-			<tr><td><b>Berat</b></td><td>'.$Pasien->berat.'</td></tr>
-			<tr><td><b>Jenis_Kelamin</b></td><td>'.$Pasien->jenis_kelamin.'</td></tr>
-			<tr><td><b>Alamat_Rumah</b></td><td>'.$Pasien->alamat_rumah.'</td></tr>
-			<tr><td><b>Warga_Negara</b></td><td>'.$Pasien->warga_negara.'</td></tr>
+			<tr><td><b>Date of Birth</b></td><td>'.$Pasien->tanggal_lahir.'</td`></tr>
+			<tr><td><b>Place of Birth</b></td><td>'.$Pasien->tempat_lahir.'</td></tr>
+			<tr><td><b>Religion</b></td><td>'.$Pasien->agama.'</td></tr>
+			<tr><td><b>Age</b></td><td>'.$Pasien->umur.'</td></tr>
+			<tr><td><b>Height</b></td><td>'.$Pasien->tinggi.'</td></tr>
+			<tr><td><b>Weight</b></td><td>'.$Pasien->berat.'</td></tr>
+			<tr><td><b>Gender</b></td><td>'.$Pasien->jenis_kelamin.'</td></tr>
+			<tr><td><b>Address</b></td><td>'.$Pasien->alamat_rumah.'</td></tr>
+			<tr><td><b>Nationality</b></td><td>'.$Pasien->warga_negara.'</td></tr>
 			<tr><td><b>Medical Record ID</b></td><td>'.$medical_record->id.'</td></tr>
-			<tr><td><b>Date Medical Record</b></td><td>'.$medical_record->tanggal.'</td></tr>
-			<tr><td><b>Time Medical Record</b></td><td>'.$medical_record->jam.'</td></tr>
+			<tr><td><b>Date of Medical Record</b></td><td>'.$medical_record->tanggal.'</td></tr>
+			<tr><td><b>Time of Medical Record</b></td><td>'.$medical_record->jam.'</td></tr>
+			<tr><td><center><img alt="140x140" src="../../../../'.$medical_record->foto.'" style="width:125px; height:125px;" class="img-circle"></center></tr></td>
 			<tr><td><b>Description</b></td><td>'.$medical_record->deskripsi.'</td></tr>
-			<tr><td colspan="2"><b>Photo</b><br><center><img alt="140x140" src="../../../'.$medical_record->foto.'"></center></tr></td>
 			<tr><td><form method="post" action="../send_diagnose_to_admin/'.$Merawat->pasien_id.'"><button type="submit" class="btn btn-primary pull-right">Send Diagnose to Admin</button></form></td>
 			<td><form method="post" action="../create_diagnose/'.$Merawat->pasien_id.'"><button type="submit" class="btn btn-primary">Send Reference</button></form>
 			<td><form method="post" action="../view_doctor/'.$Pasien->doktergigi_id.'"><button type="submit" class="btn btn-primary">View Doctor</button></form>
@@ -117,7 +117,6 @@ class Pusat extends CI_Controller {
 			
 		$pasien = new pasien();
 		$pasien->get();
-
 
 		$merawat = new merawat();
 		//$merawat->get();
@@ -436,16 +435,16 @@ function do_upload(){
 			<tr><td><b>Time</b></td><td>'.$time.'</td></tr>
 			<tr><td><b>From Dentist</b></td><td>'.$pengguna->nama.'</td></tr>
 			<tr><td><b>From Orthodontist</b></td><td>'.$pengguna1->nama.'</td></tr>
-			<tr><td><b>Patient Name</b></td><td>'.$pasien->nama.'</td`></tr>
-			<tr><td><b>Tanggal Lahir</b></td><td>'.$pasien->tanggal_lahir.'</td></tr>
-			<tr><td><b>Tempatlahir</b></td><td>'.$pasien->tempat_lahir.'</td></tr>
-			<tr><td><b>Agama</b></td><td>'.$pasien->agama.'</td></tr>
-			<tr><td><b>Umur</b></td><td>'.$pasien->umur.'</td></tr>
-			<tr><td><b>Alamat Rumah</b></td><td>'.$pasien->alamat_rumah.'</td></tr>
-			<tr><td><b>Tinggi</b></td><td>'.$pasien->tinggi.'</td></tr>
-			<tr><td><b>Berat</b></td><td>'.$pasien->berat.'</td></tr>
-			<tr><td><b>Jenis Kelamin</b></td><td>'.$pasien->jenis_kelamin.'</td></tr>
-			<tr><td><b>Warga_Negara</b></td><td>'.$pasien->warga_negara.'</td></tr>
+			<tr><td><b>Patient</b></td><td>'.$pasien->nama.'</td`></tr>
+			<tr><td><b>Date of Birth</b></td><td>'.$pasien->tanggal_lahir.'</td></tr>
+			<tr><td><b>Place of Birth</b></td><td>'.$pasien->tempat_lahir.'</td></tr>
+			<tr><td><b>Religion</b></td><td>'.$pasien->agama.'</td></tr>
+			<tr><td><b>Age</b></td><td>'.$pasien->umur.'</td></tr>
+			<tr><td><b>Address</b></td><td>'.$pasien->alamat_rumah.'</td></tr>
+			<tr><td><b>Height</b></td><td>'.$pasien->tinggi.'</td></tr>
+			<tr><td><b>Weight</b></td><td>'.$pasien->berat.'</td></tr>
+			<tr><td><b>Gender</b></td><td>'.$pasien->jenis_kelamin.'</td></tr>
+			<tr><td><b>Nationality</b></td><td>'.$pasien->warga_negara.'</td></tr>
 			<tr><td><b>Medical Record ID</b></td><td>'.$medical_record->id.'</td></tr>
 			<tr><td><b>Date Medical Record</b></td><td>'.$medical_record->tanggal.'</td></tr>
 			<tr><td><b>Time Medical Record</b></td><td>'.$medical_record->jam.'</td></tr>
@@ -908,6 +907,133 @@ public function retrievejadwalp(){
 		$this->load->view('footer');
 	}	
 
+public function send_message(){
+		session_start();
+		if(!isset($_SESSION['pusat']))
+			redirect ("homepage");
+
+			$pengguna = new pengguna();
+			$pengguna->get();
+			$tujuan="";
+			foreach($pengguna as $row){
+				$tujuan .= "<option value='".$row->id."'>".$row->nama." (".$row->email.")</option>";
+			}
+
+		if($_SERVER['REQUEST_METHOD'] == 'POST'){
+			$subject = $_POST['subject'];
+			$isi = $_POST['isi'];
+
+			$pesan = new pesan();
+			$pengguna = new pengguna();
+
+			$pengguna->where('username', $_SESSION['pusat'])->get();
+			$pesan->pengguna_id=$pengguna->id;
+			$pesan->penerima_id=$_POST['tujuan'];
+			$pesan->subject=$subject;
+			$pesan->isi=$isi;
+
+			$pesan->validate();
+			if($pesan->valid){
+				$pesan->save();	
+					$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'jadwal'=>'', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+		  					<strong>Well done!</strong> Message has been sent.
+							</div>");
+			}
+			else{
+					$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'jadwal'=>'','setting' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
+							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+		  					<strong>Message has been not sent</strong>".$pesan->error->subject."".$pesan->error->isi."".$pesan->error->penerima_id."
+							</div>");
+				  					
+				  			// 		
+									// </div>");
+			}
+			$data['array'] = array('content' => $tujuan);	
+			//$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');		
+			$this->load->view('header-pusat', $data['menu']);
+			$this->load->view('send_message_pusat', $data['array']);
+			$this->load->view('footer');
+			
+		}else{
+
+			$data['array'] = array('content' => $tujuan);	
+			$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'jadwal'=>'', 'setting' => '');
+			$this->load->view('header-pusat', $data['menu']);
+			$this->load->view('send_message_pusat', $data['array']);
+			$this->load->view('footer');
+		}
+
+	}
+
+		public function view_message(){
+		session_start();
+		if(!isset($_SESSION['pusat']))
+			redirect ("homepage");
+		$content="";
+		$pesan = new pesan();
+		$pesan->order_by('waktu', 'desc')->get();
+
+		$pengguna = new pengguna;
+		$pengguna->where('username', $_SESSION['pusat'])->get();		
+ 		$idPengguna = $pengguna->id;
+		$content .= '<table class="table">
+				<tr>
+					<td><center><b>Date</center></b></td>
+					<td><center><b>From</center></b></td>
+					<td><center><b>Subject</center></b></td>
+					<td><center><b>Action</center></b></td>
+				</tr>';				
+		foreach($pesan as $row){
+			if($row->penerima_id==$idPengguna && $row->flag_membaca!=1){
+				$nama_pengirim = new pengguna();
+				$nama_pengirim->where('id', $row->pengguna_id)->get();
+				$content .= "<tr><td><center>".$row->waktu."</center></a></td>
+								<td><center>".$nama_pengirim->nama."</center></a></td>
+								<td><center>".$row->subject."</center></td>
+								<td><center><a class='btn btn-primary' href='../pusat/detail_message/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a></center></td>
+							</tr>";
+			}
+			else if($row->penerima_id==$idPengguna && $row->flag_membaca==1){
+				$nama_pengirim = new pengguna();
+				$nama_pengirim->where('id', $row->pengguna_id)->get();
+				$content .= "<tr><td><b><center>".$row->waktu."</center></b></a></td>
+								<td><b><center>".$nama_pengirim->nama."</center></b></a></td>
+								<td><b><center>".$row->subject."</center></b></td>
+								<td><center><b><a class='btn btn-primary' href='../pusat/detail_message/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a></b></center></td>
+							</tr>";
+			}
+		}
+		$content.='</table>';
+		
+		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active','jadwal'=>'', 'setting' => '', 'content'=>$content);
+		$this->load->view('header-pusat', $data['menu']);
+		$this->load->view('view_message_pusat');
+		$this->load->view('footer');
+	} 
+	
+		public function detail_message($n){
+		 session_start();
+		 if(!isset($_SESSION['pusat']))
+			redirect ("homepage");
+
+		$pesan = new pesan();
+		$pesan->where('id', $n)->get();
+		$pengguna = new pengguna();
+		$pengguna->where('id',$pesan->pengguna_id)->get();
+		$pesan1 = new pesan();
+		$pesan1->where('id', $n)->update('flag_membaca', '2');
+		$data['array'] = array('content' => '<tr><td><b>Subject</b></td><td>'.$pesan->subject.'</td></tr>
+			<tr><td><b>Sender</b></td><td>'.$pengguna->nama.'</td></tr>
+			<tr><td><b>Message</b></td><td>'.$pesan->isi.'</td></tr>
+			</td></tr>');
+
+		$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'jadwal'=>'', 'setting' => '');
+
+		$this->load->view('header-pusat', $data['menu']);
+		$this->load->view('detail_message_pusat', $data['array']); 
+		$this->load->view('footer');
+	}
 	
 }
 ?>
