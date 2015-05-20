@@ -4,7 +4,7 @@
     <!-- Sidebar content-->
     <?php
         $pengguna = new pengguna();
-        $pengguna->where('username', $_SESSION['admin'])->get();
+        $pengguna->where('username', $_SESSION['pusat'])->get();
         $profile="";
         $profile .="<br><center><img alt='140x140' src='../../".$pengguna->foto."' style='width:125px; height:125px;' class='img-circle'>
         <p><b>".$pengguna->nama."</b><br>
@@ -30,21 +30,21 @@
     <div class="row">
     <div class="col-md-2"></div>
     <div class="col-md-8">
-        <form  method="post" action="send_message_admin">
+        <form  method="post" action="send_message">
                    <div class="form-group">
                     <label for="nama">To</label><br>
                    <select id="tujuan" name="tujuan" class="btn btn-default dropdown-toggle" data-toggle="dropdown" required>
                         <option value="">--Choose One--</option>
                         <?php echo($content); ?>
                     </select> 
-                  </div>
+                   </div>
                   <div class="form-group">
                     <label for="name">Subject</label>
                     <input type="input" name="subject" class="form-control" id="subject" placeholder="Subject of The Message"/>
                   </div>
                   <div class="form-group">
                     <label for="message">Message</label>
-                    <textarea name="isi" class="form-control" rows="10" id="isi" placeholder="Your Message"required></textarea>
+                     <textarea name="isi" class="form-control" rows="10" id="isi" placeholder="Your Message"required></textarea>
                   </div>
                    <button type="submit" class="btn btn-primary">Send</button>
                    <button type="cancel" onclick="javascript:window.location='../homepage';" class="btn btn-warning">Cancel</button>

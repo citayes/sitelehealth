@@ -23,7 +23,7 @@
                     <div class="row mar-bot40">
 						<div class="col-md-offset-3 col-md-6">
 							<div class="section-header">
-								<h2 class="section-heading animated" data-animation="bounceInUp"><center>List of Patient's</center></h2><hr>
+								<h2 class="section-heading animated" data-animation="bounceInUp"><center>List of Patients</center></h2><hr>
 							</div>
 						</div>
 					</div>

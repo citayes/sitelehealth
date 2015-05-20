@@ -37,8 +37,8 @@
                   </div>
                   <div class="form-group">
                     <label for="message">Message</label>
-                    <input type="input" name="isi" class="form-control" id="isi" placeholder="Your Message"/>
-                  </div>
+                     <textarea name="isi" class="form-control" rows="10" id="isi" placeholder="Your Message"required></textarea>
+                    </div>
                    <button type="submit" class="btn btn-primary">Send</button>
                    <button type="cancel" onclick="javascript:window.location='../homepage';" class="btn btn-warning">Cancel</button>
                 </form>

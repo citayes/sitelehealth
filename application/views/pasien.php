@@ -77,8 +77,8 @@
 									<div class="form-group">
 									<label class="col-sm-3 control-label" for="jenis_kelamin">Gender</label>
 										<div class="col-sm-9">
-											<input type='radio' name='Gender' value='Laki-laki'>Male</input>
-											<input type='radio' name='Gender' value='Perempuan'>Female</input>											
+											<input type='radio' name='Gender' value='Male'>Male</input>
+											<input type='radio' name='Gender' value='Female'>Female</input>											
 										</div>
 									</div>
 									<div class="form-group">

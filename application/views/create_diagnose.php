@@ -41,7 +41,7 @@
 				  </div>
 				  <div class="form-group">
 					<label for="placeofbirth">Diagnose</label>
-					<input type="input" name="Diagnose" class="form-control" id="Diagnose" placeholder="Your Diagnose"/>
+					<textarea type="text" name="Diagnose" class="form-control" rows="10" id="Diagnose" placeholder="Your Diagnose" required></textarea>
 				  </div>
 
 <!-- 				  <div class="form-group">

@@ -32,16 +32,16 @@
 			<div class="cform" id="contact-form">
 				<form  method="post" action="../send_diagnose_to_admin_lagi/<?php echo $n;?>">
 				  <div class="form-group">
-					<label for="skor">Skor PAR</label>
-					<input type="text" class="form-control" id="skor" name="skor" placeholder="Masukkan PAR Index" required autofocus>
+					<label for="skor">Par Index's Score</label>
+					<input type="text" class="form-control" id="skor" name="skor" placeholder="Patient's Par Index Score" required autofocus>
 				  </div>
 				  <div class="form-group">
-					<label for="maloklusi_Menurut_Angka">Maloklusi Menurut Angka</label>
-					<input type="text" class="form-control" id="maloklusi_menurut_angka" name="maloklusi_menurut_angka" placeholder="Masukkan Tingkat Keparahan Maloklusi" required autofocus>
+					<label for="maloklusi_Menurut_Angka">Malocclusion</label>
+					<input type="text" class="form-control" id="maloklusi_menurut_angka" name="maloklusi_menurut_angka" placeholder="Patient's Malocclusion" required autofocus>
 				  </div>
 				  <div class="form-group">
-					<label for="diagnosis_rekomendasi">Diagnosis_Rekomendasi</label>
-					<input type="text" class="form-control" id="diagnosis_rekomendasi" name="diagnosis_rekomendasi" placeholder="Masukkan Diagnosis Rekomendasi" required autofocus>
+					<label for="diagnosis_rekomendasi">Diagnose</label>
+					<textarea type="text" class="form-control" id="diagnosis_rekomendasi" name="diagnosis_rekomendasi" rows="10" placeholder="Your Diagnose" required autofocus></textarea>
 				  </div>
 				  <button type="submit" class="btn btn-primary pull-left">Send Diagnose</button>
 				</form>

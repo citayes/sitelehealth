@@ -62,6 +62,12 @@
                              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Inbox<strong class="caret"></strong></a>
                             <ul class="dropdown-menu">
                                 <li>
+                                    <a href="<?php echo base_url(); ?>index.php/pusat/send_message">Create Message</a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo base_url(); ?>index.php/pusat/view_message">View Message</a>
+                                </li>
+                                <li>
                                     <a href="<?php echo base_url(); ?>index.php/pusat/listrujukan">Reference Patient</a>
                                 </li>
                                 <li>
