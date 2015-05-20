@@ -6,7 +6,17 @@ class Admin extends CI_Controller {
 		session_start();
 		if(!isset($_SESSION['admin']))
 			redirect ("homepage");
-		$data['menu'] = array('home' => 'active', 'manage' => '', 'jadwal' => '', 'inbox' => '', 'setting' => '');
+		$dokter_gigi = new dokter_gigi();
+		$dokter_gigi->get();
+		$latlon=array();
+		$i=0;
+		foreach ($dokter_gigi as $row) {
+			$latlon[$i]=$dokter_gigi->latitude;
+			$latlon[$i].=",";
+			$latlon[$i].=$dokter_gigi->longitude;
+			$i++;
+		}
+		$data['menu'] = array('home' => 'active', 'manage' => '', 'jadwal' => '', 'inbox' => '', 'setting' => '', 'latlon'=>$latlon);
 		$this->load->view('header-admin', $data['menu']);
 		$this->load->view('admin');
 		$this->load->view('footer');
@@ -565,13 +575,15 @@ class Admin extends CI_Controller {
 		$analisi->order_by('id', 'desc')->get();
 		$content="";
 		if($analisi->result_count() != 0){
-			$content = "<table class='table'>
+			$content = "<table class='table table-hover'>
+						<thead>
 						<tr>
 							<td><center><b>Date</b><center></td>
 							<td><center><b>Patient's name</center></b></td>
 							<td><center><b>FKG UI's Id</center></b></td>
 							<td><center><b>Operation</center></b></td>
-						</tr>";
+						</tr>
+						</thead>";
 			foreach($analisi as $row){
 				if($row->flag_mengirim=='1' && $row->flag_membaca!=1){
 					$pasien = new pasien();
@@ -800,14 +812,16 @@ class Admin extends CI_Controller {
 		$jadwaljaga-> get();
 		$content="";
 		if($jadwaljaga->result_count() != 0){
-			$content = "<table class='table'>
+			$content = "<table class='table table-hover'>
+						<thead>
 						<tr>
 							<td><center><b>Day</b><center></td>
 							<td><center><b>Start Hour</center></b></td>
 							<td><center><b>End Hour</center></b></td>
 							<td><center><b>Doctor</center></b></td>
 							<td><center><b>Operation</b></center></td>
-						</tr>";
+						</tr>
+						</thead>";
 			foreach($jadwaljaga as $row){
 				$pengguna = new pengguna();
 				$pengguna-> where('id',$row->drg_ortodonti_id)->get();
@@ -825,7 +839,7 @@ class Admin extends CI_Controller {
 			$data['array']=array();
 		}
 		
-		$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => 'active', 'setting' => '');	
+		$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => 'active', 'inbox' => '', 'setting' => '');	
 		$this->load->view('header-admin', $data['menu']);
 		$this->load->view('retrievejadwal', $data['array']);
 		$this->load->view('footer');
@@ -845,20 +859,24 @@ class Admin extends CI_Controller {
 		$lala = $pengguna->id;
 		$pesan = new pesan();
 		$pesan->get();
-		$content.='<table class="table">
+		$content.='<table class="table table-hover">
+				<thead>
 				<tr>
 				<td><center><b>Time</center></b></td>
 				<td><center><b>To</center></b></td>
 				<td><center><b>Information</center></b></td>
 				<td><center><b>Operation</center></b></td>
-			</tr>';
-		$content1.='<table class="table">
+				</tr>
+				</thead>';
+		$content1.='<table class="table table-hover">
+				<thead>
 				<tr>
 				<td><center><b>Time</center></b></td>
 				<td><center><b>To</center></b></td>
 				<td><center><b>Information</center></b></td>
 				<td><center><b>Operation</center></b></td>
-			</tr>';
+				</tr>
+				</thead>';
 		foreach($mengirim->order_by('id', 'desc')->get() as $row){
 			//foreach ($pesan as $row1) {
 
@@ -1083,12 +1101,14 @@ class Admin extends CI_Controller {
 		$pengguna = new pengguna;
 		$pengguna->where('username', $_SESSION['admin'])->get();		
  		$idPengguna = $pengguna->id;
-		$content .= '<table class="table">
+		$content .= '<table class="table table-hover">
+				<thead>
 				<tr>
 					<td><center><b>From</center></b></td>
 					<td><center><b>Subject</center></b></td>
 					<td><center><b>Action</center></b></td>
-				</tr>';				
+				</tr>
+				</thead>';				
 		foreach($pesan as $row){
 			if($row->penerima_id==$idPengguna){
 				$nama_pengirim = new pengguna();

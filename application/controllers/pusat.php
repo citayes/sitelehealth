@@ -713,13 +713,15 @@ public function retrievejadwalp(){
 		$jadwaljaga-> get();
 		$content="";
 		if($jadwaljaga->result_count() != 0){
-			$content = "<table class='table'>
+			$content = "<table class='table table-hover'>
+						<thead>
 						<tr>
 							<td><center><b>Day</b><center></td>
 							<td><center><b>Start Hour</center></b></td>
 							<td><center><b>End Hour</center></b></td>
 							<td><center><b>Doctor</center></b></td>
-						</tr>";
+						</tr>
+						</thead>";
 			foreach($jadwaljaga as $row){
 				$pengguna = new pengguna();
 				$pengguna-> where('id',$row->drg_ortodonti_id)->get();

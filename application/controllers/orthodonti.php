@@ -396,11 +396,11 @@ function do_upload(){
 
 		//if($medical_record->result_count()!=0){
 			$content = "<table class='table table-hover'>";
-			$content .="<tr>
+			$content .="<thead><tr>
 							<td><center><b><strong>ID Medical Record</strong></b></center></td>
 							<td><center><b><strong>Date</strong></b></center></td>
 							<td><center><b><strong>Operation</strong></b></center></td>
-							</tr>";
+							</tr></thead>";
 			foreach($medical_record as $row){
 				if($row->dokter_gigi_id == $idDokter && $row->pasien_id==$n){
 					//echo $row->doktergigi_id;
@@ -788,11 +788,11 @@ function do_upload(){
 		$pengguna->get();
 		if($pengguna->result_count()!=0){
 			$content = "<table class='table table-hover'>";
-			$content .="<tr>
+			$content .="<thead><tr>
 							<td><center><b><strong>Position</strong></b></center></td>
 							<td><center><b><strong>Name</strong></b></center></td>
 							<td><center><b><strong>Action</strong></b></center></td>
-							</tr>";
+							</tr></thead>";
 			foreach($pengguna as $row){
 
 					$content .= "<tr>

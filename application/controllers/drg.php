@@ -350,11 +350,11 @@ class DRG extends CI_Controller {
 
 		//if($medical_record->result_count()!=0){
 			$content = "<table class='table table-hover'>";
-			$content .="<tr>
+			$content .="<thead><tr>
 							<td><center><b><strong>ID Medical Record</strong></b></center></td>
 							<td><center><b><strong>Date</strong></b></center></td>
 							<td><center><b><strong>Operation</strong></b></center></td>
-							</tr>";
+							</tr></thead>";
 			foreach($medical_record as $row){
 				if($row->dokter_gigi_id == $idDokter && $row->pasien_id==$n){
 					//echo $row->doktergigi_id;
