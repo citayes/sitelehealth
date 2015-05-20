@@ -27,19 +27,19 @@ class Homepage extends CI_Controller {
 						if($pengguna->role=="admin"){
 							$_SESSION['id'] = $pengguna->id;
 							$_SESSION['admin'] = $Username;
-							redirect('admin');
+							redirect('user/home');
 						}else if($pengguna->role=="umum"){
 							$_SESSION['id'] = $pengguna->id;
 							$_SESSION['drg'] = $Username;
-							redirect('drg');
+							redirect('user/home');
 						}else if($pengguna->role=="orthodonti"){
 							$_SESSION['id'] = $pengguna->id;
 							$_SESSION['orthodonti'] = $Username;	
-							redirect('orthodonti');
+							redirect('user/home');
 						}else if($pengguna->role=="pusat"){
 							$_SESSION['id'] = $pengguna->id;
 							$_SESSION['pusat'] = $Username;
-							redirect('pusat');
+							redirect('user/home');
 						}
 					}else{
 					$data['menu'] = array('home' => '', 'signin' => 'active', 'signup' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>

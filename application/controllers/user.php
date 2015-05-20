@@ -17,6 +17,39 @@ class User extends CI_Controller {
         <p>".$pengguna->role."</p></center>";
     }
 
+    public function home(){
+    	$pengguna = new pengguna();
+    	$pengguna->get();
+    	if($pengguna->where('id', $_SESSION['id'])->get()->role == 'admin'){
+	    	$dokter_gigi = new dokter_gigi();
+			$dokter_gigi->get();
+			$latlon=array();
+			$i=0;
+			foreach ($dokter_gigi as $row) {
+				$latlon[$i]=$dokter_gigi->latitude;
+				$latlon[$i].=",";
+				$latlon[$i].=$dokter_gigi->longitude;
+				$i++;
+			}
+			$data['menu'] = array('home' => 'active', 'manage' => '', 'jadwal' => '', 'inbox' => '', 'setting' => '', 'profile_construct'=>$this->profile_construct, 'latlon'=>$latlon);
+			$this->load->view('header-admin', $data['menu']);
+			$this->load->view('home-admin');
+		}elseif($pengguna->where('id', $_SESSION['id'])->get()->role == 'pusat'){
+			$data['menu'] = array('home' => 'active', 'profile_construct'=>$this->profile_construct, 'pasien' => '', 'jadwal'=> '', 'inbox' => '', 'setting' => '');
+			$this->load->view('header-pusat', $data['menu']);
+			$this->load->view('home');
+		}elseif($pengguna->where('id', $_SESSION['id'])->get()->role == 'umum'){
+			$data['menu'] = array('home' => 'active', 'profile_construct'=>$this->profile_construct, 'pasien' => '', 'inbox' => '', 'setting' => '');
+			$this->load->view('header-drg', $data['menu']);
+			$this->load->view('home');
+		}elseif($pengguna->where('id', $_SESSION['id'])->get()->role == 'orthodonti'){
+			$data['menu'] = array('home' => 'active', 'profile_construct'=>$this->profile_construct, 'pasien' => '', 'inbox' => '', 'setting' => '');
+			$this->load->view('header-orthodonti', $data['menu']);
+			$this->load->view('home');
+		}
+		$this->load->view('footer');
+    }
+
 	public function editProfile(){
 	$pengguna = new pengguna();
 	$pengguna->where('id', $_SESSION['id'])->get();
@@ -167,7 +200,7 @@ class User extends CI_Controller {
 			  					<strong>Well done!</strong> Password has been changed.
 								</div>");
 						$this->load->view('header-orthodonti', $data['menu']);
-						$this->load->view('changepassword-orthodonti');
+						$this->load->view('changepassword');
 						$this->load->view('footer');
 					}elseif($pengguna->where('id', $_SESSION['id'])->get()->role == 'pusat'){
 						$pengguna->where('id', $_SESSION['id'])->update('password',$NewPassword);
@@ -176,7 +209,7 @@ class User extends CI_Controller {
 			  					<strong>Well done!</strong> Password has been changed.
 								</div>");
 						$this->load->view('header-pusat', $data['menu']);
-						$this->load->view('changepassword-pusat');
+						$this->load->view('changepassword');
 						$this->load->view('footer');
 					}elseif($pengguna->where('id', $_SESSION['id'])->get()->role == 'admin'){
 						$pengguna->where('id', $_SESSION['id'])->update('password',$NewPassword);
@@ -185,7 +218,7 @@ class User extends CI_Controller {
 			  					<strong>Well done!</strong> Password has been changed.
 								</div>");	
 						$this->load->view('header-admin', $data['menu']);
-						$this->load->view('changepassword-admin');
+						$this->load->view('changepassword');
 						$this->load->view('footer');
 					}elseif($pengguna->where('id', $_SESSION['id'])->get()->role == 'umum'){
 						$pengguna->where('id', $_SESSION['id'])->update('password',$NewPassword);
@@ -194,7 +227,7 @@ class User extends CI_Controller {
 			  					<strong>Well done!</strong> Password has been changed.
 								</div>");	
 						$this->load->view('header-drg', $data['menu']);
-						$this->load->view('changepassword-drg');
+						$this->load->view('changepassword');
 						$this->load->view('footer');
 					}
 				}else{
@@ -204,7 +237,7 @@ class User extends CI_Controller {
 			  					<strong>Warning!</strong> Wrong new password.
 								</div>");	
 						$this->load->view('header-orthodonti', $data['menu']);
-						$this->load->view('changepassword-orthodonti');
+						$this->load->view('changepassword');
 						$this->load->view('footer');
 					}elseif($pengguna->where('id', $_SESSION['id'])->get()->role == 'pusat'){
 						$data['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> '', 'inbox' => '', 'setting' => 'active', 'profile_construct'=>$this->profile_construct, 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
@@ -212,7 +245,7 @@ class User extends CI_Controller {
 			  					<strong>Warning!</strong> Wrong new password.
 								</div>");
 						$this->load->view('header-pusat', $data['menu']);
-						$this->load->view('changepassword-pusat');
+						$this->load->view('changepassword');
 						$this->load->view('footer');
 					}elseif($pengguna->where('id', $_SESSION['id'])->get()->role == 'admin'){
 						$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => '', 'setting' => 'active', 'profile_construct'=>$this->profile_construct, 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
@@ -220,7 +253,7 @@ class User extends CI_Controller {
 			  					<strong>Warning!</strong> Wrong new password.
 								</div>");	
 						$this->load->view('header-admin', $data['menu']);
-						$this->load->view('changepassword-admin');
+						$this->load->view('changepassword');
 						$this->load->view('footer');
 					}elseif($pengguna->where('id', $_SESSION['id'])->get()->role == 'umum'){
 						$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => '', 'setting' => 'active', 'profile_construct'=>$this->profile_construct, 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
@@ -228,7 +261,7 @@ class User extends CI_Controller {
 			  					<strong>Warning!</strong> Wrong new password.
 								</div>");	
 						$this->load->view('header-drg', $data['menu']);
-						$this->load->view('changepassword-drg');
+						$this->load->view('changepassword');
 						$this->load->view('footer');
 					}
 				}		
@@ -240,7 +273,7 @@ class User extends CI_Controller {
 	  					<strong>Warning!</strong> Wrong password.
 						</div>");	
 					$this->load->view('header-orthodonti', $data['menu']);
-					$this->load->view('changepassword-orthodonti');
+					$this->load->view('changepassword');
 					$this->load->view('footer');
 				}elseif($pengguna->where('id', $_SESSION['id'])->get()->role == 'pusat'){
 					$data['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> '', 'inbox' => '', 'setting' => 'active', 'profile_construct'=>$this->profile_construct, 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
@@ -248,7 +281,7 @@ class User extends CI_Controller {
 	  					<strong>Warning!</strong> Wrong password.
 						</div>");
 					$this->load->view('header-pusat', $data['menu']);
-					$this->load->view('changepassword-pusat');
+					$this->load->view('changepassword');
 					$this->load->view('footer');
 				}elseif($pengguna->where('id', $_SESSION['id'])->get()->role == 'admin'){
 					$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => '', 'setting' => 'active', 'profile_construct'=>$this->profile_construct, 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
@@ -256,7 +289,7 @@ class User extends CI_Controller {
 	  					<strong>Warning!</strong> Wrong password.
 						</div>");	
 					$this->load->view('header-admin', $data['menu']);
-					$this->load->view('changepassword-admin');
+					$this->load->view('changepassword');
 					$this->load->view('footer');
 				}elseif($pengguna->where('id', $_SESSION['id'])->get()->role == 'umum'){
 					$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => '', 'setting' => 'active', 'profile_construct'=>$this->profile_construct, 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
@@ -264,7 +297,7 @@ class User extends CI_Controller {
 	  					<strong>Warning!</strong> Wrong password.
 						</div>");	
 					$this->load->view('header-drg', $data['menu']);
-					$this->load->view('changepassword-drg');
+					$this->load->view('changepassword');
 					$this->load->view('footer');
 				}
 			}
@@ -273,29 +306,131 @@ class User extends CI_Controller {
 			if($pengguna->where('id', $_SESSION['id'])->get()->role == 'orthodonti'){
 				$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => '', 'setting' => 'active', 'profile_construct'=>$this->profile_construct);
 				$this->load->view('header-orthodonti', $data['menu']);
-				$this->load->view('changepassword-orthodonti');
+				$this->load->view('changepassword');
 				$this->load->view('footer');
 			}elseif($pengguna->where('id', $_SESSION['id'])->get()->role == 'pusat'){
 				$data['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> '', 'inbox' => '', 'setting' => 'active', 'profile_construct'=>$this->profile_construct);
 				$this->load->view('header-pusat', $data['menu']);
-				$this->load->view('changepassword-pusat');
+				$this->load->view('changepassword');
 				$this->load->view('footer');
 			}elseif($pengguna->where('id', $_SESSION['id'])->get()->role == 'admin'){
 				$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => '', 'setting' => 'active', 'profile_construct'=>$this->profile_construct);	
 				$this->load->view('header-admin', $data['menu']);
-				$this->load->view('changepassword-admin');
+				$this->load->view('changepassword');
 				$this->load->view('footer');
 			}elseif($pengguna->where('id', $_SESSION['id'])->get()->role == 'umum'){
 				$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => '', 'setting' => 'active', 'profile_construct'=>$this->profile_construct);	
 				$this->load->view('header-drg', $data['menu']);
-				$this->load->view('changepassword-drg');
+				$this->load->view('changepassword');
 				$this->load->view('footer');
 			}
 		}	
 	}
+	
 	public function logout(){	
 		session_destroy();
 		redirect('homepage');
+	}
+
+	public function send_message(){
+		$pengguna = new pengguna();
+		$pengguna->get();
+		$tujuan="";
+		foreach($pengguna as $row){
+			$tujuan .= "<option value='".$row->id."'>".$row->nama." (".$row->email.")</option>";
+		}
+
+		if($_SERVER['REQUEST_METHOD'] == 'POST'){
+			$subject = $_POST['subject'];
+			$isi = $_POST['isi'];
+
+			$pesan = new pesan();
+			$pengguna = new pengguna();
+
+			$pengguna->where('id', $_SESSION['id'])->get();
+			$pesan->pengguna_id=$pengguna->id;
+			$pesan->penerima_id=$_POST['tujuan'];
+			$pesan->subject=$subject;
+			$pesan->isi=$isi;
+
+			$pesan->validate();
+			$data['array'] = array('content' => $tujuan);
+			if($pesan->valid){
+				$pesan->save();
+				if($pengguna->where('id', $_SESSION['id'])->get()->role == 'umum'){	
+					$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal'=>'', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+		  					<strong>Well done!</strong> Message has been sent.
+							</div>");
+					$this->load->view('header-drg', $data['menu']);
+				}elseif($pengguna->where('id', $_SESSION['id'])->get()->role == 'pusat'){
+					$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal'=>'', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+		  					<strong>Well done!</strong> Message has been sent.
+							</div>");
+					$this->load->view('header-pusat', $data['menu']);
+				}elseif($pengguna->where('id', $_SESSION['id'])->get()->role == 'admin'){
+					$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => 'active', 'setting' => '', 'profile_construct'=>$this->profile_construct, 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+		  					<strong>Well done!</strong> Message has been sent.
+							</div>");
+					$this->load->view('header-admin', $data['menu']);
+				}elseif($pengguna->where('id', $_SESSION['id'])->get()->role == 'orthodonti'){
+					$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct, 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+		  					<strong>Well done!</strong> Message has been sent.
+							</div>");
+					$this->load->view('header-orthodonti', $data['menu']);
+				}
+			}
+			else{
+				if($pengguna->where('id', $_SESSION['id'])->get()->role == 'umum'){	
+					$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal'=>'','setting' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
+							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+		  					<strong>Message has been not sent</strong>".$pesan->error->subject."".$pesan->error->isi."".$pesan->error->penerima_id."
+							</div>");
+					$this->load->view('header-drg', $data['menu']);
+				}elseif($pengguna->where('id', $_SESSION['id'])->get()->role == 'pusat'){
+					$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal'=>'','setting' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
+							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+		  					<strong>Message has been not sent</strong>".$pesan->error->subject."".$pesan->error->isi."".$pesan->error->penerima_id."
+							</div>");
+					$this->load->view('header-pusat', $data['menu']);
+				}elseif($pengguna->where('id', $_SESSION['id'])->get()->role == 'admin'){
+					$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => 'active', 'setting' => '', 'profile_construct'=>$this->profile_construct, 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
+							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+		  					<strong>Message has been not sent</strong>".$pesan->error->subject."".$pesan->error->isi."".$pesan->error->penerima_id."
+							</div>");
+					$this->load->view('header-admin', $data['menu']);	
+				}elseif($pengguna->where('id', $_SESSION['id'])->get()->role == 'orthodonti'){
+					$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct, 'setting' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
+							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+		  					<strong>Message has been not sent</strong>".$pesan->error->subject."".$pesan->error->isi."".$pesan->error->penerima_id."
+							</div>");
+					$this->load->view('header-orthodonti', $data['menu']);	
+				}
+			}	
+			$this->load->view('send_message', $data['array']);
+			$this->load->view('footer');
+			
+		}else{
+			$data['array'] = array('content' => $tujuan);	
+			if($pengguna->where('id', $_SESSION['id'])->get()->role == 'umum'){
+				$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal'=>'', 'setting' => '');
+				$this->load->view('header-drg', $data['menu']);
+			}elseif($pengguna->where('id', $_SESSION['id'])->get()->role == 'pusat'){
+				$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal'=>'', 'setting' => '');
+				$this->load->view('header-pusat', $data['menu']);
+			}elseif($pengguna->where('id', $_SESSION['id'])->get()->role == 'admin'){
+				$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => 'active', 'setting' => '', 'profile_construct'=>$this->profile_construct);
+				$this->load->view('header-admin', $data['menu']);
+			}elseif($pengguna->where('id', $_SESSION['id'])->get()->role == 'orthodonti'){
+				$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct, 'setting' => '');
+				$this->load->view('header-orthodonti', $data['menu']);
+			}
+			$this->load->view('send_message', $data['array']);
+			$this->load->view('footer');
+		}
 	}
 }
 

@@ -48,7 +48,7 @@
                 <div class="collapse navbar-collapse navbar-right">
                     <ul class="nav navbar-nav">
                         <li class="<?php echo $home ?>">
-                            <a href="<?php echo base_url(); ?>index.php/admin">Home</a>
+                            <a href="<?php echo base_url(); ?>index.php/user/home">Home</a>
                         </li>
                         <li class="dropdown <?php echo $manage ?>">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Manage Doctor<strong class="caret"></strong></a>
@@ -68,7 +68,7 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Message<strong class="caret"></strong></a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="<?php echo base_url(); ?>index.php/admin/send_message_admin">Create Message</a>
+                                    <a href="<?php echo base_url(); ?>index.php/user/send_message">Create Message</a>
                                 </li> 
                                 <li id="result-side-menu" class="dropdown dropdown-submenu">
                                     <a tabindex="-1" href="#">Inbox</a>

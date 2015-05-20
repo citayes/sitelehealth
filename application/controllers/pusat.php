@@ -16,13 +16,6 @@ class Pusat extends CI_Controller {
         <p>".$pengguna->email."<br>
         <p>".$pengguna->role."</p></center>";
     }
-	public function index(){
-		$data['menu'] = array('home' => 'active', 'profile_construct'=>$this->profile_construct, 'pasien' => '', 'jadwal'=> '', 'inbox' => '', 'setting' => '');
-		$this->load->view('header-pusat', $data['menu']);
-		$this->load->view('pusat');
-		$this->load->view('footer');
-	}
-	
 	public function read2($n){
 		$Pasien = new pasien();
 		$Merawat = new merawat();
@@ -706,60 +699,6 @@ public function retrievejadwalp(){
 		$this->load->view('footer');
 	}	
 
-	public function send_message(){
-			$pengguna = new pengguna();
-			$pengguna->get();
-			$tujuan="";
-			foreach($pengguna as $row){
-				$tujuan .= "<option value='".$row->id."'>".$row->nama." (".$row->email.")</option>";
-			}
-
-		if($_SERVER['REQUEST_METHOD'] == 'POST'){
-			$subject = $_POST['subject'];
-			$isi = $_POST['isi'];
-
-			$pesan = new pesan();
-			$pengguna = new pengguna();
-
-			$pengguna->where('username', $_SESSION['pusat'])->get();
-			$pesan->pengguna_id=$pengguna->id;
-			$pesan->penerima_id=$_POST['tujuan'];
-			$pesan->subject=$subject;
-			$pesan->isi=$isi;
-
-			$pesan->validate();
-			if($pesan->valid){
-				$pesan->save();	
-					$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal'=>'', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
-							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-		  					<strong>Well done!</strong> Message has been sent.
-							</div>");
-			}
-			else{
-					$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal'=>'','setting' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
-							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-		  					<strong>Message has been not sent</strong>".$pesan->error->subject."".$pesan->error->isi."".$pesan->error->penerima_id."
-							</div>");
-				  					
-				  			// 		
-									// </div>");
-			}
-			$data['array'] = array('content' => $tujuan);	
-			//$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'inbox' => '', 'setting' => '');		
-			$this->load->view('header-pusat', $data['menu']);
-			$this->load->view('send_message_pusat', $data['array']);
-			$this->load->view('footer');
-			
-		}else{
-
-			$data['array'] = array('content' => $tujuan);	
-			$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal'=>'', 'setting' => '');
-			$this->load->view('header-pusat', $data['menu']);
-			$this->load->view('send_message_pusat', $data['array']);
-			$this->load->view('footer');
-		}
-
-	}
 
 		public function view_message(){
 		$content="";

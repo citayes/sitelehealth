@@ -45,7 +45,7 @@
                 <div class="collapse navbar-collapse navbar-right">
                     <ul class="nav navbar-nav">
                         <li class="<?php echo $home; ?>">
-                            <a href="<?php echo base_url(); ?>index.php/pusat">Home</a>
+                            <a href="<?php echo base_url(); ?>index.php/user/home">Home</a>
                         </li>
                         <li class="dropdown <?php echo $jadwal; ?>">
                              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Patient<strong class="caret"></strong></a>
@@ -62,7 +62,7 @@
                              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Inbox<strong class="caret"></strong></a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="<?php echo base_url(); ?>index.php/pusat/send_message">Create Message</a>
+                                    <a href="<?php echo base_url(); ?>index.php/user/send_message">Create Message</a>
                                 </li>
                                 <li>
                                     <a href="<?php echo base_url(); ?>index.php/pusat/view_message">View Message</a>

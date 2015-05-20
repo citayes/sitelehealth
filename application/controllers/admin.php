@@ -17,24 +17,6 @@ class Admin extends CI_Controller {
         <p>".$pengguna->role."</p></center>";
     }
 	//lancar
-	public function index(){
-		$dokter_gigi = new dokter_gigi();
-		$dokter_gigi->get();
-		$latlon=array();
-		$i=0;
-		foreach ($dokter_gigi as $row) {
-			$latlon[$i]=$dokter_gigi->latitude;
-			$latlon[$i].=",";
-			$latlon[$i].=$dokter_gigi->longitude;
-			$i++;
-		}
-		$data['menu'] = array('home' => 'active', 'manage' => '', 'jadwal' => '', 'inbox' => '', 'setting' => '', 'profile_construct'=>$this->profile_construct, 'latlon'=>$latlon);
-		$this->load->view('header-admin', $data['menu']);
-		$this->load->view('admin');
-		$this->load->view('footer');
-	}
-
-	//lancar
 	public function verify($page = 1){
 		$pengguna = new pengguna();
 		$pengguna->order_by('id', 'desc')->get();
@@ -666,64 +648,6 @@ class Admin extends CI_Controller {
 		$this->load->view('view_reference_admin', $data['array']);
 		$this->load->view('footer');
 	}
-
-	public function send_message_admin(){
-			$pengguna = new pengguna();
-			$pengguna->get();
-			$tujuan="";
-			foreach($pengguna as $row){
-				$tujuan .= "<option value='".$row->id."'>".$row->nama."</option>";
-			}
-
-		if($_SERVER['REQUEST_METHOD'] == 'POST'){
-			$subject = $_POST['subject'];
-			$isi = $_POST['isi'];
-
-			$pesan = new pesan();
-			$pengguna = new pengguna();
-
-			$pengguna->where('username', $_SESSION['admin'])->get();
-			$pesan->pengguna_id=$pengguna->id;
-			$pesan->penerima_id=$_POST['tujuan'];
-			$pesan->subject=$subject;
-			$pesan->isi=$isi;
-
-			$pesan->validate();
-			if($pesan->valid){
-				$pesan->save();	
-					$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => 'active', 'setting' => '', 'profile_construct'=>$this->profile_construct, 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
-							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-		  					<strong>Well done!</strong> Message has been sent.
-							</div>");
-			}
-			else{
-					$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => 'active', 'setting' => '', 'profile_construct'=>$this->profile_construct, 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
-							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-		  					<strong>Message has been not sent</strong>".$pesan->error->subject."".$pesan->error->isi."".$pesan->error->penerima_id."
-							</div>");
-				  					
-				  			// 		
-									// </div>");
-			}
-			$data['array'] = array('content' => $tujuan);	
-			//$data['menu'] = array('home' => '', 'pasien' => 'active', 'inbox' => '', 'setting' => '');		
-			$this->load->view('header-admin', $data['menu']);
-			$this->load->view('send_message_admin', $data['array']);
-			$this->load->view('footer');
-			
-		}else{
-
-			$data['array'] = array('content' => $tujuan);	
-			$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => 'active', 'setting' => '', 'profile_construct'=>$this->profile_construct);		
-			$this->load->view('header-admin', $data['menu']);
-			$this->load->view('send_message_admin', $data['array']);
-			$this->load->view('footer');
-		}
-
-	}
-
-
-
 	public function list_pengguna_admin(){	
 		$pengguna = new pengguna();
 		$pengguna->get();

@@ -39,7 +39,7 @@ echo $profile_construct;
                     <textarea name="isi" class="form-control" rows="10" id="isi" placeholder="Your Message"required></textarea>
                   </div>
                    <button type="submit" class="btn btn-primary">Send</button>
-                   <button type="cancel" onclick="javascript:window.location='../homepage';" class="btn btn-warning">Cancel</button>
+                   <button type="cancel" onclick="javascript:window.location='home';" class="btn btn-warning">Cancel</button>
                 </form>
     </div>
     <div class="col-md-2"></div>
