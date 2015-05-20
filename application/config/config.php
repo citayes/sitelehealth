@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://localhost/sitelehealth';
+$config['base_url']	= 'http://localhost:85/sitelehealth';
 
 /*
 |--------------------------------------------------------------------------

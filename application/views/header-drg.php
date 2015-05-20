@@ -62,11 +62,16 @@
                                 <li>
                                     <a href="<?php echo base_url(); ?>index.php/drg/send_message">Create Message</a>
                                 </li>
-                                <li>
-                                    <a href="<?php echo base_url(); ?>index.php/drg/list_reference_drg">Inbox-Reference</a>
-                                </li>
-                                <li>
-                                    <a href="<?php echo base_url(); ?>index.php/drg/view_message">Inbox-Message</a>
+                                <li id="result-side-menu" class="dropdown dropdown-submenu">
+                                    <a tabindex="-1" href="#">Inbox</a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="<?php echo base_url(); ?>index.php/drg/list_reference_drg">Reference</a>
+                                        </li>
+                                        <li>                             
+                                            <a href="<?php echo base_url(); ?>index.php/drg/view_message">Message</a>
+                                        </li>
+                                    </ul>
                                 </li>
                                 <li>
                                     <a href="<?php echo base_url(); ?>index.php/drg/list_outbox_drg">Outbox</a>

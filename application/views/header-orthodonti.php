@@ -64,14 +64,19 @@
                                 <li>
                                     <a href="<?php echo base_url(); ?>index.php/orthodonti/send_message">Create Message</a>
                                 </li>
-                                <li>
-                                    <a href="<?php echo base_url(); ?>index.php/orthodonti/view_reference">Inbox-Reference</a>
-                                </li>
-                                <li>
-                                    <a href="<?php echo base_url(); ?>index.php/orthodonti/view_message">Inbox-Message</a>
-                                </li>
-                                <li>
-                                    <a href="<?php echo base_url(); ?>index.php/orthodonti/list_reference">Inbox-Reference from FKG UI</a>
+                                <li id="result-side-menu" class="dropdown dropdown-submenu">
+                                    <a tabindex="-1" href="#">Inbox</a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="<?php echo base_url(); ?>index.php/orthodonti/view_reference">Reference</a>
+                                        </li>
+                                        <li>                             
+                                            <a href="<?php echo base_url(); ?>index.php/orthodonti/view_message">Message</a>
+                                        </li>
+                                        <li>
+                                            <a href="<?php echo base_url(); ?>index.php/orthodonti/list_reference">Reference from FKG UI</a>
+                                        </li>
+                                    </ul>
                                 </li>
                                 <li>
                                     <a href="<?php echo base_url(); ?>index.php/orthodonti/list_outbox_orthodonti">Outbox</a>

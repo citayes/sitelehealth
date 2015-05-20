@@ -73,6 +73,7 @@
                                 <li>
                                     <a href="<?php echo base_url(); ?>index.php/admin/send_message_admin">Create Message</a>
                                 </li> 
+<<<<<<< Updated upstream
                                 <li>
                                     <a href="<?php echo base_url(); ?>index.php/admin/diagnosa">Inbox-Diagnose</a>
                                 </li>                           
@@ -81,6 +82,21 @@
                                 </li>
                                 <li>
                                     <a href="<?php echo base_url(); ?>index.php/admin/view_message_admin">Inbox-Message</a>
+=======
+                                <li id="result-side-menu" class="dropdown dropdown-submenu">
+                                    <a tabindex="-1" href="#">Inbox</a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="<?php echo base_url(); ?>index.php/admin/diagnosa">Diagnose</a>
+                                        </li>
+                                        <li>                             
+                                            <a href="<?php echo base_url(); ?>index.php/admin/verify">Member Verification</a>
+                                        </li>
+                                        <li>
+                                            <a href="<?php echo base_url(); ?>index.php/admin/view_message_admin">Message</a>
+                                        </li>
+                                    </ul>
+>>>>>>> Stashed changes
                                 </li>
                                 <li>
                                     <a href="<?php echo base_url(); ?>index.php/admin/list_outbox">Outbox</a>
