@@ -36,7 +36,7 @@
 						<div class="tab-content">
 							<div class="tab-pane active" id="panel-346120">
 								<div class="cform" id="contact-form">
-									<form  method="post" action="edit_profile">
+									<form  method="post" action="editProfile">
 									  <div class="form-group">
 										<label for="nama">Name</label>
 										<input type="text" class="form-control" name="Nama" value="<?php echo $nama;?>" required autofocus>

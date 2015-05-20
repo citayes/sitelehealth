@@ -26,7 +26,7 @@
                             <div class="panel-heading">
                               <h4 class="section-heading animated" data-animation="bounceInUp"><span class="glyphicon glyphicon-lock"></span>Change Password</h4></div>
                               <div class="panel-body">
-                                <form class="form-horizontal" role="form" method="post" action="change">
+                                <form class="form-horizontal" role="form" method="post" action="changePassword">
                                   <div class="form-group">
                                   <label class="col-sm-3 control-label" for="oldpassword">Your Old Password</label>
                                     <div class="col-sm-9">

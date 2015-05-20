@@ -88,10 +88,10 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings<strong class="caret"></strong></a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="<?php echo base_url(); ?>index.php/orthodonti/edit_profile">Edit Profile</a>
+                                    <a href="<?php echo base_url(); ?>index.php/user/editProfile">Edit Profile</a>
                                 </li>
                                 <li>
-                                    <a href="<?php echo base_url(); ?>index.php/orthodonti/change">Change Password</a>
+                                    <a href="<?php echo base_url(); ?>index.php/user/changePassword">Change Password</a>
                                 </li>
                             </ul>
                         </li>

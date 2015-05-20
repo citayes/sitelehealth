@@ -25,15 +25,19 @@ class Homepage extends CI_Controller {
 				if($pengguna->fverifikasi=="y"){
 					if($pengguna->password==$Password){
 						if($pengguna->role=="admin"){
+							$_SESSION['id'] = $pengguna->id;
 							$_SESSION['admin'] = $Username;
 							redirect('admin');
 						}else if($pengguna->role=="umum"){
+							$_SESSION['id'] = $pengguna->id;
 							$_SESSION['drg'] = $Username;
 							redirect('drg');
 						}else if($pengguna->role=="orthodonti"){
+							$_SESSION['id'] = $pengguna->id;
 							$_SESSION['orthodonti'] = $Username;	
 							redirect('orthodonti');
 						}else if($pengguna->role=="pusat"){
+							$_SESSION['id'] = $pengguna->id;
 							$_SESSION['pusat'] = $Username;
 							redirect('pusat');
 						}

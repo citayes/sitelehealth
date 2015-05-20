@@ -19,9 +19,6 @@
 
     <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>asset/css/jquery.gritter.css" />
     
-    <script src="http://maps.googleapis.com/maps/api/js"></script>
-    </script>
-     
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>
@@ -73,16 +70,6 @@
                                 <li>
                                     <a href="<?php echo base_url(); ?>index.php/admin/send_message_admin">Create Message</a>
                                 </li> 
-<<<<<<< Updated upstream
-                                <li>
-                                    <a href="<?php echo base_url(); ?>index.php/admin/diagnosa">Inbox-Diagnose</a>
-                                </li>                           
-                                <li>
-                                    <a href="<?php echo base_url(); ?>index.php/admin/verify/1">Inbox-Member Verification</a>
-                                </li>
-                                <li>
-                                    <a href="<?php echo base_url(); ?>index.php/admin/view_message_admin">Inbox-Message</a>
-=======
                                 <li id="result-side-menu" class="dropdown dropdown-submenu">
                                     <a tabindex="-1" href="#">Inbox</a>
                                     <ul class="dropdown-menu">
@@ -96,7 +83,6 @@
                                             <a href="<?php echo base_url(); ?>index.php/admin/view_message_admin">Message</a>
                                         </li>
                                     </ul>
->>>>>>> Stashed changes
                                 </li>
                                 <li>
                                     <a href="<?php echo base_url(); ?>index.php/admin/list_outbox">Outbox</a>
@@ -108,10 +94,10 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings<strong class="caret"></strong></a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="<?php echo base_url(); ?>index.php/admin/edit_profile">Edit Profile</a>
+                                    <a href="<?php echo base_url(); ?>index.php/user/editProfile">Edit Profile</a>
                                 </li>
                                 <li>
-                                    <a href="<?php echo base_url(); ?>index.php/admin/change">Change Password</a>
+                                    <a href="<?php echo base_url(); ?>index.php/user/changePassword">Change Password</a>
                                 </li>
                             </ul>
                         </li>

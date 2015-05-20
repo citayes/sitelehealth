@@ -13,63 +13,6 @@ class Pusat extends CI_Controller {
 		$this->load->view('pusat');
 		$this->load->view('footer');
 	}
-
-	public function edit_profile(){
-		session_start();
-		if(!isset($_SESSION['pusat']))
-			redirect ("homepage");
-
-		$pengguna = new pengguna();
-		$pengguna->where('username', $_SESSION['pusat'])->get();
-		$id = $pengguna->id;
-		$dokter_gigi = new dokter_gigi();
-		$dokter_gigi->where('pengguna_id', $id)->get();
-
-		$data['array'] = array('nama' => $pengguna->nama, 'tempat_lahir' => $pengguna->tempat_lahir, 'tanggal_lahir' => $pengguna->tanggal_lahir, 
-			'warga_negara' => $pengguna->warga_negara, 'agama' => $pengguna->agama, 'kursus' => $dokter_gigi->kursus,
-			'pendidikan' => $dokter_gigi->pendidikan_dokter, 'alamat'=> $dokter_gigi->alamat_prakitk, 'kodepos'=> $dokter_gigi->kode_pos);
-
-		if($_SERVER['REQUEST_METHOD'] == 'POST'){
-			$Nama = $_POST['Nama'];
-			$Tempat_Lahir = $_POST['Tempat_Lahir'];
-			$Tanggal_Lahir = $_POST['Tanggal_Lahir'];
-			$Warga_Negara = $_POST['Warga_Negara'];
-			$Agama = $_POST['Agama'];
-			
-			$pengguna = new pengguna();
-			//$pengguna->where('username', $_SESSION['admin'])->get();
-			$pengguna->where('username', $_SESSION['pusat'])->update('nama',$Nama);
-			$pengguna->where('username', $_SESSION['pusat'])->update('tempat_lahir',$Tempat_Lahir);
-			$pengguna->where('username', $_SESSION['pusat'])->update('tanggal_lahir',$Tanggal_Lahir);
-			$pengguna->where('username', $_SESSION['pusat'])->update('warga_negara',$Warga_Negara);
-			$pengguna->where('username', $_SESSION['pusat'])->update('agama',$Agama);
-
-			$dokter_gigi->where('pengguna_id', $id)->update('kursus', $_POST['kursus']);
-			$dokter_gigi->where('pengguna_id', $id)->update('pendidikan_dokter', $_POST['pendidikan']);
-			$dokter_gigi->where('pengguna_id', $id)->update('alamat_prakitk', $_POST['alamat']);	
-			$dokter_gigi->where('pengguna_id', $id)->update('kode_pos', $_POST['kodepos']);
-
-			$pengguna->where('username', $_SESSION['pusat'])->get();
-			$dokter_gigi->where('pengguna_id', $id)->get();
-			$data['array'] = array('nama' => $pengguna->nama, 'tempat_lahir' => $pengguna->tempat_lahir, 'tanggal_lahir' => $pengguna->tanggal_lahir, 
-			'warga_negara' => $pengguna->warga_negara, 'agama' => $pengguna->agama, 'kursus' => $dokter_gigi->kursus,
-			'pendidikan' => $dokter_gigi->pendidikan_dokter, 'alamat'=> $dokter_gigi->alamat_prakitk, 'kodepos'=> $dokter_gigi->kode_pos);
-			$data['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> '', 'inbox' => '', 'setting' => 'active', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
-							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-		  					<strong>Well done!</strong> Profile has been updated.
-							</div>");
-			$this->load->view('header-pusat', $data['menu']);
-			$this->load->view('edit_profile-pusat', $data['array']);
-			$this->load->view('footer');
-		
-		}else{
-			$data['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> '', 'inbox' => '', 'setting' => 'active');
-			$this->load->view('header-pusat', $data['menu']);
-			$this->load->view('edit_profile-pusat', $data['array']);
-			$this->load->view('footer');
-		}
-		
-	}
 	
 	public function read2($n){
 		session_start();
@@ -134,59 +77,6 @@ class Pusat extends CI_Controller {
 		$this->load->view('footer');
 	}
 
-	public function change(){
-		session_start();
-		if(!isset($_SESSION['pusat']))
-		redirect ("pusat");
-		 if($_SERVER['REQUEST_METHOD'] == 'POST'){
-			$OldPassword = $_POST['OldPassword'];
-			$NewPassword = $_POST['NewPassword'];
-			$RNewPassword = $_POST['RNewPassword'];
-
-			$pengguna = new pengguna();
-			$pengguna->where('username', $_SESSION['pusat'])->get();
-			
-			$isRegistered = $pengguna->result_count() == 0 ? false : true;
-			if($isRegistered){
-				if($pengguna->username==$_SESSION['pusat']){
-					if($pengguna->password == $OldPassword){
-						if($NewPassword==$RNewPassword){
-							$pengguna->where('username', $_SESSION['pusat'])->update('password',$NewPassword);
-							$data['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> '', 'inbox' => '', 'setting' => 'active', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
-									<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-				  					<strong>Well done!</strong> Password has been changed.
-									</div>");
-							$this->load->view('header-pusat', $data['menu']);
-							$this->load->view('changepassword-pusat');
-							$this->load->view('footer');
-						}else{
-							$data['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> '', 'inbox' => '', 'setting' => 'active', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
-							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-		  					<strong>Warning!</strong> Wrong new password.
-							</div>");	
-							$this->load->view('header-pusat', $data['menu']);
-							$this->load->view('changepassword-pusat');
-							$this->load->view('footer');
-						}
-					}else{
-						$data['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> '', 'inbox' => '', 'setting' => 'active', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
-						<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-	  					<strong>Warning!</strong> Wrong password.
-						</div>");
-						$this->load->view('header-pusat', $data['menu']);
-						$this->load->view('changepassword-pusat');
-						$this->load->view('footer');
-					}
-				}
-			}
-
-		}else{
-		$data['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> '', 'inbox' => '', 'setting' => 'active');
-		$this->load->view('header-pusat', $data['menu']);
-		$this->load->view('changepassword-pusat');
-		$this->load->view('footer');
-		}	
-	}
 	public function logout(){
 			session_start();
 			//hapus session
