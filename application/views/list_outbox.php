@@ -49,66 +49,10 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <nav>
-                                                  <ul class="pager">
-                                                    <?php
-                                                       $content.='<table class="table">
-                                                                    <tr>
-                                                                    <td><center><b>Time</center></b></td>
-                                                                    <td><center><b>To</center></b></td>
-                                                                    <td><center><b>Information</center></b></td>
-                                                                    <td><center><b>Operation</center></b></td>
-                                                                </tr>';
+                                                <?php
+                                                echo $content;
 
-                                                       foreach($mengirim as $row){
-                                                            //foreach ($pesan as $row1) {
-
-                                                                if($row->umum_id!=null && $row->admin_id!=null && $row->flag_outbox!=1){
-                                                                    $nama_penerima = new pengguna();
-                                                                    $nama_penerima->where('id', $row->umum_id)->get();
-                                                                    $content .= "<tr><td><center>".$row->waktu."</center></a></td>
-                                                                                    <td><center>".$nama_penerima->nama."</center></td>
-                                                                                    <td><center>Reference and Diagnosis</center></td>
-                                                                                    <td><center><a class='btn btn-primary' href='../view_reference_admin/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
-                                                                }
-                                                                else if($row->orto_id!=null && $row->admin_id!=null && $row->flag_outbox!=1){
-                                                                    echo 'lala';
-                                                                    $nama_penerima1 = new pengguna();
-                                                                    $nama_penerima1->where('id', $row->orto_id)->get();
-                                                                    $content .= "<tr><td><center>".$row->waktu."</center></a></td>
-                                                                                    <td><center>".$nama_penerima1->nama."</center></td>
-                                                                                    <td><center>Reference and Diagnosis</center></td>
-                                                                                    <td><center><a class='btn btn-primary' href='../view_reference_admin/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
-                                                                }
-                                                                else if($row->umum_id!=null && $row->admin_id!=null && $row->flag_outbox==1){
-                                                                    $nama_penerima = new pengguna();
-                                                                    $nama_penerima->where('id', $row->umum_id)->get();
-                                                                    $content .= "<tr><td><b><center>".$row->waktu."</center></b></a></td>
-                                                                                    <td><center><b>".$nama_penerima->nama."</b></center></td>
-                                                                                    <td><center><b>Reference and Diagnosis</b></center></td>
-                                                                                    <td><center><b><a class='btn btn-primary' href='../view_reference_admin/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></b></center></td></tr>";                   
-                                                                }
-                                                                else if($row->orto_id!=null && $row->admin_id!=null && $row->flag_outbox==1){
-                                                                    echo 'lala';
-                                                                    $nama_penerima1 = new pengguna();
-                                                                    $nama_penerima1->where('id', $row->orto_id)->get();
-                                                                    $content .= "<tr><td><b><center>".$row->waktu."</center></b></a></td>
-                                                                                    <td><b><center>".$nama_penerima1->nama."</center></b></td>
-                                                                                    <td><<b>center>Reference and Diagnosis</center></b></td>
-                                                                                    <td><center><b><a class='btn btn-primary' href='../view_reference_admin/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></b></center></td></tr>";
-                                                                }
-                                                            
-                                                        }
-                                                        $content .= "</table>";
-                                                        echo $content;
-                                                    if($mengirim->paged->has_previous): ?>
-                                                    <li class="previous"><a href="<?= site_url('admin/list_outbox/'.$mengirim->paged->previous_page) ?>"><span aria-hidden="true">&larr;</span> Newer</a></li>
-                                                    
-                                                    <?php elseif($mengirim->paged->has_next): ?>
-                                                    <li class="next"><a href="<?= site_url('admin/list_outbox/'.$mengirim->paged->next_page) ?>">Older <span aria-hidden="true">&rarr;</span></a></li>
-                                                    <?php endif; ?>
-                                                  </ul>
-                                                </nav>
+                                                ?>
                                             </div>
                                         </div>
                                     </div>
@@ -133,45 +77,10 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <nav>
-                                                  <ul class="pager">
-                                                    <?php
-                                                       $content1.='<table class="table">
-                                                            <tr>
-                                                            <td><center><b>Time</center></b></td>
-                                                            <td><center><b>To</center></b></td>
-                                                            <td><center><b>Information</center></b></td>
-                                                            <td><center><b>Operation</center></b></td>
-                                                        </tr>';
+                                            <?php
+                                            echo $content1;
 
-                                                       foreach ($pesan as $row) {
-                                                            if($row->pengguna_id==$pengguna_id_lala && $row->flag_outbox!=1){
-                                                                $nama_penerima = new pengguna();
-                                                                    $nama_penerima->where('id', $row->penerima_id)->get();
-                                                                    $content1 .= "<tr><td><center>".$row->waktu."</center></a></td>
-                                                                                    <td><center>".$nama_penerima->nama."</center></td>
-                                                                                    <td><center>Message</center></td>
-                                                                                    <td><center><a class='btn btn-primary' href='../outbox_message_admin/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
-                                                            }
-                                                            if($row->pengguna_id==$pengguna_id_lala && $row->flag_outbox==1){
-                                                                $nama_penerima = new pengguna();
-                                                                    $nama_penerima->where('id', $row->penerima_id)->get();
-                                                                    $content1 .= "<tr><td><b><center>".$row->waktu."</center></b></a></td>
-                                                                                    <td><b><center>".$nama_penerima->nama."</center></b></td>
-                                                                                    <td><b><center>Message</center></b></td>
-                                                                                    <td><center><b><a class='btn btn-primary' href='../outbox_message_admin/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></b></center></td></tr>";
-                                                            }
-                                                        }
-                                                        $content1 .= "</table>";
-                                                        echo $content1;
-                                                    if($pesan->paged->has_previous): ?>
-                                                    <li class="previous"><a href="<?= site_url('admin/list_outbox/'.$pesan->paged->previous_page) ?>"><span aria-hidden="true">&larr;</span> Newer</a></li>
-                                                    
-                                                    <?php elseif($pesan->paged->has_next): ?>
-                                                    <li class="next"><a href="<?= site_url('admin/list_outbox/'.$pesan->paged->next_page) ?>">Older <span aria-hidden="true">&rarr;</span></a></li>
-                                                    <?php endif; ?>
-                                                  </ul>
-                                                </nav>
+                                            ?>
                                         </div>
                                     </div>
                                 </div>

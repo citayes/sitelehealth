@@ -77,7 +77,7 @@
                                     <a href="<?php echo base_url(); ?>index.php/admin/diagnosa">Inbox-Diagnose</a>
                                 </li>                           
                                 <li>
-                                    <a href="<?php echo base_url(); ?>index.php/admin/verify/1">Inbox-Member Verification</a>
+                                    <a href="<?php echo base_url(); ?>index.php/admin/verify">Inbox-Member Verification</a>
                                 </li>
                                 <li>
                                     <a href="<?php echo base_url(); ?>index.php/admin/view_message_admin">Inbox-Message</a>

@@ -13,18 +13,37 @@ class Admin extends CI_Controller {
 	}
 
 	//lancar
-	public function verify($page = 1){
+	public function verify(){
 		session_start();
 		if(!isset($_SESSION['admin']))
 			redirect ("homepage");
 		
 		$pengguna = new pengguna();
-		$pengguna->order_by('id', 'desc')->get();
-		$pengguna->where('fverifikasi', 'n')->get_paged($page, 12);
-		//s$temp = "";
-
+		$pengguna->where('fverifikasi', 'n')->get();
+		$temp = "";
+		foreach($pengguna as $row){
+							$temp .= "
+							<div class='col-md-4'>
+								<div class='thumbnail'>
+									<center><img alt='140x140' src='../../".$row->foto."' style='width:125px; height:125px;' class='img-circle'></center>
+									<div class='caption'>
+										<h4><center>".$row->username."</center></h4>
+										<center>
+										<p>".$row->nama."</p>
+										<p>".$row->email."</p>
+										<p>".$row->role."</p>
+										<p>
+											<a class='btn btn-primary' href='../admin/view_data_dokter/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'> Details</span></a> 
+											<a class='btn btn-danger' href='../admin/decline/".$row->id."'><span class='glyphicon glyphicon-trash' aria-hidden='true'> Decline</span></a>
+										</p>
+										</center>
+									</div>
+								</div>
+							</div>";
+					$data['array']= array('content' => $temp);
 		
-		$data['array']= array('content' => $pengguna->where('fverifikasi', 'n')->get_paged($page, 9));
+		}
+		$data['array']= array('content' => $temp);
 		$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => 'active', 'setting' => '');	
 		$this->load->view('header-admin', $data['menu']);
 		$this->load->view('verify', $data['array']);
@@ -315,7 +334,7 @@ class Admin extends CI_Controller {
 	}
 
 		//lancar
-	public function retrieve($page = 1 ){
+	public function retrieve(){
 		session_start();
 		if(!isset($_SESSION['admin']))
 			redirect ("homepage");
@@ -323,11 +342,29 @@ class Admin extends CI_Controller {
 		$pengguna = new pengguna();
 			$pengguna->get();
 			$temp = "";
-			$pengguna->order_by('id', 'desc');
-			$pengguna->where('fverifikasi', 'y')->get_paged($page, 10);
-
-			
-		$data['array']= array('content' => $pengguna->where('fverifikasi', 'y')->get_paged($page, 10));	
+			foreach($pengguna as $row){
+				if($row->role != "admin" && $row->fverifikasi == "y"){
+						$temp .= "
+						<div class='col-md-4'>
+							<div class='thumbnail'>
+								<center><img alt='140x140' src='../../".$row->foto."' style='width:125px; height:125px;' class='img-circle'></center>
+								<div class='caption'>
+									<h4><center>".$row->username."</center></h4>
+									<center>
+									<p>".$row->nama."</p>
+									<p>".$row->email."</p>
+									<p>".$row->role."</p>
+									<p>
+										<a class='btn btn-primary' href='../admin/view/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'> Details</span></a>
+										<a class='btn btn-danger' href='../admin/delete1/".$row->id."'><span class='glyphicon glyphicon-trash' aria-hidden='true'> Delete </span></a> 
+									</p>
+									</center>
+								</div>
+							</div>
+						</div>";
+				$data['array']= array('content' => $temp);		
+			}
+			}
 		$data['menu'] = array('home' => '', 'manage' => 'active', 'jadwal' => '', 'inbox' => '', 'setting' => '');	
 		$this->load->view('header-admin', $data['menu']);
 		$this->load->view('retrieve', $data['array']);
@@ -519,18 +556,47 @@ class Admin extends CI_Controller {
 
 		
 
-	public function diagnosa($page = 1){
+	public function diagnosa(){
 		session_start();
 		if(!isset($_SESSION['admin']))
 			redirect ("homepage");
 
 		$analisi = new analisi();
-		$analisi->order_by('waktu', 'desc');
-		$analisi->where('flag_mengirim', '1')->get_paged($page, 10);
+		$analisi->order_by('id', 'desc')->get();
 		$content="";
+		if($analisi->result_count() != 0){
+			$content = "<table class='table'>
+						<tr>
+							<td><center><b>Date</b><center></td>
+							<td><center><b>Patient's name</center></b></td>
+							<td><center><b>FKG UI's Id</center></b></td>
+							<td><center><b>Operation</center></b></td>
+						</tr>";
+			foreach($analisi as $row){
+				if($row->flag_mengirim=='1' && $row->flag_membaca!=1){
+					$pasien = new pasien();
+					$pasien->where('id', $row->pasien_id)->get();
+					$content .= "<tr><td><center>".$row->waktu."</center></a></td>
+								 <td><center>".$pasien->nama."</center></td>
+								 <td><center>".$row->orto_id."</center></td>
+								 <td><center><a class='btn btn-primary' href='../admin/read_diagnosa/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'> Detail</span></a></center></td></tr>";
+				}
+				else if($row->flag_mengirim=='1' && $row->flag_membaca==1){
+					$pasien = new pasien();
+					$pasien->where('id', $row->pasien_id)->get();
+					$content .= "<tr><td><b><center>".$row->waktu."</center></a></b></td>
+								 <td><b><center>".$pasien->nama."</center></b></td>
+								 <td><b><center>".$row->orto_id."</center></b></td>
+								 <td><b><center><a class='btn btn-primary' href='../admin/read_diagnosa/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'> Detail</span></a></center></b></td></tr>";
+				}
+			}
+			$content .=  "</table>";
+			$data['array']=array('content'=>$content);
+		}
+		else{
+			$data['array']=array();
+		}
 		
-		
-		$data['array']=array('analisi'=>$analisi);
 		$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => 'active', 'setting' => '');	
 		$this->load->view('header-admin', $data['menu']);
 		$this->load->view('diagnosa', $data['array']);
@@ -765,7 +831,7 @@ class Admin extends CI_Controller {
 		$this->load->view('footer');
 	}
 
-	public function list_outbox($page = 1){
+	public function list_outbox(){
 		session_start();
 		if(!isset($_SESSION['admin']))
 			redirect ("homepage");
@@ -779,18 +845,85 @@ class Admin extends CI_Controller {
 		$lala = $pengguna->id;
 		$pesan = new pesan();
 		$pesan->get();
+		$content.='<table class="table">
+				<tr>
+				<td><center><b>Time</center></b></td>
+				<td><center><b>To</center></b></td>
+				<td><center><b>Information</center></b></td>
+				<td><center><b>Operation</center></b></td>
+			</tr>';
+		$content1.='<table class="table">
+				<tr>
+				<td><center><b>Time</center></b></td>
+				<td><center><b>To</center></b></td>
+				<td><center><b>Information</center></b></td>
+				<td><center><b>Operation</center></b></td>
+			</tr>';
+		foreach($mengirim->order_by('id', 'desc')->get() as $row){
+			//foreach ($pesan as $row1) {
 
-		$mengirim->order_by('waktu', 'desc');
-		$mengirim->where('admin_id', '123142')->get_paged($page, 10);
-		$pesan->order_by('waktu', 'desc');
-		$pesan->where('pengguna_id', $lala)->get_paged($page, 10);
-					
+				if($row->umum_id!=null && $row->admin_id!=null && $row->flag_outbox!=1){
+					$nama_penerima = new pengguna();
+					$nama_penerima->where('id', $row->umum_id)->get();
+					$content .= "<tr><td><center>".$row->waktu."</center></a></td>
+									<td><center>".$nama_penerima->nama."</center></td>
+									<td><center>Reference and Diagnosis</center></td>
+									<td><center><a class='btn btn-primary' href='../admin/view_reference_admin/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
+				}
+				else if($row->orto_id!=null && $row->admin_id!=null && $row->flag_outbox!=1){
+					echo 'lala';
+					$nama_penerima1 = new pengguna();
+					$nama_penerima1->where('id', $row->orto_id)->get();
+					$content .= "<tr><td><center>".$row->waktu."</center></a></td>
+									<td><center>".$nama_penerima1->nama."</center></td>
+									<td><center>Reference and Diagnosis</center></td>
+									<td><center><a class='btn btn-primary' href='../admin/view_reference_admin/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
+				}
+				else if($row->umum_id!=null && $row->admin_id!=null && $row->flag_outbox==1){
+					$nama_penerima = new pengguna();
+					$nama_penerima->where('id', $row->umum_id)->get();
+					$content .= "<tr><td><b><center>".$row->waktu."</center></b></a></td>
+									<td><center><b>".$nama_penerima->nama."</b></center></td>
+									<td><center><b>Reference and Diagnosis</b></center></td>
+									<td><center><b><a class='btn btn-primary' href='../admin/view_reference_admin/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></b></center></td></tr>";					
+				}
+				else if($row->orto_id!=null && $row->admin_id!=null && $row->flag_outbox==1){
+					echo 'lala';
+					$nama_penerima1 = new pengguna();
+					$nama_penerima1->where('id', $row->orto_id)->get();
+					$content .= "<tr><td><b><center>".$row->waktu."</center></b></a></td>
+									<td><b><center>".$nama_penerima1->nama."</center></b></td>
+									<td><<b>center>Reference and Diagnosis</center></b></td>
+									<td><center><b><a class='btn btn-primary' href='../admin/view_reference_admin/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></b></center></td></tr>";
+				}
+			
+		} 
+		foreach ($pesan->order_by('id', 'desc')->get() as $row) {
+			if($row->pengguna_id==$lala && $row->flag_outbox!=1){
+				$nama_penerima = new pengguna();
+					$nama_penerima->where('id', $row->penerima_id)->get();
+					$content1 .= "<tr><td><center>".$row->waktu."</center></a></td>
+									<td><center>".$nama_penerima->nama."</center></td>
+									<td><center>Message</center></td>
+									<td><center><a class='btn btn-primary' href='../admin/outbox_message_admin/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
+			}
+			if($row->pengguna_id==$lala && $row->flag_outbox==1){
+				$nama_penerima = new pengguna();
+					$nama_penerima->where('id', $row->penerima_id)->get();
+					$content1 .= "<tr><td><b><center>".$row->waktu."</center></b></a></td>
+									<td><b><center>".$nama_penerima->nama."</center></b></td>
+									<td><b><center>Message</center></b></td>
+									<td><center><b><a class='btn btn-primary' href='../admin/outbox_message_admin/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></b></center></td></tr>";
+			}
+		}
+				
+		$content.='</table>';
+		$content1.='</table>';
 
-		$data['array'] = array('mengirim' => $mengirim, 'pesan' => $pesan, '$pengguna_id_lala' => $pengguna->id );
 		$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => 'active', 'setting' => '', 'content'=>$content, 'content1'=>$content1);
 		//$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'setting' => '');
 		$this->load->view('header-admin', $data['menu']);
-		$this->load->view('list_outbox', $data['array']);
+		$this->load->view('list_outbox');
 		$this->load->view('footer');
 	}
 
