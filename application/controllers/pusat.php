@@ -397,6 +397,7 @@ function do_upload(){
 		$pasien= new pasien();
         $pengguna = new pengguna();
 		
+		
 		$data['array']=array('merawat' => $merawat);
 		$data['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> '', 'inbox' => 'active', 'setting' => '', 'content'=>$content);
 		$this->load->view('header-pusat', $data['menu']);
