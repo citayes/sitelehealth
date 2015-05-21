@@ -49,10 +49,10 @@
                              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Patient<strong class="caret"></strong></a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="<?php echo base_url(); ?>index.php/drg/pasien">Create Pasien</a>
+                                    <a href="<?php echo base_url(); ?>index.php/doktergigi/pasien">Create Pasien</a>
                                 </li>
                                 <li>
-                                    <a href="<?php echo base_url(); ?>index.php/drg/pasien_read/1">View Patient</a>
+                                    <a href="<?php echo base_url(); ?>index.php/doktergigi/getListPasien/1">View Patient</a>
                                 </li>
                             </ul>
                         </li>
@@ -66,7 +66,7 @@
                                     <a tabindex="-1" href="#">Inbox</a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="<?php echo base_url(); ?>index.php/drg/list_reference_drg">Reference</a>
+                                            <a href="<?php echo base_url(); ?>index.php/doktergigi/list_reference">Reference</a>
                                         </li>
                                         <li>                             
                                             <a href="<?php echo base_url(); ?>index.php/user/view_message">Message</a>

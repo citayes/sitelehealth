@@ -25,11 +25,31 @@
                         <?php if(isset($content)) echo $content;?>
                         <nav>
                           <ul class="pager">
-                            <?php if($medical_record->paged->has_previous): ?>
-                            <li class="previous"><a href="<?= site_url('drg/list_medical_record/'.$medical_record->paged->previous_page) ?>"><span aria-hidden="true">&larr;</span> Newer</a></li>
+                            <?php
+                                $content = "";
+                                  $content = "<table class='table table-hover'>";
+                                    $content .="<thead><tr>
+                                                    <td><center><b><strong>ID Medical Record</strong></b></center></td>
+                                                    <td><center><b><strong>Date</strong></b></center></td>
+                                                    <td><center><b><strong>Operation</strong></b></center></td>
+                                                    </tr>
+                                                </thead>";
+                                    foreach($medical_record as $row){
+                                        if($row->dokter_gigi_id == $dokter_gigi_id && $row->pasien_id==$pasien_id){
+                                            $content .= "<tr>
+                                                        <td><center>".$row->id."</center></td>
+                                                        <td><center>".$row->tanggal."</center></td>
+                                                        <td><center><a class='btn btn-primary' href='../view_medical_record/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a> 
+                                                        </center></td></tr>";
+                                        }
+                                    }
+                                    $content .= "</table>";
+                                    echo $content;
+                            if($medical_record->paged->has_previous): ?>
+                            <li class="previous"><a href="<?= site_url('doktergigi/list_medical_record/'.$medical_record->paged->previous_page) ?>"><span aria-hidden="true">&larr;</span> Newer</a></li>
                             
                             <?php elseif($medical_record->paged->has_next): ?>
-                            <li class="next"><a href="<?= site_url('drg/list_medical_record/'.$medical_record->paged->next_page) ?>">Older <span aria-hidden="true">&rarr;</span></a></li>
+                            <li class="next"><a href="<?= site_url('doktergigi/list_medical_record/'.$medical_record->paged->next_page) ?>">Older <span aria-hidden="true">&rarr;</span></a></li>
                             <?php endif; ?>
                           </ul>
                         </nav>
