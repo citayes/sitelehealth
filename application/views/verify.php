@@ -1,3 +1,10 @@
+<script>
+    function confirmDel(msg){
+        var x ="Are you sure to delete " + document.getElementById(msg).innerHTML+"?";
+        if (confirm(x) == true)
+            window.location.href = '../decline/'+msg;
+    }
+</script>
 <div id="wrapper">
     <!-- Sidebar -->
     <div id="sidebar-wrapper">
@@ -22,9 +29,9 @@ echo $profile_construct;
                                   <ul class="pager">
                                     <?php
                                     $temp="";
-                                    //var_dump($content->where('fverifikasi', 'n')->count());
                                     if($content->where('fverifikasi', 'n')->count()!=0){
                                       foreach($content->where('fverifikasi', 'n') as $row){
+                                        $alert="Are you sure you want to delete".$row->nama."?";//var_dump($content->where('fverifikasi', 'n')->count());
                                         $temp .= "
                                         <div class='col-md-4'>
                                             <div class='thumbnail'>
@@ -32,12 +39,12 @@ echo $profile_construct;
                                                 <div class='caption'>
                                                     <h4><center>".$row->username."</center></h4>
                                                     <center>
-                                                    <p>".$row->nama."</p>
+                                                    <p id=".$row->id.">".$row->nama."</p>
                                                     <p>".$row->email."</p>
                                                     <p>".$row->role."</p>
                                                     <p>
                                                         <a class='btn btn-primary' href='../view_data_dokter/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'> Details</span></a> 
-                                                        <a class='btn btn-danger' href='../decline/".$row->id."'><span class='glyphicon glyphicon-trash' aria-hidden='true'> Decline</span></a>
+                                                        <a class='btn btn-danger'  onclick='confirmDel(".$row->id.");'><span class='glyphicon glyphicon-trash' aria-hidden='true'> Decline</span></a>
                                                     </p>
                                                     </center>
                                                 </div>

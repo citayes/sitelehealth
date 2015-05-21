@@ -42,7 +42,7 @@ echo $profile_construct;
                                                                                         <td><center>".$pasien->nama."</center></td>
                                                                                         <td><center>".$pasien->nama."</center></td>
                                                                                         <td><center>".$pasien->nama."</center></td>
-                                                                                        <td><center><a class='btn btn-primary' href='../pusat/show_rujukan/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'> Detail</span></a></center></td>
+                                                                                        <td><center><a class='btn btn-primary' href='../show_rujukan/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'> Detail</span></a></center></td>
                                                                                         </tr>";
                                                                         }
                                                                         if($row->flag_membaca==1){
@@ -50,7 +50,7 @@ echo $profile_construct;
                                                                                         <td><b><center>".$pasien->nama."</center></b<</td>
                                                                                         <td><b><center>".$pasien->nama."</center></b></td>
                                                                                         <td><b><center>".$pasien->nama."</center></b></td>
-                                                                                        <td><b><center><a class='btn btn-primary' href='../pusat/show_rujukan/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'> Detail</span></a></center></b></td>
+                                                                                        <td><b><center><a class='btn btn-primary' href='../show_rujukan/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'> Detail</span></a></center></b></td>
                                                                                         </tr>";
                                                                         }
                                                                     }
