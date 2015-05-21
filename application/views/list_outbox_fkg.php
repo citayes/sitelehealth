@@ -53,7 +53,7 @@
                                                                         <td><center><b>Recipient Name</center></b></td>
                                                                         <td><center><b>Information</center></b></td>
                                                                         <td><center><b>Operation</center></b></td>
-                                                                    </tr>';
+                                                                    </tr>';//halo
                                                        foreach($mengirim as $row){
             //foreach ($pesan as $row1) {
                                                             if($row->admin_id==null && $row->pusat_id==$pusat_id && $row->umum_id!=null && $row->flag_outbox!=1){

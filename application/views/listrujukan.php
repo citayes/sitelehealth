@@ -56,6 +56,7 @@ echo $profile_construct;
                                                                     }
                                                                     $content .= '</table>';
                                                                     echo $content;
+                                                                    //halo
                                                                 }
 
                                                     if($merawat->paged->has_previous): ?>

@@ -496,7 +496,7 @@ function do_upload(){
 
 		 	}						
 		}
-		
+		//halo
 	}
 
 	public function view_doctor($m){
