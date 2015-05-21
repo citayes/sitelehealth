@@ -65,7 +65,7 @@
                                     <a href="<?php echo base_url(); ?>index.php/user/send_message">Create Message</a>
                                 </li>
                                 <li>
-                                    <a href="<?php echo base_url(); ?>index.php/pusat/view_message">View Message</a>
+                                    <a href="<?php echo base_url(); ?>index.php/user/view_message">View Message</a>
                                 </li>
                                 <li>
                                     <a href="<?php echo base_url(); ?>index.php/pusat/listrujukan">Reference Patient</a>

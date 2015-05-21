@@ -71,7 +71,7 @@
                                             <a href="<?php echo base_url(); ?>index.php/orthodonti/view_reference">Reference</a>
                                         </li>
                                         <li>                             
-                                            <a href="<?php echo base_url(); ?>index.php/orthodonti/view_message">Message</a>
+                                            <a href="<?php echo base_url(); ?>index.php/user/view_message">Message</a>
                                         </li>
                                         <li>
                                             <a href="<?php echo base_url(); ?>index.php/orthodonti/list_reference">Reference from FKG UI</a>

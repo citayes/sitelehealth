@@ -228,8 +228,9 @@ class DRG extends CI_Controller {
 		$data['array'] = array('content' => '<tr><td><b>Medical Record ID</b></td><td>'.$medical_record->id.'</td></tr>
 			<tr><td><b>Date</b></td><td>'.$medical_record->tanggal.'</td></tr>
 			<tr><td><b>Time</b></td><td>'.$medical_record->jam.'</td></tr>
-			<tr><td><center><img alt="140x140" src="../../../'.$medical_record->foto.'" style="width:125px; height:125px;" class="img-circle"></center></tr></td>
+			
 			<tr><td><b>Description</b></td><td>'.$medical_record->deskripsi.'</td></tr>
+			<tr><td colspan="2"><b>Photo</b><br><center><img alt="140x140" src="../../../'.$medical_record->foto.'"></center></tr></td>
 			<td><form method="post" action="../send_data/'.$n.'"><button type="submit" class="btn btn-primary ">Send to FKG UI</button></form>
 			</td></tr>');
 

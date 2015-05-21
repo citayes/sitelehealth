@@ -432,6 +432,71 @@ class User extends CI_Controller {
 			$this->load->view('footer');
 		}
 	}
+
+	public function view_message($page = 1){
+		$content="";
+		$pesan = new pesan();
+		$pesan->order_by('waktu', 'desc')->get();
+
+		$pengguna = new pengguna;
+		$pengguna->where('id', $_SESSION['id'])->get();		
+ 		$idPengguna = $pengguna->id;
+ 		$pesan->where('pengguna_id', $idPengguna)->get_paged($page, 10);
+
+		if($pengguna->where('id', $_SESSION['id'])->get()->role == 'umum'){	
+			$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct, 'setting' => '', 'content'=>$content);
+			$data['array']=array('pesan'=>$pesan, 'pengguna_id'=>$idPengguna);
+			$this->load->view('header-drg', $data['menu']);
+		}elseif($pengguna->where('id', $_SESSION['id'])->get()->role == 'orthodonti'){
+			$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct, 'setting' => '', 'content'=>$content);
+			$data['array']=array('pesan'=>$pesan, 'pengguna_id'=>$idPengguna);
+			$this->load->view('header-orthodonti', $data['menu']);
+		}elseif($pengguna->where('id', $_SESSION['id'])->get()->role == 'admin'){
+			$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => 'active', 'setting' => '', 'profile_construct'=>$this->profile_construct, 'content'=>$content);
+			$data['array']=array('pesan'=>$pesan, 'pengguna_id'=>$idPengguna);
+			$this->load->view('header-admin', $data['menu']);
+		}elseif($pengguna->where('id', $_SESSION['id'])->get()->role == 'pusat'){
+			$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct,'jadwal'=>'', 'setting' => '', 'content'=>$content);
+			$data['array']=array('pesan'=>$pesan, 'pengguna_id'=>$idPengguna);
+			$this->load->view('header-pusat', $data['menu']);
+		}
+
+		$this->load->view('view_message', $data['array']);
+		$this->load->view('footer');
+	}		
+
+	public function detail_message($n){
+		$pesan = new pesan();
+		$pesan->where('id', $n)->get();
+		$pengguna = new pengguna();
+		$pengguna->where('id',$pesan->pengguna_id)->get();
+		$pesan1 = new pesan();
+		$pesan1->where('id', $n)->update('flag_membaca', '2');
+		$data['array'] = array('content' => '<tr><td><b>Subject</b></td><td>'.$pesan->subject.'</td></tr>
+			<tr><td><b>Sender</b></td><td>'.$pengguna->nama.'</td></tr>
+			<tr><td><b>Message</b></td><td>'.$pesan->isi.'</td></tr>
+			</td></tr>');
+
+		if($pengguna->where('id', $_SESSION['id'])->get()->role == 'umum'){	
+			$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'inbox' => '', 'setting' => '');
+			$this->load->view('header-drg', $data['menu']);
+		}elseif($pengguna->where('id', $_SESSION['id'])->get()->role == 'orthodonti'){
+			$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'inbox' => '', 'setting' => '');
+			$this->load->view('header-orthodonti', $data['menu']);
+		}elseif($pengguna->where('id', $_SESSION['id'])->get()->role == 'admin'){
+			$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => 'active', 'setting' => '', 'profile_construct'=>$this->profile_construct);
+			$this->load->view('header-admin', $data['menu']);
+		}elseif($pengguna->where('id', $_SESSION['id'])->get()->role == 'pusat'){
+			$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct,'jadwal'=>'', 'setting' => '');
+			$this->load->view('header-pusat', $data['menu']);
+		}
+
+
+
+		
+		$this->load->view('detail_message', $data['array']); 
+		$this->load->view('footer');
+	}
 }
 
 ?>

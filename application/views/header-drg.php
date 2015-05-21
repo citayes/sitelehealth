@@ -69,7 +69,7 @@
                                             <a href="<?php echo base_url(); ?>index.php/drg/list_reference_drg">Reference</a>
                                         </li>
                                         <li>                             
-                                            <a href="<?php echo base_url(); ?>index.php/drg/view_message">Message</a>
+                                            <a href="<?php echo base_url(); ?>index.php/user/view_message">Message</a>
                                         </li>
                                     </ul>
                                 </li>

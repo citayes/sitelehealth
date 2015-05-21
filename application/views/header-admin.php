@@ -70,7 +70,7 @@
                                 <li>
                                     <a href="<?php echo base_url(); ?>index.php/user/send_message">Create Message</a>
                                 </li> 
-                                <li id="result-side-menu" class="dropdown dropdown-submenu">
+                                <li id="result-side-menu" class="dropdown-submenu">
                                     <a tabindex="-1" href="#">Inbox</a>
                                     <ul class="dropdown-menu">
                                         <li>
@@ -80,7 +80,7 @@
                                             <a href="<?php echo base_url(); ?>index.php/admin/verify">Member Verification</a>
                                         </li>
                                         <li>
-                                            <a href="<?php echo base_url(); ?>index.php/admin/view_message_admin">Message</a>
+                                            <a href="<?php echo base_url(); ?>index.php/user/view_message">Message</a>
                                         </li>
                                     </ul>
                                 </li>
