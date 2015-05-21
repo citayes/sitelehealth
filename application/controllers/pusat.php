@@ -441,7 +441,9 @@ function do_upload(){
 
 	public function save_reference($n){
 		if($_SERVER['REQUEST_METHOD'] == 'POST'){
-		 	$kandidat1 = $_POST['nama'];
+		 	$kandidat1 = $_POST['nama1'];
+		 	$kandidat2 = $_POST['nama2'];
+		 	$kandidat3 = $_POST['nama3'];
 
 			$pengguna = new pengguna();
 		 	$mengirim = new mengirim();

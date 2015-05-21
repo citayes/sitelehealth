@@ -63,7 +63,7 @@
                                                                 $content .= "<tr><td><center>".$row->waktu."</center></a></td>
                                                                                 <td><center>".$nama_penerima->nama."</center></td>
                                                                                 <td><center>Reference and Diagnosis</center></td>
-                                                                                <td><center><a class='btn btn-primary' href='../view_reference_fkg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
+                                                                                <td><center><a class='btn btn-primary' href='../pusat/view_reference_fkg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
                                                             }
                                                             else if($row->admin_id==null && $row->pusat_id==$pusat_id && $row->orto_id!=null && $row->flag_outbox!=1){
                                                                 //echo 'lala';
@@ -72,7 +72,7 @@
                                                                 $content .= "<tr><td><center>".$row->waktu."</center></a></td>
                                                                                 <td><center>".$nama_penerima1->nama."</center></td>
                                                                                 <td><center>Reference and Diagnosis</center></td>
-                                                                                <td><center><a class='btn btn-primary' href='../view_reference_fkg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
+                                                                                <td><center><a class='btn btn-primary' href='../pusat/view_reference_fkg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
                                                             }
                                                             else if($row->admin_id==null && $row->pusat_id==$pusat_id && $row->umum_id!=null && $row->flag_outbox==1){
                                                                 $nama_penerima = new pengguna();
@@ -81,7 +81,7 @@
                                                                 $content .= "<tr><td><b><center>".$row->waktu."</center></a></b></td>
                                                                                 <td><b><center>".$nama_penerima->nama."</center></b></td>
                                                                                 <td><b><center>Reference and Diagnosis</center></b></td>
-                                                                                <td><b><center><a class='btn btn-primary' href='../view_reference_fkg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></b></td></tr>";
+                                                                                <td><b><center><a class='btn btn-primary' href='../pusat/view_reference_fkg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></b></td></tr>";
                                                             }
                                                             else if($row->admin_id==null && $row->pusat_id==$pusat_id && $row->orto_id!=null  && $row->flag_outbox==1){
                                                                 //echo 'lala';
@@ -90,7 +90,7 @@
                                                                 $content .= "<tr><td><b><center>".$row->waktu."</center></a></b></td>
                                                                                 <td><b><center>".$nama_penerima1->nama."</center></b></td>
                                                                                 <td><b><center>Reference and Diagnosis</center></b></td>
-                                                                                <td><b><center><a class='btn btn-primary' href='../view_reference_fkg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></b></td></tr>";
+                                                                                <td><b><center><a class='btn btn-primary' href='../pusat/view_reference_fkg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></b></td></tr>";
                                                             }
 
                                                         //}
