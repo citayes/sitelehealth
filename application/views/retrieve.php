@@ -28,7 +28,7 @@ echo $profile_construct;
                                                                     $temp .= "
                                                                     <div class='col-md-4'>
                                                                         <div class='thumbnail'>
-                                                                            <center><img alt='140x140' src='../../".$row->foto."' style='width:125px; height:125px;' class='img-circle'></center>
+                                                                            <center><img alt='140x140' src='../../../".$row->foto."' style='width:125px; height:125px;' class='img-circle'></center>
                                                                             <div class='caption'>
                                                                                 <h4><center>".$row->username."</center></h4>
                                                                                 <center>

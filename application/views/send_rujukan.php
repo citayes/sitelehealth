@@ -23,16 +23,7 @@ echo $profile_construct;
 							<div class="col-md-8 col-md-offset-2">
 								<div class="cform" id="contact-form">
 									<form  method="post" action="../send_rujukan_lagi/<?php echo $n;?>">
-									<div class="form-group">
-									<label class="col-sm-5 control-label" for="tanggal_lahir">Date</label>
-										<div class="col-sm-7">
-											<div class="input-group date form_date col-md-12" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-							                    <input class="form-control" type="text" name="tanggal" placeholder='Date'>
-							     				<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-							                </div>
-							    			<input type="hidden" id="dtp_input2" value=""/>
-										</div>
-									</div>
+									
 									<div class="form-group">
 										<label class="col-sm-5 control-label" for="nama">Select Reference Orthodontist</label><br>
 										<div class="col-sm-7">

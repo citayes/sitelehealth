@@ -314,7 +314,7 @@ class Doktergigi extends CI_Controller {
                                 $data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal'=> '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
                             <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
                             <strong>Well done!</strong> medical record has been created.
-                            </div>", 'content' => '<a href="../getListPasien">Back to patient list.</a>');
+                            </div>", 'content' => '<a href="../getListPasien/1">Back to patient list.</a>');
                             $this->load->view('header-drg', $data['menu']);
                     $this->load->view('result-drg');
                 }elseif($pengguna->where('id', $_SESSION['id'])->get()->role == 'orthodonti'){
@@ -322,7 +322,7 @@ class Doktergigi extends CI_Controller {
                                 $data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal'=> '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
                             <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
                             <strong>Well done!</strong> medical record has been created.
-                            </div>", 'content' => '<a href="../getListPasien">Back to patient list.</a>');
+                            </div>", 'content' => '<a href="../getListPasien/1">Back to patient list.</a>');
                             $this->load->view('header-drg', $data['menu']);
                     $this->load->view('result-orthodonti');
             }

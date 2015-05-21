@@ -59,7 +59,7 @@ echo $profile_construct;
 						        	</tr>
 						        	<tr>
 						        		<td colspan="2">
-						        		<a href="../retrieve"><button type="submit" class="btn btn-primary pull-left">Back</button></a></td>
+						        		<a href="../retrieve/1"><button type="submit" class="btn btn-primary pull-left">Back</button></a></td>
 						        		</td>
 						        	</tr>
 						        </table>

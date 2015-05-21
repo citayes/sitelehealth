@@ -53,9 +53,14 @@
                                                                         <td><center><b>Recipient Name</center></b></td>
                                                                         <td><center><b>Information</center></b></td>
                                                                         <td><center><b>Operation</center></b></td>
+<<<<<<< Updated upstream
                                                                     </tr>';//halo
                                                        foreach($mengirim as $row){
             //foreach ($pesan as $row1) {
+=======
+                                                                    </tr>';
+                                                       foreach($mengirim->where('pusat_id', $pusat_id)->get() as $row){
+>>>>>>> Stashed changes
                                                             if($row->admin_id==null && $row->pusat_id==$pusat_id && $row->umum_id!=null && $row->flag_outbox!=1){
                                                                 $nama_penerima = new pengguna();
 

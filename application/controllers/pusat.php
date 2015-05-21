@@ -37,7 +37,7 @@ class Pusat extends CI_Controller {
 			<tr><td><b>Medical Record ID</b></td><td>'.$medical_record->id.'</td></tr>
 			<tr><td><b>Date of Medical Record</b></td><td>'.$medical_record->tanggal.'</td></tr>
 			<tr><td><b>Time of Medical Record</b></td><td>'.$medical_record->jam.'</td></tr>
-			<tr><td><center><img alt="140x140" src="../../../../'.$medical_record->foto.'" style="width:125px; height:125px;" class="img-circle"></center></tr></td>
+			<tr><td colspan="2"><b>Photo</b><br><center><img alt="140x140" src="../../../'.$medical_record->foto.'"></center></tr></td>
 			<tr><td><b>Description</b></td><td>'.$medical_record->deskripsi.'</td></tr>
 			<tr><td><form method="post" action="../send_diagnose_to_admin/'.$Merawat->pasien_id.'"><button type="submit" class="btn btn-primary pull-right">Send Diagnose to Admin</button></form></td>
 			<td><form method="post" action="../create_diagnose/'.$Merawat->pasien_id.'"><button type="submit" class="btn btn-primary">Send Reference</button></form>
@@ -225,7 +225,7 @@ function do_upload(){
 					 			$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal'=> '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
 							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 		  					<strong>Well done!</strong> Diagnose has been sent.
-							</div>", 'content' => '<a href="../read_data_citra">Back to patient list.</a>');
+							</div>", 'content' => '<a href="../read_data_citra/1">Back to patient list.</a>');
 		 					$this->load->view('header-pusat', $data['menu']);
 		$this->load->view('result-pusat');
 		$this->load->view('footer');
@@ -444,6 +444,10 @@ function do_upload(){
 		 	$kandidat1 = $_POST['nama1'];
 		 	$kandidat2 = $_POST['nama2'];
 		 	$kandidat3 = $_POST['nama3'];
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 
 			$pengguna = new pengguna();
 		 	$mengirim = new mengirim();
@@ -472,7 +476,7 @@ function do_upload(){
 		 		$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal'=> '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
 							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 		 	 				<strong>Well done!</strong> Diagnose has been sent.
-							</div>", 'content' => '<a href="../read_data_citra">Back to patient list.</a>');
+							</div>", 'content' => '<a href="../read_data_citra/1">Back to patient list.</a>');
 		 					$this->load->view('header-pusat', $data['menu']);
 							$this->load->view('result-pusat');
 							$this->load->view('footer');
@@ -509,7 +513,7 @@ function do_upload(){
 			'tempatlahir' => $pengguna->tempat_lahir, 'warganegara' => $pengguna->warga_negara, 'foto'=>$pengguna->foto, 'jeniskelamin' => $pengguna->jenis_kelamin,
 			'agama' => $pengguna->agama, 'kursus' => $dokter_gigi->kursus, 'pendidikan' => $dokter_gigi->pendidikan_dokter, 'alamat' => $dokter_gigi->alamat_praktik);
 	
-$data['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> 'active', 'inbox' => '', 'setting' => '');
+$data['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> 'active', 'profile_construct'=>$this->profile_construct, 'inbox' => '', 'setting' => '');
 	$this->load->view('header-pusat', $data['menu']);
 	$this->load->view('view_doctor', $data['array']);
 	$this->load->view('footer');
@@ -572,10 +576,6 @@ public function retrievejadwalp(){
 		$analisi->order_by('waktu', 'desc');
 		$analisi->where('orto_id', $lala)->get_paged($page, 10);
 
-		
-				
-
-//data
 		$data['array']=array('mengirim' => $mengirim, 'pesan' => $pesan, 'analisi' => $analisi, 'pusat_id' => $lala, 'pengguna_id' => $lala,'orto_id' => $lala);
 		$data['menu'] = array('home' => '', 'pasien' => '', 'jadwal'=> '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct, 'setting' => '', 'content'=>$content, 'content1'=>$content1, 'content2'=>$content2);
 		//$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct, 'setting' => '');

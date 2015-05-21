@@ -66,15 +66,15 @@
                                     <a tabindex="-1" href="#">Inbox</a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="<?php echo base_url(); ?>index.php/doktergigi/list_reference">Reference</a>
+                                            <a href="<?php echo base_url(); ?>index.php/doktergigi/list_reference/1">Reference</a>
                                         </li>
                                         <li>                             
-                                            <a href="<?php echo base_url(); ?>index.php/user/view_message">Message</a>
+                                            <a href="<?php echo base_url(); ?>index.php/user/view_message/1">Message</a>
                                         </li>
                                     </ul>
                                 </li>
                                 <li>
-                                    <a href="<?php echo base_url(); ?>index.php/drg/list_outbox_drg">Outbox</a>
+                                    <a href="<?php echo base_url(); ?>index.php/drg/list_outbox_drg/1">Outbox</a>
                                 </li>
                             </ul>
                         </li>

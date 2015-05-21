@@ -41,7 +41,7 @@ echo $profile_construct;
                                             $content .= "<tr><td><center>".$row->waktu."</center></a></td>
                                                             <td><center>".$nama_pengirim->nama."</center></a></td>
                                                             <td><center>".$row->subject."</center></td>
-                                                            <td><center><a class='btn btn-primary' href='../user/detail_message/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a></center></td>
+                                                            <td><center><a class='btn btn-primary' href='../detail_message/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a></center></td>
                                                         </tr>";
                                         }
                                         else if($row->flag_membaca==1){
@@ -50,7 +50,7 @@ echo $profile_construct;
                                             $content .= "<tr><td><b><center>".$row->waktu."</center></b></a></td>
                                                             <td><b><center>".$nama_pengirim->nama."</center></b></a></td>
                                                             <td><b><center>".$row->subject."</center></b></td>
-                                                            <td><center><b><a class='btn btn-primary' href='../user/detail_message/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a></b></center></td>
+                                                            <td><center><b><a class='btn btn-primary' href='../detail_message/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a></b></center></td>
                                                         </tr>";
                                         }
                                     }

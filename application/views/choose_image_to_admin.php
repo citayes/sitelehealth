@@ -32,10 +32,7 @@
                     <div class="tab-pane" id="panel-486345">
                                 <!-- <?php echo $error;?>-->
                                <center> <?php echo form_open_multipart("pusat/upload_image_to_admin/$n");?>
-                                <img alt='140x140' src='../../<?php $pengguna = new pengguna();
-                                                            $pengguna->where('username', $_SESSION['pusat'])->get(); 
-                                                            echo $pengguna->foto ?>' 
-                                                            style='width:125px; height:125px;' class='img-circle'>
+                                
                                 <input type="file" name="userfile"/>
                                 <br /><br />
                                 <input type="submit" class="btn btn-primary" value="upload" />

@@ -65,13 +65,13 @@
                                     <a href="<?php echo base_url(); ?>index.php/user/send_message">Create Message</a>
                                 </li>
                                 <li>
-                                    <a href="<?php echo base_url(); ?>index.php/user/view_message">View Message</a>
+                                    <a href="<?php echo base_url(); ?>index.php/user/view_message/1">View Message</a>
                                 </li>
                                 <li>
-                                    <a href="<?php echo base_url(); ?>index.php/pusat/listrujukan">Reference Patient</a>
+                                    <a href="<?php echo base_url(); ?>index.php/pusat/listrujukan/1">Reference Patient</a>
                                 </li>
                                 <li>
-                                    <a href="<?php echo base_url(); ?>index.php/pusat/list_outbox_fkg">Outbox</a>
+                                    <a href="<?php echo base_url(); ?>index.php/pusat/list_outbox_fkg/1">Outbox</a>
                                 </li>
                             </ul>
                             <li class="dropdown <?php echo $setting; ?>">

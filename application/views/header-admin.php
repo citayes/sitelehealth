@@ -57,7 +57,7 @@
                                     <a href="<?php echo base_url(); ?>index.php/admin/register">Create Orthodontist Center</a>
                                 </li>
                                 <li>
-                                    <a href="<?php echo base_url(); ?>index.php/admin/retrieve">Retrieve All Doctor</a>
+                                    <a href="<?php echo base_url(); ?>index.php/admin/retrieve/1">Retrieve All Doctor</a>
                                 </li>
                             </ul>
                         </li>
@@ -74,18 +74,18 @@
                                     <a tabindex="-1" href="#">Inbox</a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="<?php echo base_url(); ?>index.php/admin/diagnosa">Diagnose</a>
+                                            <a href="<?php echo base_url(); ?>index.php/admin/diagnosa/1">Diagnose</a>
                                         </li>
                                         <li>                             
-                                            <a href="<?php echo base_url(); ?>index.php/admin/verify">Member Verification</a>
+                                            <a href="<?php echo base_url(); ?>index.php/admin/verify/1">Member Verification</a>
                                         </li>
                                         <li>
-                                            <a href="<?php echo base_url(); ?>index.php/user/view_message">Message</a>
+                                            <a href="<?php echo base_url(); ?>index.php/user/view_message/1">Message</a>
                                         </li>
                                     </ul>
                                 </li>
                                 <li>
-                                    <a href="<?php echo base_url(); ?>index.php/admin/list_outbox">Outbox</a>
+                                    <a href="<?php echo base_url(); ?>index.php/admin/list_outbox/1">Outbox</a>
                                 </li>
                             </ul>
                         </li>

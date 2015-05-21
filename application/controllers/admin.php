@@ -81,7 +81,7 @@ class Admin extends CI_Controller {
 	  $this->email->message('Username : '.$username. '  , Password : ' .$message. '');
 	  $this->email->send();
 
-	$data['array'] = array('content' => '<a href="../verify">Back to verify.</a>');
+	$data['array'] = array('content' => '<a href="../verify/1">Back to verify.</a>');
 	$this->load->view('header-admin', $data['menu']);
 	$this->load->view('result-admin', $data['array']);
 	$this->load->view('footer');
@@ -434,7 +434,7 @@ class Admin extends CI_Controller {
 
 	public function send_rujukan_lagi($n){
 		 if($_SERVER['REQUEST_METHOD'] == 'POST'){
-		 	$tanggal = $_POST['tanggal'];
+
 		 	$kandidat1 = $_POST['nama'];
 			
 		 	$mengirim = new mengirim();
@@ -443,7 +443,6 @@ class Admin extends CI_Controller {
 		 	$admin = new admin();
 		 	$pengguna = new pengguna();
 
-		 	$mengirim->tanggal=$tanggal;
 	 		$mengirim->kandidat1=$kandidat1;
 	 		$pengguna->where('username', $_SESSION['admin'])->get();		
 	 		//echo ($pengguna->id);
@@ -460,11 +459,11 @@ class Admin extends CI_Controller {
 	 		$mengirim->validate();
 	 		if($mengirim->valid){
 	 			$mengirim->save();
-		 			$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => 'active', 'setting' => '', 'profile_construct'=>$this->profile_construct, 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+		 		$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => 'active', 'setting' => '', 'profile_construct'=>$this->profile_construct, 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
 								<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 			  					<strong>Well done!</strong> Referral has been sent.
 								</div>");	
-		 		$data['array'] = array('content' => '<a href ="../diagnosa">Back to diagnosa.</a>');
+		 		$data['array'] = array('content' => '<a href ="../diagnosa/1">Back to diagnosa.</a>');
 				$this->load->view('header-admin', $data['menu']);
 				$this->load->view('result-admin', $data['array']);
 				$this->load->view('footer');
@@ -594,7 +593,7 @@ class Admin extends CI_Controller {
 					
 //lala
 
-		$data['array'] = array('mengirim' => $mengirim, 'pesan' => $pesan, '$pengguna_id_lala' => $pengguna->id );
+		$data['array'] = array('mengirim' => $mengirim, 'pesan' => $pesan, 'pengguna_id' => $lala);
 		$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => 'active', 'setting' => '', 'profile_construct'=>$this->profile_construct, 'content'=>$content, 'content1'=>$content1);
 		//$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'setting' => '');
 		$this->load->view('header-admin', $data['menu']);
@@ -636,12 +635,13 @@ class Admin extends CI_Controller {
 			<tr><td><b>PAR Score</b></td><td>'.$analisis->skor.'</td></tr>
 			<tr><td><b>Malocclusion</b></td><td>'.$analisis->maloklusi_menurut_angka.'</td></tr>
 			<tr><td><b>Diagnosis</b></td><td>'.$analisis->diagnosis_rekomendasi.'</td></tr>
-			<tr><td><center><img alt="140x140" src="../../'.$analisis->foto.'" style="width:125px; height:125px;" class="img-circle"></center></tr></td>
+			
 			<tr><td><b>Candidate 1</b></td><td>'.$mengirim->kandidat1.'</td></tr>
 			<tr><td><b>Candidate 2</b></td><td>'.$mengirim->kandidat2.'</td></tr>
 			<tr><td><b>Candidate 3</b></td><td>'.$mengirim->kandidat3.'</td></tr>
 			<tr><td><b>Candidate 4</b></td><td>'.$mengirim->kandidat4.'</td></tr>
-			<tr><td><b>Candidate 5</b></td><td>'.$mengirim->kandidat5.'</td></tr>');
+			<tr><td><b>Candidate 5</b></td><td>'.$mengirim->kandidat5.'</td></tr>
+			<tr><td colspan="2"><b>Photo</b><br><center><img alt="140x140" src="../../../'.$analisis->foto.'"></center></tr></td>');
 
 		$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => 'active', 'setting' => '', 'profile_construct'=>$this->profile_construct);
 		$this->load->view('header-admin', $data['menu']);
