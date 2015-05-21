@@ -14,7 +14,7 @@
          	'rules' => array('required', 'max_length' => 100)
         	),
         	'kode_pos' => array(
-         	'rules' => array('required', 'max_length' => 5, 'numeric')
+         	'rules' => array('required', 'numeric', 'max_length' => 5)
         	)
             // 'longitude' => array(
             // 'rules' => array('required', 'max_length' => 50)

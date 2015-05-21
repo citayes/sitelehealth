@@ -5,7 +5,7 @@ class pengguna extends DataMapper {
 
 	var $validation = array(
     	'username' => array(
-     	'rules' => array('required', 'min_length' => 4, 'max_length' => 20, 'unique', 'alpha_dash')
+     	'rules' => array('required', 'min_length' => 4, 'max_length' => 20, 'unique', 'alpha_dash_dot')
     	),
     	'password' => array(
      	'rules' => array('required', 'min_length' => 4, 'max_length' => 20)
