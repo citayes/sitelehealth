@@ -435,15 +435,23 @@ class Admin extends CI_Controller {
 	public function send_rujukan_lagi($n){
 		 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
-		 	$kandidat1 = $_POST['nama'];
-			
+		 	$kandidat1 = $_POST['nama1'];
+		 	$kandidat2 = $_POST['nama2'];
+		 	$kandidat3 = $_POST['nama3'];
+		 	$kandidat4 = $_POST['nama4'];
+		 	$kandidat5 = $_POST['nama5'];
+
+			$pengguna = new pengguna();
 		 	$mengirim = new mengirim();
 		 	$merawat = new merawat();
 		 	$analisi = new analisi();
-		 	$admin = new admin();
-		 	$pengguna = new pengguna();
 
-	 		$mengirim->kandidat1=$kandidat1;
+		 	$mengirim->kandidat1=$kandidat1;
+		 	$mengirim->kandidat2=$kandidat2;
+		 	$mengirim->kandidat3=$kandidat3;
+		 	$mengirim->kandidat4=$kandidat4;
+		 	$mengirim->kandidat5=$kandidat5;
+
 	 		$pengguna->where('username', $_SESSION['admin'])->get();		
 	 		//echo ($pengguna->id);
 	 		$mengirim->admin_id= $pengguna->id;

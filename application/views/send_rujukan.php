@@ -25,14 +25,42 @@ echo $profile_construct;
 									<form  method="post" action="../send_rujukan_lagi/<?php echo $n;?>">
 									
 									<div class="form-group">
-										<label class="col-sm-5 control-label" for="nama">Select Reference Orthodontist</label><br>
-										<div class="col-sm-7">
-											<select id="nama" name="nama" class="btn btn-default dropdown-toggle" data-toggle="dropdown" required>
-												<option value="">--Choose One--</option>
-												<?php echo($option); ?>
-											</select>
-										</div>
-									</div>
+                    <label for="nama">Please choose your first referral doctor</label><br>
+                    <select id="nama" name="nama1" class="btn btn-default dropdown-toggle" data-toggle="dropdown" required>
+                        <option value="">--Choose One--</option>
+                        <?php echo($option); ?>
+                    </select>
+                  </div>
+
+                    <div class="form-group">
+                    <label for="nama">Please choose your second referral doctor</label><br>
+                    <select id="nama" name="nama2" class="btn btn-default dropdown-toggle" data-toggle="dropdown" required>
+                        <option value="">--Choose One--</option>
+                        <?php echo($option); ?>
+                    </select>
+                  </div>
+
+                    <div class="form-group">
+                    <label for="nama">Please choose your third referral doctor</label><br>
+                    <select id="nama" name="nama3" class="btn btn-default dropdown-toggle" data-toggle="dropdown" required>
+                        <option value="">--Choose One--</option>
+                        <?php echo($option); ?>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="nama">Please choose your fourth referral doctor</label><br>
+                    <select id="nama" name="nama4" class="btn btn-default dropdown-toggle" data-toggle="dropdown" required>
+                        <option value="">--Choose One--</option>
+                        <?php echo($option); ?>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="nama">Please choose your fifth referral doctor</label><br>
+                    <select id="nama" name="nama5" class="btn btn-default dropdown-toggle" data-toggle="dropdown" required>
+                        <option value="">--Choose One--</option>
+                        <?php echo($option); ?>
+                    </select>
+                  </div>
 									<div class="form-group">
 									  <center><button type="submit" class="btn btn-primary pull-left">Send Diagnose</button></center>
 									</div>

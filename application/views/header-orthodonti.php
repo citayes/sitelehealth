@@ -68,18 +68,18 @@
                                     <a tabindex="-1" href="#">Inbox</a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="<?php echo base_url(); ?>index.php/doktergigi/view_reference">Reference</a>
+                                            <a href="<?php echo base_url(); ?>index.php/orthodonti/view_reference/1">Reference patients</a>
                                         </li>
                                         <li>                             
-                                            <a href="<?php echo base_url(); ?>index.php/user/view_message">Message</a>
+                                            <a href="<?php echo base_url(); ?>index.php/user/view_message/1">Message</a>
                                         </li>
                                         <li>
-                                            <a href="<?php echo base_url(); ?>index.php/orthodonti/list_reference">Reference from FKG UI</a>
+                                            <a href="<?php echo base_url(); ?>index.php/doktergigi/list_reference/1">Reference from FKG UI</a>
                                         </li>
                                     </ul>
                                 </li>
                                 <li>
-                                    <a href="<?php echo base_url(); ?>index.php/orthodonti/list_outbox_orthodonti">Outbox</a>
+                                    <a href="<?php echo base_url(); ?>index.php/orthodonti/list_outbox_orthodonti/1">Outbox</a>
                                 </li>
                             </ul>
                         </li>

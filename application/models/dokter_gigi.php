@@ -5,16 +5,20 @@
 
 		var $validation = array(
         	'kursus' => array(
+            'label' => 'course',
          	'rules' => array('max_length' => 100)
         	),
         	'pendidikan_dokter' => array(
+            'label' => 'last_education',
          	'rules' => array('required', 'max_length' => 100)
         	),
         	'alamat_praktik' => array(
+            'label' => 'clinic address',
          	'rules' => array('required', 'max_length' => 100)
         	),
         	'kode_pos' => array(
-         	'rules' => array('required', 'numeric', 'max_length' => 5)
+            'label' => 'postal code',
+         	'rules' => array('required', 'numeric', 'max_length' => 10)
         	)
             // 'longitude' => array(
             // 'rules' => array('required', 'max_length' => 50)

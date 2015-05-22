@@ -43,7 +43,7 @@ echo $profile_construct;
                                                          <td><center>".$row->berat."</center></td>
                                                          <td><center>".$row->jenis_kelamin."</center></td>
                                                          <td><center><a class='btn btn-primary' href='../getPasien/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span></a> 
-                                                             <a class='btn btn-warning' href='../pasien_update_drg/".$row->id."'><span class='glyphicon glyphicon-pencil' aria-hidden='false'></span></a>
+                                                             <a class='btn btn-warning' href='../pasien_update/".$row->id."'><span class='glyphicon glyphicon-pencil' aria-hidden='false'></span></a>
                                                              <a class='btn btn-danger' href='../delete_drg/".$row->id."'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></a>
                                                              </center>
                                                          </td>

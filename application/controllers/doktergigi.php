@@ -392,10 +392,12 @@ class Doktergigi extends CI_Controller {
                 $medical_record = new medical_record();
                 $medical_record->where('id', $n)->get();
                 $merawat->pasien_id=$medical_record->pasien_id;
-                $merawat->save();
-
-                if($pengguna->where('id', $_SESSION['id'])->get()->role == 'umum'){
-                    $data['array']= array('content' => '<a href ="../pasien_read">Back to Patient List.</a>');
+                
+                $merawat->validate();
+                if($merawat->valid){
+                    $merawat->save();  
+                    if($pengguna->where('id', $_SESSION['id'])->get()->role == 'umum'){
+                    $data['array']= array('content' => '<a href ="../getListPasien/1">Back to Patient List.</a>');
                     $data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => '', 'setting' => 'active', 'profile_construct'=>$this->profile_construct, 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
                                         <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
                                         <strong>Well done!</strong> Patient data has been sent.
@@ -403,16 +405,40 @@ class Doktergigi extends CI_Controller {
                     $this->load->view('header-drg', $data['menu']);
                     $this->load->view('result-drg', $data['array']);
                 }else{
-                    $data['array']= array('content' => '<a href ="../pasien_read">Back to Patient List.</a>');
+                    $data['array']= array('content' => '<a href ="../getListPasien/1">Back to Patient List.</a>');
                     $data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => '', 'setting' => 'active', 'profile_construct'=>$this->profile_construct, 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
                                         <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
                                         <strong>Well done!</strong> Patient data has been sent.
                                         </div>");
                     $this->load->view('header-orthodonti', $data['menu']);
                     $this->load->view('result-orthodonti', $data['array']);
-                }                        
+                    }                        
+                
+                }  
+            }else{
+                if($pengguna->where('id', $_SESSION['id'])->get()->role == 'umum'){
+                    
+                    $data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
+                                    <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+                                    Patient data not been sent.".$merawat->error->pasien_id."".$merawat->error->medicalrecord_id."
+                                    </div>");
+                    $this->load->view('header-drg', $data['menu']);
+                    $this->load->view('view_medical_record', $data['array']);
+                }else{
+                    
+                    $data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => '', 'setting' => 'active', 'profile_construct'=>$this->profile_construct, 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+                                        <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+                                        <strong>Patient data has been sent.
+                                        </div>");
+                    $this->load->view('header-orthodonti', $data['menu']);
+                    $this->load->view('view_medical_record', $data['array']);
+                    }                        
+                
+                }
             
-            }
+                
+
+                
 
 
         
@@ -422,7 +448,8 @@ class Doktergigi extends CI_Controller {
         public function list_reference($page = 1){
         $content="";
         $mengirim = new mengirim();
-        $mengirim->order_by('waktu', 'desc')->get();
+        $mengirim->get();
+        
 
         $pengguna = new pengguna;
         $pengguna->where('id', $_SESSION['id'])->get();   
@@ -430,6 +457,7 @@ class Doktergigi extends CI_Controller {
         
         //echo $mengirim->count();
         if($pengguna->where('id', $_SESSION['id'])->get()->role == 'umum'){
+            $mengirim->order_by('waktu', 'desc');
             $mengirim->where('umum_id', $lala)->get_paged($page, 10);
             $data['array']=array('mengirim'=>$mengirim, 'orto_id'=>$lala, 'umum_id' => $lala);
             $data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct, 'setting' => '', 'content'=>$content);
@@ -437,8 +465,9 @@ class Doktergigi extends CI_Controller {
             $this->load->view('list_reference', $data['array']);
 
         }else{
+            $mengirim->order_by('waktu', 'desc');
             $mengirim->where('orto_id', $lala)->get_paged($page, 10);
-            $data['array']=array('mengirim'=>$mengirim, 'orto_id'=>$lala);
+            $data['array']=array('mengirim'=>$mengirim, 'orto_id'=>$lala, 'umum_id' => $lala);
             $data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct, 'setting' => '', 'content'=>$content);
             $this->load->view('header-orthodonti', $data['menu']);
             $this->load->view('list_reference', $data['array']);
@@ -446,6 +475,221 @@ class Doktergigi extends CI_Controller {
         }
 
                 $this->load->view('footer');
+    }
+
+    public function pasien_update($n){
+        $pasien = new pasien();
+        $pasien->where('id', $n)->get();
+        $pengguna = new pengguna();
+            $pengguna->where('id', $_SESSION['id'])->get();
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            $Nama = $_POST['Nama'];
+            $Tempat_Lahir = $_POST['Tempat_Lahir'];
+            $Tanggal_Lahir = $_POST['Tanggal_Lahir'];
+            $Umur = $_POST['Umur'];
+            $Alamat = $_POST['Alamat_Rumah'];
+            $Tinggi = $_POST['Tinggi'];
+            $Berat = $_POST['Berat'];
+            $Warga_Negara = $_POST['Warga_Negara'];
+            $Agama = $_POST['Agama'];
+            
+            $pasien = new pasien();
+            //$pengguna->where('username', $_SESSION['admin'])->get();
+            $pasien->where('id', $n)->update('nama',$Nama);
+            $pasien->where('id', $n)->update('tempat_lahir',$Tempat_Lahir);
+            $pasien->where('id', $n)->update('tanggal_lahir',$Tanggal_Lahir);
+            $pasien->where('id', $n)->update('umur',$Umur);
+            $pasien->where('id', $n)->update('alamat_rumah',$Alamat);
+            $pasien->where('id', $n)->update('tinggi',$Tinggi);
+            $pasien->where('id', $n)->update('berat',$Berat);
+            $pasien->where('id', $n)->update('warga_negara',$Warga_Negara);
+            $pasien->where('id', $n)->update('agama',$Agama);
+
+            $pasien->where('id', $n)->get();
+            if($pengguna->where('id', $_SESSION['id'])->get()->role == 'umum'){
+            $data['array'] = array('nama' => $pasien->nama, 'tempat_lahir' => $pasien->tempat_lahir, 'tanggal_lahir' => $pasien->tanggal_lahir, 'umur'=>$pasien->umur,
+            'alamat_rumah'=>$pasien->alamat_rumah, 'tinggi'=>$pasien->tinggi, 'berat'=>$pasien->berat, 'warga_negara' => $pasien->warga_negara, 'agama' => $pasien->agama);
+            $data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal' => '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+                            <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+                            <strong>Well done!</strong> Patient data has been updated.
+                            </div>");   
+            $this->load->view('header-drg', $data['menu']);
+            $this->load->view('pasien_update', $data['array']);
+            $this->load->view('footer');
+            }else{
+                $data['array'] = array('nama' => $pasien->nama, 'tempat_lahir' => $pasien->tempat_lahir, 'tanggal_lahir' => $pasien->tanggal_lahir, 'umur'=>$pasien->umur,
+            'alamat_rumah'=>$pasien->alamat_rumah, 'tinggi'=>$pasien->tinggi, 'berat'=>$pasien->berat, 'warga_negara' => $pasien->warga_negara, 'agama' => $pasien->agama);
+            $data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal' => '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+                            <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+                            <strong>Well done!</strong> Patient data has been updated.
+                            </div>");   
+            $this->load->view('header-orthodonti', $data['menu']);
+            $this->load->view('pasien_update', $data['array']);
+            $this->load->view('footer');
+            }
+        }else{
+            if($pengguna->where('id', $_SESSION['id'])->get()->role == 'umum'){
+                $data['array'] = array('nama' => $pasien->nama, 'tempat_lahir' => $pasien->tempat_lahir, 'tanggal_lahir' => $pasien->tanggal_lahir, 'umur'=>$pasien->umur,
+                    'alamat_rumah'=>$pasien->alamat_rumah, 'tinggi'=>$pasien->tinggi, 'berat'=>$pasien->berat, 'warga_negara' => $pasien->warga_negara, 'agama' => $pasien->agama);
+                $data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal' => '', 'inbox' => '', 'setting' => '');   
+                $this->load->view('header-drg', $data['menu']);
+                $this->load->view('pasien_update', $data['array']);
+                $this->load->view('footer');
+            }else{
+                 $data['array'] = array('nama' => $pasien->nama, 'tempat_lahir' => $pasien->tempat_lahir, 'tanggal_lahir' => $pasien->tanggal_lahir, 'umur'=>$pasien->umur,
+                    'alamat_rumah'=>$pasien->alamat_rumah, 'tinggi'=>$pasien->tinggi, 'berat'=>$pasien->berat, 'warga_negara' => $pasien->warga_negara, 'agama' => $pasien->agama);
+                $data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal' => '', 'inbox' => '', 'setting' => '');   
+                $this->load->view('header-orthodonti', $data['menu']);
+                $this->load->view('pasien_update', $data['array']);
+                $this->load->view('footer');
+            }
+
+        }
+    }
+
+    public function delete_drg($id){
+        $this->load->model('pasien');
+        $status = $this->pasien->deletePasien($id);
+        if($status)
+            redirect("../getListPasien/1");
+    }
+
+    public function reference_drg($n){
+        $pengguna = new pengguna();
+        $pengguna->where('id', $_SESSION['id'])->get();
+        $mengirim = new mengirim();
+        $mengirim->where('id', $n)->get();
+        $analisis_id= $mengirim->analisis_id;
+        $analisis = new analisi();
+        $analisis->where('id', $analisis_id)->get();
+        $nama_pusat = new pengguna();
+        $nama_pusat->where('id', $mengirim->pusat_id)->get();
+        $nama_admin = new pengguna();
+        $nama_admin->where('id', $mengirim->admin_id)->get();
+        $nama_pasien = new pasien();
+        $nama_pasien->where('id', $analisis->pasien_id)->get();
+
+        $mengirim1 = new mengirim();
+        $mengirim1->where('id', $n)->update('flag_membaca', '2');
+        $analisis1 = new analisi();
+        $analisis1->where('id', $n)->update('flag_membaca', '2');
+
+        $data['array'] = array('content' => '<tr><td><b>Date</b></td><td>'.$mengirim->tanggal.'</td></tr>
+            <tr><td><b>Admins name</b></td><td>'.$nama_admin->nama.'</td></tr>
+            <tr><td><b>FKG Doctors name</b></td><td>'.$nama_pusat->nama.'</td></tr>
+            <tr><td><b>Patients id</b></td><td>'.$analisis->pasien_id.'</td></tr>
+            <tr><td><b>Patients name</b></td><td>'.$nama_pasien->nama.'</td></tr>
+            <tr><td><b>PAR Scor</b></td><td>'.$analisis->skor.'</td></tr>
+            <tr><td><b>Maloklusi</b></td><td>'.$analisis->maloklusi_menurut_angka.'</td></tr>
+            <tr><td><b>Diagnosis</b></td><td>'.$analisis->diagnosis_rekomendasi.'</td></tr>
+            <tr><td><b>Kandidat 1</b></td><td>'.$mengirim->kandidat1.'</td></tr>
+            <tr><td><b>Kandidat 2</b></td><td>'.$mengirim->kandidat2.'</td></tr>
+            <tr><td><b>Kandidat 3</b></td><td>'.$mengirim->kandidat3.'</td></tr>
+            <tr><td><b>Kandidat 4</b></td><td>'.$mengirim->kandidat4.'</td></tr>
+            <tr><td><b>Kandidat 5</b></td><td>'.$mengirim->kandidat5.'</td></tr>
+            <tr><td colspan="2"><b>Photo</b><br><center><img alt="140x140" src="../../../'.$analisis->foto.'"></center></tr></td>
+            <tr><td><center><a class="btn btn-warning" href="../list_reference/1">Back<a></center></td>
+            <td><center><a class="btn btn-primary" href="../send_to_referral/'.$n.'">Send Reference<a></center></td></tr>');
+        
+
+        
+        
+
+        if($pengguna->where('id', $_SESSION['id'])->get()->role == 'umum'){
+            $data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'inbox' => '', 'setting' => '');
+            $this->load->view('header-drg', $data['menu']);
+        }else{
+            $data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'inbox' => '', 'setting' => '');
+            $this->load->view('header-orthodonti', $data['menu']);
+        }
+
+        $this->load->view('reference_drg', $data['array']);
+        $this->load->view('footer');
+    }
+
+    public function send_to_referral($n){
+        $option="";
+        $mengirim = new mengirim();
+        $mengirim->where('id', $n)->get();
+        $pengguna1 =new pengguna();
+        $pengguna1->where('nama', $mengirim->kandidat1)->get();
+        $option .= "<option value='".$pengguna1->id."'>".$pengguna1->nama."</option>";
+        $pengguna2 =new pengguna();
+        $pengguna2->where('nama', $mengirim->kandidat2)->get();
+        $option .= "<option value='".$pengguna2->id."'>".$pengguna2->nama."</option>";
+        $pengguna3 =new pengguna();
+        $pengguna3->where('nama', $mengirim->kandidat3)->get();
+        $option .= "<option value='".$pengguna3->id."'>".$pengguna3->nama."</option>";
+        $pengguna4 =new pengguna();
+        $pengguna4->where('nama', $mengirim->kandidat4)->get();
+        $option .= "<option value='".$pengguna4->id."'>".$pengguna4->nama."</option>";
+        $pengguna5 =new pengguna();
+        $pengguna5->where('nama', $mengirim->kandidat5)->get();
+        $option .= "<option value='".$pengguna5->id."'>".$pengguna5->nama."</option>";      
+
+          if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            $pengguna = new pengguna();
+            $rujukan = new rujukan();
+            $mengirim = new mengirim();
+            $analisis = new analisi();
+            $pesan = new pesan();
+            
+            $pengguna->where('username', $_SESSION['drg'])->get();
+            $mengirim->where('id', $n)->get();
+            $analisis_id= $mengirim->analisis_id;
+            $analisis->where('id', $analisis_id)->get();
+
+            $rujukan->orto_id=$_POST['nama'];
+            $rujukan->pusat_id=$pengguna->id;
+            $rujukan->pasien_id=$analisis->pasien_id;
+            $rujukan->analisi_id=$analisis_id;      
+            $rujukan->save();
+
+            $rujukan->order_by('id', 'desc')->get();
+
+            $pesan->subject="Pasien dari dokter ".$pengguna->nama."";
+            $isi = $_POST['message'];
+            $isi.= "dengan id rujukan".$rujukan->id."";
+            $pesan->isi=$isi;
+            $pesan->pengguna_id=$pengguna->id;
+            $pesan->penerima_id=$_POST['nama'];
+
+            $pesan->validate();
+                if($pesan->valid){
+                    $pesan->save(); 
+                    //echo 'lala';
+                    $data['array'] = array ('option' => $option, 'n'=>$n);
+                    $data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'inbox' => '', 'setting' => '','status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+                                            <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+                                            <strong>Well done!</strong> Reference has been sent.
+                                            </div>");
+                    // $this->load->view('header-drg', $data['menu']);
+                    // $this->load->view('send_to_referral', $data['array']);
+                    // $this->load->view('footer'); 
+                }
+                else{
+                    $data['array'] = array ('option' => $option, 'n'=>$n);
+                    $data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'inbox' => '', 'setting' => '','status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
+                                            <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+                                            <strong>Reference has not been sent.".$pesan->error->subject."".$pesan->error->isi."".$pesan->error->penerima_id."
+                                            </div>");
+                    // $this->load->view('header-drg', $data['menu']);
+                    // $this->load->view('send_to_referral', $data['array']);
+                    // $this->load->view('footer'); 
+
+                }
+                        $data['array'] = array ('option' => $option, 'n'=>$n);
+                //$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'inbox' => '', 'setting' => '');
+                $this->load->view('header-drg', $data['menu']);
+                $this->load->view('send_to_referral', $data['array']);
+                $this->load->view('footer');    
+            }else{
+        $data['array'] = array ('option' => $option, 'n'=>$n);
+        $data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'inbox' => '', 'setting' => '');
+        $this->load->view('header-drg', $data['menu']);
+        $this->load->view('send_to_referral', $data['array']);
+        $this->load->view('footer');
+    }
     }
 
 }

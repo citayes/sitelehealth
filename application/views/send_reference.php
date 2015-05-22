@@ -46,6 +46,20 @@ echo $profile_construct;
                         <?php echo($content); ?>
                     </select>
                   </div>
+                  <div class="form-group">
+                    <label for="nama">Please choose your fourth referral doctor</label><br>
+                    <select id="nama" name="nama4" class="btn btn-default dropdown-toggle" data-toggle="dropdown" required>
+                        <option value="">--Choose One--</option>
+                        <?php echo($content); ?>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="nama">Please choose your fifth referral doctor</label><br>
+                    <select id="nama" name="nama5" class="btn btn-default dropdown-toggle" data-toggle="dropdown" required>
+                        <option value="">--Choose One--</option>
+                        <?php echo($content); ?>
+                    </select>
+                  </div>
 
                 
 				  <button type="submit" class="btn btn-primary">Send Reference</button>

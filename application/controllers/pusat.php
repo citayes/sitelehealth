@@ -444,18 +444,20 @@ function do_upload(){
 		 	$kandidat1 = $_POST['nama1'];
 		 	$kandidat2 = $_POST['nama2'];
 		 	$kandidat3 = $_POST['nama3'];
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
+		 	$kandidat4 = $_POST['nama4'];
+		 	$kandidat5 = $_POST['nama5'];
 
 			$pengguna = new pengguna();
 		 	$mengirim = new mengirim();
 		 	$merawat = new merawat();
 		 	$analisi = new analisi();
-		 	$pusat = new pusat();
+		 	
 
 		 	$mengirim->kandidat1=$kandidat1;
+		 	$mengirim->kandidat2=$kandidat2;
+		 	$mengirim->kandidat3=$kandidat3;
+		 	$mengirim->kandidat4=$kandidat4;
+		 	$mengirim->kandidat5=$kandidat5;
 
 		 	$pengguna->where('username', $_SESSION['pusat'])->get();		
 		 	$mengirim->pusat_id= $pengguna->id;
@@ -485,7 +487,7 @@ function do_upload(){
 		 	else{
 		 		$data['menu'] = array('home' => '', 'pasien' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal'=> '', 'inbox' => '', 'setting' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
 							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-		 	 				Diagnose has not been sent.".$mengirim->error->tanggal."".$mengirim->error->kandidat1."".$mengirim->error->kandidat2."".$mengirim->error->kandidat3."".$mengirim->error->kandidat4."".$mengirim->error->kandidat5."
+		 	 				Diagnose has not been sent.".$mengirim->error->kandidat1."".$mengirim->error->kandidat2."".$mengirim->error->kandidat3."".$mengirim->error->kandidat4."".$mengirim->error->kandidat5."".$mengirim->error->pusat_id."".$mengirim->error->analisis_id."
 							</div>", 'content' => '<a href="../send_reference/$n">Back to reference form.</a>');
 				// echo $mengirim->error->tanggal;
 				// echo $mengirim->error->kandidat1;

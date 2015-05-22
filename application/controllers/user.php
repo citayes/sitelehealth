@@ -387,7 +387,7 @@ class User extends CI_Controller {
 				if($pengguna->where('id', $_SESSION['id'])->get()->role == 'umum'){	
 					$data['menu'] = array('home' => '', 'pasien' => '', 'inbox' => 'active', 'profile_construct'=>$this->profile_construct, 'jadwal'=>'','setting' => '', 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
 							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-		  					<strong>Message has been not sent</strong>".$pesan->error->subject."".$pesan->error->isi."".$pesan->error->penerima_id."
+		  					<strong>Message has been not sent</strong>".$pesan->error->subject."".$pesan->error->isi."".$pesan->error->penerima_id."".$pesan->error->pengguna_id."
 							</div>");
 					$this->load->view('header-drg', $data['menu']);
 				}elseif($pengguna->where('id', $_SESSION['id'])->get()->role == 'pusat'){

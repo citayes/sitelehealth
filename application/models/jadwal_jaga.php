@@ -3,12 +3,15 @@
 		var $has_one = array('drg_ortodonti','admin');
 				var $validation = array(
     	'jam_mulai' => array(
-     	'rules' => array('required', 'numeric', 'greater_than' => 1, 'less_than' =>24)
+        'label' => 'start hour',
+     	'rules' => array('required')
     	),
     	'jam_selesai' => array(
-     	'rules' => array('required', 'numeric', 'greater_than' => 1, 'less_than' =>24)
+        'label' => 'end hour',
+     	'rules' => array('required')
     	),
     	'drg_ortodonti_id' => array(
+        'label' => 'doctor',
      	'rules' => array('required')
     	)
     );

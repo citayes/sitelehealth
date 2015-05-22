@@ -44,7 +44,7 @@
                         $content .= "<tr><td><center>".$row->waktu."</center></a></td>
                                         <td><center>".$row->orto_id."</center></td>
                                         <td><center>".$nama_pusat->nama."</center></td>
-                                        <td><center><a class='btn btn-primary' href='../drg/reference_drg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
+                                        <td><center><a class='btn btn-primary' href='../reference_drg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></td></tr>";
                     }
                     else if($row->orto_id==$orto_id && $row->pusat_id!=null && $row->flag_membaca==1){
                         $nama_pusat = new pengguna();
@@ -52,7 +52,7 @@
                         $content .= "<tr><td><b><center>".$row->waktu."</center></b></a></td>
                                         <td><b><center>".$row->orto_id."</center></b></td>
                                         <td><b><center>".$nama_pusat->nama."</center></b></td>
-                                        <td><b><center><a class='btn btn-primary' href='../drg/reference_drg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></b></td></tr>";
+                                        <td><b><center><a class='btn btn-primary' href='../reference_drg/".$row->id."'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> Detail</a></center></b></td></tr>";
                     }
                 }
                 $content .= "</table>";
