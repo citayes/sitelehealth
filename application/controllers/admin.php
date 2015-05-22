@@ -4,8 +4,11 @@ class Admin extends CI_Controller {
 	var $profile_construct;
 	public function __construct(){
         parent::__construct();
-        session_start();
-		if(!isset($_SESSION['id'])) redirect('homepage');
+        if(!isset($_SESSION)){
+    		session_start();
+    	}
+        //session_start();
+		if(!isset($_SESSION['admin'])) redirect('homepage');
 		$url = base_url();
 		$pengguna = new pengguna();
         $pengguna->where('id', $_SESSION['id'])->get();
@@ -90,17 +93,16 @@ class Admin extends CI_Controller {
 	public function decline($id){
 		$this->load->model('penggunas');
 		$status = $this->penggunas->delete($id);
-		if($status)
-			redirect("drg/pasien_read");
-			// $status['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => '', 'setting' => 'active', 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
-			// 	<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-			// 		<strong>Well done!</strong> Account successfully deleted.
-			// 	</div>");
-			// $status['array']=array('content' => '<a href="verify">Back to verify.</a>');
-			// $this->load->view('header-admin', $status['menu']);
-			// $this->load->view('result-admin', $status['array']);
-			// $this->load->view('footer');
-		
+		if($status){
+			$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => 'active', 'setting' => '', 'profile_construct'=>$this->profile_construct, 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+				<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+					<strong>Well done!</strong> Account successfully deleted.
+				</div>");
+			$data['array']=array('content' => '<a href="../verify/1">Back to verify.</a>');
+			$this->load->view('header-admin', $data['menu']);
+			$this->load->view('result-admin', $data['array']);
+			$this->load->view('footer');
+		}
 	}
 
 	public function register(){
@@ -433,7 +435,7 @@ class Admin extends CI_Controller {
 	}
 
 	public function send_rujukan_lagi($n){
-		 if($_SERVER['REQUEST_METHOD'] == 'POST'){
+			 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 		 	$kandidat1 = $_POST['nama1'];
 		 	$kandidat2 = $_POST['nama2'];
@@ -463,44 +465,41 @@ class Admin extends CI_Controller {
 	 		$mengirim->orto_id=$merawat->orto_id;
 	 		$mengirim->pusat_id=$analisi->orto_id;
 	 		//$mengirim->save();
-
 	 		$mengirim->validate();
-	 		if($mengirim->valid){
-	 			$mengirim->save();
-		 		$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => 'active', 'setting' => '', 'profile_construct'=>$this->profile_construct, 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+		 		if($mengirim->valid){
+		 			$mengirim->save();
+			 		$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => 'active', 'setting' => '', 'profile_construct'=>$this->profile_construct, 'status'=> "<div class='alert alert-success alert-dismissible' role='alert'>
+									<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+				  					<strong>Well done!</strong> Referral has been sent.
+									</div>");	
+			 		$data['array'] = array('content' => '<a href ="../diagnosa/1">Back to diagnosa.</a>');
+					$this->load->view('header-admin', $data['menu']);
+					$this->load->view('result-admin', $data['array']);
+					$this->load->view('footer');
+		 		}
+		 		else{
+		 			$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => 'active', 'setting' => '', 'profile_construct'=>$this->profile_construct, 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
 								<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-			  					<strong>Well done!</strong> Referral has been sent.
+			  					Referral has not been sent.".$mengirim->error->tanggal."".$mengirim->error->kandidat1."".$mengirim->error->kandidat2."".$mengirim->error->kandidat3."".$mengirim->error->kandidat4."".$mengirim->error->kandidat5."
 								</div>");	
-		 		$data['array'] = array('content' => '<a href ="../diagnosa/1">Back to diagnosa.</a>');
-				$this->load->view('header-admin', $data['menu']);
-				$this->load->view('result-admin', $data['array']);
-				$this->load->view('footer');
-	 		}
-	 		else{
-	 			$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => 'active', 'setting' => '', 'profile_construct'=>$this->profile_construct, 'status'=> "<div class='alert alert-danger alert-dismissible' role='alert'>
-							<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-		  					Referral has not been sent.".$mengirim->error->tanggal."".$mengirim->error->kandidat1."".$mengirim->error->kandidat2."".$mengirim->error->kandidat3."".$mengirim->error->kandidat4."".$mengirim->error->kandidat5."
-							</div>");	
-	 					$option="";
+		 					$option="";
+			
+					$pengguna = new pengguna();
+					$pengguna->get();
+					foreach ($pengguna as $row) {
+						if($row->role == 'orthodonti' && $row->fverifikasi=='y')
+							$option .= "<option value='".$row->nama."'>".$row->nama."</option>";
+					}
+		 			$data['array'] = array('n' => $n, 'option' =>$option);
+					$this->load->view('header-admin', $data['menu']);
+					$this->load->view('send_rujukan', $data['array']);
+					$this->load->view('footer');
+		 		}	 							
+			}
 		
-		$pengguna = new pengguna();
-		$pengguna->get();
-		foreach ($pengguna as $row) {
-			if($row->role == 'orthodonti' && $row->fverifikasi=='y')
-				$option .= "<option value='".$row->nama."'>".$row->nama."</option>";
-		}
-	 					$data['array'] = array('n' => $n, 'option' =>$option);
-		//$data['array'] = array('content' => $option, 'n'=> $n);					
-		//$data['menu'] = array('home' => '', 'manage' => '', 'jadwal' => '', 'inbox' => 'active', 'setting' => '', 'profile_construct'=>$this->profile_construct);	
-		$this->load->view('header-admin', $data['menu']);
-		$this->load->view('send_rujukan', $data['array']);
-		$this->load->view('footer');
-	 		}
-	 		
-	 			 							
-		}
 	}	
 
+	 		
 		public function createjadwal($n){
 		$option="";
 		
