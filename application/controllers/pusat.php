@@ -4,8 +4,10 @@ class Pusat extends CI_Controller {
 	var $profile_construct;
 	public function __construct(){
         parent::__construct();
-        session_start();
-		if(!isset($_SESSION['id'])) redirect('homepage');
+        if(!isset($_SESSION)){
+    		session_start();
+    	}
+		if(!isset($_SESSION['pusat'])) redirect('homepage');
 		$url = base_url();
 		$pengguna = new pengguna();
         $pengguna->where('id', $_SESSION['id'])->get();
@@ -444,9 +446,12 @@ function do_upload(){
 		 	$kandidat1 = $_POST['nama1'];
 		 	$kandidat2 = $_POST['nama2'];
 		 	$kandidat3 = $_POST['nama3'];
+<<<<<<< HEAD
 		 	$kandidat4 = $_POST['nama4'];
 		 	$kandidat5 = $_POST['nama5'];
 
+=======
+>>>>>>> 330409d9f58a7c28f652d363ebf0aa6ca7da08b0
 			$pengguna = new pengguna();
 		 	$mengirim = new mengirim();
 		 	$merawat = new merawat();

@@ -4,8 +4,10 @@ class DRG extends CI_Controller {
 	var $profile_construct;
 	public function __construct(){
         parent::__construct();
-        session_start();
-		if(!isset($_SESSION['id'])) redirect('homepage');
+        if(!isset($_SESSION)){
+    		session_start();
+    	}
+		if(!isset($_SESSION['drg'])) redirect('homepage');
 		$url = base_url();
 		$pengguna = new pengguna();
         $pengguna->where('id', $_SESSION['id'])->get();
